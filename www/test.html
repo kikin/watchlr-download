@@ -1,0 +1,50 @@
+<html>
+    <head></head>
+    <body>
+        <h1>Current Environment:</h1>
+        <h1 id="enviroment"></h1>
+        <br><br>
+        <a onclick="setProd();" style="text-decoration:underline; cursor: pointer;">Production</a>
+        <a onclick="setDev();" style="text-decoration:underline; cursor: pointer;">Dev</a>
+        <a onclick="setLocal();" style="text-decoration:underline; cursor: pointer;">Local</a>
+
+        <script type="text/javascript">
+            var watchlr_env = 'Production';
+            var envVal = document.getElementById('enviroment');
+
+            function readEnv() {
+                var cookiesString = document.cookie;
+                var index = cookiesString.indexOf('_WENV');
+                if (index >= 0) {
+                    var startIndex = cookiesString.indexOf('=', index) + 1;
+                    var lastIndex = cookiesString.indexOf(';', startIndex);
+                    watchlr_env = cookiesString.substr(startIndex, (lastIndex - startIndex));
+                }
+            }
+
+            function setEnv(val) {
+                var newCookieString = '_WENV='+val+'; path=;';
+                document.cookie = newCookieString;
+            }
+
+            function setProd() {
+                setEnv('prod');
+                envVal.innerHTML = 'Production';
+            }
+
+            function setDev() {
+                setEnv('dev');
+                envVal.innerHTML = 'Dev';
+            }
+
+            function setLocal() {
+                setEnv('local');
+                envVal.innerHTML = 'Local';
+            }
+
+            readEnv();
+            envVal.innerHTML = watchlr_env;
+
+        </script>
+    </body>
+</html>
