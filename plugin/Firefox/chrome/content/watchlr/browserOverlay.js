@@ -7,32 +7,32 @@ if (!com) {
     var com = {};
 }
 
-if (!com.kikinVideo) {
-    com.kikinVideo = {};
+if (!com.watchlr) {
+    com.watchlr = {};
 }
 
-com.kikinVideo.plugin = function() {
+com.watchlr.plugin = function() {
     var pub = {};
     var priv = {};
     const Ci = Components.interfaces;
     const Cc = Components.classes;
     
-    priv.KIKIN_VIDEO_FIREFOX_PLUGIN_UUID = "{3C108598-D93F-4606-A3C3-2873B8017A60}";
+    priv.WATCHLR_FIREFOX_PLUGIN_UUID = "{3C108598-D93F-4606-A3C3-2873B8017A60}";
     pub.browserVersion = null;
     priv.xhr = null;
     priv.jsUrl = "";
     
     // Not using JS console service right now
-    priv.jsConsoleService = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
+    // priv.jsConsoleService = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
     
     /** Log messages to firefox command line console if enabled. */
     pub.logMessage = function(aCategory, aMessage) {
         // Display message, TODO, get N arguments and print them 
         // in separate lines, handle arrays and objects properly
-        dump("kikin (" + aCategory + "): " + aMessage + "\n");
+        dump("watchlr (" + aCategory + "): " + aMessage + "\n");
         
         // We are not using the JS console
-        priv.jsConsoleService.logStringMessage("kikin " + aCategory + ": " + aMessage);
+        // priv.jsConsoleService.logStringMessage("watchlr " + aCategory + ": " + aMessage);
     };
     
     /** Log messages to firefox command line console if enabled. */
@@ -47,12 +47,12 @@ com.kikinVideo.plugin = function() {
     
     /** Log messages to firefox command line console if enabled. */
     pub.logInfo = function(aMessage) {
-        pub.logMessage("INFO", aMessage);
+        // pub.logMessage("INFO", aMessage);
     };
     
     /** Log messages to firefox command line console if enabled. */
     pub.logDebug = function(aMessage) {
-        pub.logMessage("DEBUG", aMessage);
+        // pub.logMessage("DEBUG", aMessage);
     };
     
     /** Retrieves the browser version string. */
@@ -62,14 +62,14 @@ com.kikinVideo.plugin = function() {
     };
     
     /** 
-      * NOTE: Make sure this function is called when kikin runs first time in the browser
+      * NOTE: Make sure this function is called when watchlr runs first time in the browser
       *       and we want to open the welcome page.
       *
-      * Processes kikin tabs in the restoring window.
-      * If welcome page is not opened yet, open the welcome page in the first kikin.com tab
-      * and close all other kikin.com tabs. Else close all kikin.com tabs in the window.
+      * Processes watchlr tabs in the restoring window.
+      * If welcome page is not opened yet, open the welcome page in the first watchlr.com tab
+      * and close all other watchlr.com tabs. Else close all watchlr.com tabs in the window.
       */
-    priv.processKikinTabs = function(windowStateObj, shouldOpenWelcomePage, welcomePageURL) {
+    priv.processWatchlrTabs = function(windowStateObj, shouldOpenWelcomePage, welcomePageURL) {
         try {
             var ss = Cc["@mozilla.org/browser/sessionstore;1"].getService(Ci.nsISessionStore);
             
@@ -82,7 +82,7 @@ com.kikinVideo.plugin = function() {
             var tabStateObj = null;
             var restoringURL = null;
 
-            // Close all kikin.com tabs unless kikin.com tab is first one
+            // Close all watchlr.com tabs unless watchlr.com tab is first one
             // In general tab state object should be valid but when tab URL
             // is a download URL (or an XPI URL) the tab state seems to 
             // contain no entries, hence the try/catch inside the loop.
@@ -92,7 +92,7 @@ com.kikinVideo.plugin = function() {
                     tabStateObj = windowObj.tabs[j];
                     restoringURL = tabStateObj.entries[tabStateObj.index - 1].url;
 
-                    if (restoringURL.indexOf("video.kikin.com") != -1) {
+                    if (restoringURL.indexOf("watchlr.com") != -1) {
                         gBrowser.removeTab(gBrowser.tabContainer.childNodes[j]);
                         windowObj.tabs.splice(j, 1);
                         --numberOfTabs;
@@ -102,10 +102,10 @@ com.kikinVideo.plugin = function() {
                 }
             }
 
-            // If first tab is kikin.com we reuse it for the welcome page
+            // If first tab is watchlr.com we reuse it for the welcome page
             // or close it, depending on whether we should open welcome page. 
-            // If first tab is not kikin.com we know we have closed all 
-            // kikin.com tabs int he loop above, so open a new tab for the 
+            // If first tab is not watchlr.com we know we have closed all
+            // watchlr.com tabs int he loop above, so open a new tab for the
             // welcome page if the welcome page should open
             tabStateObj = windowObj.tabs[0];
             restoringURL = null;
@@ -114,7 +114,7 @@ com.kikinVideo.plugin = function() {
             } catch (ex) {
                 pub.logWarning("Error while processing tab 0, continuing to next tab. Error details: " + ex);
             }
-            if ((restoringURL !== null) && (restoringURL.indexOf("video.kikin.com") != -1)) {
+            if ((restoringURL !== null) && (restoringURL.indexOf("watchlr.com") != -1)) {
                 if (shouldOpenWelcomePage) {
                     // Reuse tab to open welcome page
                     gBrowser.browsers[0].loadURI(welcomePageURL, null, null);
@@ -143,7 +143,7 @@ com.kikinVideo.plugin = function() {
                 pub.logInfo("Browser state changed successfully.");
             }
             catch (exc) {
-                pub.logError("Could not change kikin domain URL to kikin welcome page URL. Error details: " + exc);
+                pub.logError("Could not change watchlr domain URL to watchlr welcome page URL. Error details: " + exc);
             }
 
             // If we hadn't opened the welcome page yet, 
@@ -186,7 +186,7 @@ com.kikinVideo.plugin = function() {
                 try {
                     var windowStateObj = JSON.parse(ss.getWindowState(win));
                     // TODO: Enable this line for opening welcome page
-                    // priv.processKikinTabs(windowStateObj, priv.kikinObj.shouldOpenWelcomePage());
+                    // priv.processWatchlrTabs(windowStateObj, priv.watchlrObj.shouldOpenWelcomePage());
                 } catch (windowStateObjectErr) {
                     
                     // If there is an error while retrieving or parsing window state
@@ -229,7 +229,7 @@ com.kikinVideo.plugin = function() {
                 try {
                     var windowStateObj = JSON.parse(ss.getWindowState(win));
                     // TODO: enable this line for opening welcome page
-                    // priv.processKikinTabs(windowStateObj, ((aEvent === null) ? true : priv.kikinObj.shouldOpenWelcomePage()));
+                    // priv.processWatchlrTabs(windowStateObj, ((aEvent === null) ? true : priv.watchlrObj.shouldOpenWelcomePage()));
                 } catch (windowStateObjectErr) {                    
                     pub.logError(windowStateObjectErr);                    
                 }
@@ -257,8 +257,8 @@ com.kikinVideo.plugin = function() {
             appcontent.addEventListener("DOMContentLoaded", priv.onDOMContentLoaded, false);
             appcontent.addEventListener("DOMTitleChanged", priv.onDOMTitleChanged, false);
 
-            // Get the kikin video JS URL
-            priv.getKikinVideoJsUrl();
+            // Get the watchlr JS URL
+            priv.getWatchlrVideoJsUrl();
 
             pub.logInfo("Plugin registered successfully.");
         }
@@ -289,7 +289,7 @@ com.kikinVideo.plugin = function() {
             pub.logError("Error unregistering from events. Error details: " + e);
         }
         finally {
-            priv.kikinObj = null;
+            priv.watchlrObj = null;
         }
     };
 
@@ -311,7 +311,7 @@ com.kikinVideo.plugin = function() {
 
                 // Get name of update item to check it is our extension the one the event is about
                 subject.QueryInterface(Ci.nsIUpdateItem);
-                if (priv.KIKIN_VIDEO_FIREFOX_PLUGIN_UUID == subject.id) {
+                if (priv.WATCHLR_VIDEO_FIREFOX_PLUGIN_UUID == subject.id) {
 
                     var requestedAction = data;
 
@@ -320,10 +320,10 @@ com.kikinVideo.plugin = function() {
 
                         switch (this.lastRequestedAction) {
                             case this.ACTION_UNINSTALL:
-                                // priv.kikinObj.onUninstallCancelled();
+                                // priv.watchlrObj.onUninstallCancelled();
                                 break;
                             case this.ACTION_DISABLE:
-                                // priv.kikinObj.onDisableCancelled();
+                                // priv.watchlrObj.onDisableCancelled();
                                 break;
                             default:
                                 break;
@@ -339,14 +339,14 @@ com.kikinVideo.plugin = function() {
                         switch (requestedAction) {
                             case "item-uninstalled":
                                 this.lastRequestedAction = this.ACTION_UNINSTALL;
-                                /*if (priv.kikinObj.onUninstallTriggered()) {
-                                    gBrowser.selectedTab = gBrowser.addTab(priv.kikinObj.getGoodbyePageUrl());
+                                /*if (priv.watchlrObj.onUninstallTriggered()) {
+                                    gBrowser.selectedTab = gBrowser.addTab(priv.watchlrObj.getGoodbyePageUrl());
                                 }*/
                                 break;
                             case "item-disabled":
                                 this.lastRequestedAction = this.ACTION_DISABLE;
-                                /*if (priv.kikinObj.onDisableTriggered()) {
-                                    gBrowser.selectedTab = gBrowser.addTab(priv.kikinObj.getGoodbyePageUrl());
+                                /*if (priv.watchlrObj.onDisableTriggered()) {
+                                    gBrowser.selectedTab = gBrowser.addTab(priv.watchlrObj.getGoodbyePageUrl());
                                 }*/
                                 break;
                             default:
@@ -360,29 +360,29 @@ com.kikinVideo.plugin = function() {
         },
         
         onUninstalling: function(addon) {  
-            if (addon.id == priv.KIKIN_VIDEO_FIREFOX_PLUGIN_UUID) {  
+            if (addon.id == priv.WATCHLR_FIREFOX_PLUGIN_UUID) {
                 this.lastRequestedAction = this.ACTION_UNINSTALL;
-                /*if (priv.kikinObj.onUninstallTriggered()) {
-                    gBrowser.selectedTab = gBrowser.addTab(priv.kikinObj.getGoodbyePageUrl());
+                /*if (priv.watchlrObj.onUninstallTriggered()) {
+                    gBrowser.selectedTab = gBrowser.addTab(priv.watchlrObj.getGoodbyePageUrl());
                 }*/
             }  
         },  
         
         onDisabling: function(addon) {  
-            if (addon.id == priv.KIKIN_VIDEO_FIREFOX_PLUGIN_UUID) {  
+            if (addon.id == priv.WATCHLR_FIREFOX_PLUGIN_UUID) {
                 this.lastRequestedAction = this.ACTION_DISABLE;
-                /*if (priv.kikinObj.onDisableTriggered()) {
-                    gBrowser.selectedTab = gBrowser.addTab(priv.kikinObj.getGoodbyePageUrl());
+                /*if (priv.watchlrObj.onDisableTriggered()) {
+                    gBrowser.selectedTab = gBrowser.addTab(priv.watchlrObj.getGoodbyePageUrl());
                 }*/
             }
         },
         
         onOperationCancelled: function(addon) {  
-            if (addon.id == priv.KIKIN_VIDEO_FIREFOX_PLUGIN_UUID) {  
+            if (addon.id == priv.WATCHLR_FIREFOX_PLUGIN_UUID) {
                 if((addon.pendingOperations & AddonManager.PENDING_UNINSTALL) == AddonManager.PENDING_UNINSTALL) {
-                    // priv.kikinObj.onUninstallCancelled();
+                    // priv.watchlrObj.onUninstallCancelled();
                 } else if((addon.pendingOperations & AddonManager.PENDING_DISABLE) == AddonManager.PENDING_DISABLE) {
-                    // priv.kikinObj.onDisableCancelled();
+                    // priv.watchlrObj.onDisableCancelled();
                 }
                                 
                 this.lastRequestedAction = this.ACTION_UNKNOWN;
@@ -420,14 +420,14 @@ com.kikinVideo.plugin = function() {
         }
     };
 
-    /** Injects kikin video JS on the page. */
-    priv.injectKikinVideoJs = function(pageWindow) {
+    /** Injects watchlr JS on the page. */
+    priv.injectWatchlrJs = function(pageWindow) {
         try {
             pub.logInfo('Injecting javascript in window:' + pageWindow + ' from: ' + priv.jsUrl);
             if (pageWindow && priv.jsUrl) {
 
                 // create the script tag on the page 
-                // and load the kikin video JS.
+                // and load the watchlr JS.
                 var script = pageWindow.document.createElement('script');
                 script.src = priv.jsUrl;
                 pageWindow.document.body.appendChild(script);
@@ -444,12 +444,12 @@ com.kikinVideo.plugin = function() {
             var triggerWindow = null;
             if (anEvent.originalTarget.nodeName == "#document") {
                 
-                // If we have not opened the welcom page yet and it is the first time we are running kikin
+                // If we have not opened the welcom page yet and it is the first time we are running watchlr
                 // we should open welcome page.
                 // pub.logDebug("Should process tabs restoring: " + priv.shouldProcessTabsRestoring);
                 /*if (priv.shouldProcessTabsRestoring) {
                     // Check if we have already opened the welcome page 
-                    if (priv.kikinObj.shouldOpenWelcomePage()) {
+                    if (priv.watchlrObj.shouldOpenWelcomePage()) {
                         priv.onTabsRestored(null);
                     }
                     
@@ -466,7 +466,7 @@ com.kikinVideo.plugin = function() {
             if (triggerWindow) {
 
                 pub.logInfo("OnDOMContentloaded for browser window:" + triggerWindow);
-                priv.injectKikinVideoJs(triggerWindow);
+                priv.injectWatchlrVideoJs(triggerWindow);
             }
         }
         catch (e) {
@@ -496,7 +496,7 @@ com.kikinVideo.plugin = function() {
                     if (browser.contentWindow === triggerWindow.top) {
                         var url = anEvent.originalTarget.URL;
                         pub.logInfo("onDomTitleChanged for URL:" + url);
-                        priv.kikinObj.onDomTitleChanged(url, triggerWindow);
+                        priv.watchlrObj.onDomTitleChanged(url, triggerWindow);
                         break;
                     }
                 }*/
@@ -508,16 +508,16 @@ com.kikinVideo.plugin = function() {
         }
     };
 
-    /** Called when user clicks the kikin menu item in the browser UI. Takes user to kikin page. */
+    /** Called when user clicks the watchlr menu item in the browser UI. Takes user to watchlr page. */
     pub.showOptions = function() {
         try {
-            // KIKIN_PROPRIETARY_BEGIN()
-            // window._content.self.location.href = 'http://www.kikin.com/tools';
-            // KIKIN_PROPRIETARY_END()
+            // WATCHLR_PROPRIETARY_BEGIN()
+            // window._content.self.location.href = 'http://www.watchlr.com/';
+            // WATCHLR_PROPRIETARY_END()
         }
         catch (err) {
             // Report error
-            pub.logError("Error going to kikin page on menu item click. Error details: " + err);
+            pub.logError("Error going to watchlr page on menu item click. Error details: " + err);
 
             // We don't want to be silent in this case since the user took an action
             alert(err);
@@ -532,7 +532,7 @@ com.kikinVideo.plugin = function() {
             if (priv.xhr.readyState && priv.xhr.readyState == 4 && priv.xhr.responseText && (typeof priv.xhr.responseText == 'string')) {
                 var jsonObject = JSON.parse(priv.xhr.responseText);
                 
-                // set the kikin video JS URL if response JSO is valid
+                // set the watchlr JS URL if response JSO is valid
                 if (jsonObject && jsonObject.js_url && (typeof jsonObject.js_url == 'string')) {
                     priv.jsUrl = jsonObject.js_url;
                     pub.logInfo('js url:' + priv.jsUrl);
@@ -543,8 +543,8 @@ com.kikinVideo.plugin = function() {
         }
     }
 
-    /** Fetches the kikin video JS URL. */
-    priv.getKikinVideoJsUrl = function() {
+    /** Fetches the watchlr JS URL. */
+    priv.getWatchlrJsUrl = function() {
         pub.logDebug('Sending request for fetching js url.');
         priv.xhr = new XMLHttpRequest();
         priv.xhr.onreadystatechange = priv.onRequestReadyStateChange;
@@ -553,7 +553,7 @@ com.kikinVideo.plugin = function() {
         pub.logDebug('Request sent for fetching js url.');
 
         // Retry after a day if user has not closed the browser.
-        setTimeout(priv.getKikinVideoJsUrl, 24 * 60 * 60 * 1000);
+        setTimeout(priv.getWatchlrJsUrl, 24 * 60 * 60 * 1000);
     };
 
     return pub;
@@ -564,16 +564,16 @@ com.kikinVideo.plugin = function() {
 // we remain silent. This way we avoid initialization errors at runtime
 try {
     // Retrieve browser version
-    var kikinVideoPlugin = com.kikinVideo.plugin;
-    kikinVideoPlugin.browserVersion = kikinVideoPlugin.getBrowserVersion();
-    kikinVideoPlugin.logInfo("Loading plugin into Firefox " + kikinVideoPlugin.browserVersion);
+    var watchlrPlugin = com.watchlr.plugin;
+    watchlrPlugin.browserVersion = watchlrPlugin.getBrowserVersion();
+    watchlrPlugin.logInfo("Loading plugin into Firefox " + watchlrPlugin.browserVersion);
     
     // Listen to load and unload events to register our listeners and observers
-    window.addEventListener("load", kikinVideoPlugin.register, false);
-    window.addEventListener("unload", kikinVideoPlugin.unregister, false);        
+    window.addEventListener("load", watchlrPlugin.register, false);
+    window.addEventListener("unload", watchlrPlugin.unregister, false);
 }
 catch (err) 
 {
     // Error initializing
-    kikinVideoPlugin.logError("Error initializing kikin plugin. Error details: " + err);
+    watchlrPlugin.logError("Error initializing watchlr plugin. Error details: " + err);
 }

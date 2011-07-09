@@ -15,18 +15,19 @@ $.Class.extend("com.watchlr.config.Locale", {
 			'a_while_ago': 'a while',
 			'ago': ' ago'
 		},
-        'KikinVideo':{
+        'Watchlr':{
             'btnSave': 'Watch Later',
 			'btnSaved': 'Watch here!',
             'btnSaving': 'Saving...',
             'like': 'Like',
             'liked': 'Liked!',
+            'liking': 'Liking...',
 			'errorDlgTitle': 'We were unable to save your video :-(',
-			'errorDlgMsg': 'To save videos on kikin Video you need to login with Facebook.',
+			'errorDlgMsg': 'To save videos on watchlr you need to login with Facebook.',
             'errorDlgLikeTitle': 'We were unable to like your video :-(',
-			'errorDlgLikeMsg': 'To like videos on kikin Video you need to login with Facebook.',
+			'errorDlgLikeMsg': 'To like videos on watchlr you need to login with Facebook.',
             'errorDlgUnlikeTitle': 'We were unable to unlike your video :-(',
-			'errorDlgUnlikeMsg': 'To unlike videos on kikin Video you need to login with Facebook.'
+			'errorDlgUnlikeMsg': 'To unlike videos on watchlr you need to login with Facebook.'
 		}
     },
 

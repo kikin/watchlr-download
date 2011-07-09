@@ -22,31 +22,55 @@ function getAllFiles($directory, $extension) {
 
 function jsPrioritiesCmp($a, $b) {
 	$priorities = array(
-		'src/main/com/jquery/jquery.js' => 50,
-		'src/main/com/jquery/jquery.class.js' => 49,
-        'src/main/com/watchlr/system/runtime/main.js' => 48,
-        'src/main/com/watchlr/util/Error.js' => 40,
-        'src/main/com/watchlr/util/Styles.js' => 39,
-        'src/main/com/watchlr/util/Url.js' => 38,
-        'src/main/com/watchlr/config/Locale.js' => 37,
-        'src/main/com/watchlr/system/Config.js' => 30,
-        'src/main/com/watchlr/system/Service.js' => 29,
-        'src/main/com/watchlr/system/ServiceDaemon.js' => 28,
-        'src/main/com/watchlr/system/WatchlrRequests.js' => 27,
-        'src/main/com/watchlr/ui/modalwin/WatchlrIframeWindow.js' => 26,
-        'src/main/com/watchlr/ui/modalwin/AlertWindow.js' => 25,
-        'src/main/com/watchlr/ui/modalwin/FacebookConnectWindow.js' => 24,
-        'src/main/com/watchlr/ui/modalwin/VideoSavedWindow.js' => 23,
-        'src/main/com/watchlr/ui/modalwin/FirstVideoLikedWindow.js' => 22,
-        'src/main/com/watchlr/config/HostsConfig.js' => 21,
-        'src/main/com/watchlr/hosts/Host.js' => 20,
-        'src/main/com/watchlr/hosts/HostController.js' => 19,
-        'src/main/com/watchlr/hosts/adapters/KikinSiteAdapter.js' => 18,
-        'src/main/com/watchlr/hosts/adapters/KikinVideoAdapter.js' => 17,
-        'src/main/com/watchlr/hosts/adapters/InSituVideoAdapter.js' => 17,
-        'src/main/com/watchlr/hosts/defaultEngine/KikinSiteAdapter.js' => 15,
-        'src/main/com/watchlr/hosts/defaultEngine/KikinVideoAdapter.js' => 14,
-		'src/main/com/watchlr/system/runtime/Bootstrap.js' => -1
+		'src/main/com/jquery/jquery.js' => 60,
+		'src/main/com/jquery/jquery.class.js' => 59,
+        'src/main/com/watchlr/system/runtime/main.js' => 58,
+        'src/main/com/watchlr/util/Error.js' => 50,
+        'src/main/com/watchlr/util/Styles.js' => 49,
+        'src/main/com/watchlr/util/Url.js' => 48,
+        'src/main/com/watchlr/config/Locale.js' => 47,
+        'src/main/com/watchlr/system/Config.js' => 46,
+        'src/main/com/watchlr/system/Service.js' => 45,
+        'src/main/com/watchlr/system/ServiceDaemon.js' => 44,
+        'src/main/com/watchlr/system/WatchlrRequests.js' => 43,
+        'src/main/com/watchlr/ui/modalwin/WatchlrIframeWindow.js' => 42,
+        'src/main/com/watchlr/ui/modalwin/AlertWindow.js' => 41,
+        'src/main/com/watchlr/ui/modalwin/FacebookConnectWindow.js' => 40,
+        'src/main/com/watchlr/ui/modalwin/VideoSavedWindow.js' => 39,
+        'src/main/com/watchlr/ui/modalwin/FirstVideoLikedWindow.js' => 38,
+        'src/main/com/watchlr/ui/WatchlrVideoBorder.js' => 37,
+        'src/main/com/watchlr/config/VideoProvidersConfig.js' => 36,
+        'src/main/com/watchlr/config/HostsConfig.js' => 35,
+        'src/main/com/watchlr/hosts/Host.js' => 34,
+        'src/main/com/watchlr/hosts/HostController.js' => 33,
+        'src/main/com/watchlr/hosts/adapters/SiteAdapter.js' => 32,
+        'src/main/com/watchlr/hosts/adapters/VideoAdapter.js' => 31,
+        'src/main/com/watchlr/hosts/espn/SiteAdapter.js' => 29,
+        'src/main/com/watchlr/hosts/espn/VideoAdapter.js' => 28,
+        'src/main/com/watchlr/hosts/cnn/SiteAdapter.js' => 27,
+        'src/main/com/watchlr/hosts/cnn/VideoAdapter.js' => 26,
+        'src/main/com/watchlr/hosts/cbsnews/SiteAdapter.js' => 25,
+        'src/main/com/watchlr/hosts/cbsnews/VideoAdapter.js' => 24,
+        'src/main/com/watchlr/hosts/orkut/SiteAdapter.js' => 23,
+        'src/main/com/watchlr/hosts/orkut/VideoAdapter.js' => 22,
+        'src/main/com/watchlr/hosts/foxsports/SiteAdapter.js' => 21,
+        'src/main/com/watchlr/hosts/foxsports/VideoAdapter.js' => 20,
+        'src/main/com/watchlr/hosts/facebook/SiteAdapter.js' => 19,
+        'src/main/com/watchlr/hosts/facebook/VideoAdapter.js' => 18,
+        'src/main/com/watchlr/hosts/defaultEngine/SiteAdapter.js' => 17,
+        'src/main/com/watchlr/hosts/defaultEngine/VideoAdapter.js' => 16,
+        'src/main/com/watchlr/hosts/bing/SiteAdapter.js' => 15,
+        'src/main/com/watchlr/hosts/bing/VideoAdapter.js' => 14,
+        'src/main/com/watchlr/hosts/google/SiteAdapter.js' => 12,
+        'src/main/com/watchlr/hosts/google/VideoAdapter.js' => 11,
+        'src/main/com/watchlr/hosts/yahoo/SiteAdapter.js' => 9,
+        'src/main/com/watchlr/hosts/yahoo/VideoAdapter.js' => 8,
+        'src/main/com/watchlr/hosts/youtube/SiteAdapter.js' => 6,
+        'src/main/com/watchlr/hosts/youtube/VideoAdapter.js' => 5,
+        'src/main/com/watchlr/hosts/watchlr/SiteAdapter.js' => 3,
+        'src/main/com/watchlr/hosts/watchlr/VideoAdapter.js' => 2,
+        'src/main/com/watchlr/hosts/vimeo/VideoAdapter.js' => 1,
+        'src/main/com/watchlr/system/runtime/Bootstrap.js' => -1
 	);
 
 	$aPriority = 0;
@@ -107,7 +131,22 @@ function getJavascriptTreeString($files) {
 }
 
 if (!isset($_GET['rebuild']) || $_GET['rebuild'] == 'true') {
-	$result = '';
+	$servers = array("dev" => "http://dev.watchlr.com/", "prod" => "http://www.watchlr.com/", "local" => "http://dev.watchlr.com/");
+    if ($argc < 2) {
+        echo "Version number is not specified.\n";
+        exit(1);
+    }
+
+    $version = $argv[1];
+    $environ = "prod";
+    if($argc > 2){
+        if(array_key_exists($argv[2], $servers)){
+            $environ = $argv[2];
+        }
+    }
+    $server = $servers[$environ];
+
+    $result = '';
 
 	// get css/html/js files
 	$cssFiles = getAllFiles('src/main', '.css');
@@ -158,32 +197,15 @@ if (!isset($_GET['rebuild']) || $_GET['rebuild'] == 'true') {
 		}
 	}
 
-    $servers = array("dev" => "http://dev.watchlr.com/", "prod" => "http://www.watchlr.com/");
-    $server = $servers["prod"];
-    if(count($argv) > 1){
-      if(array_key_exists($argv[1], $servers)){
-          $server = $servers[$argv[1]];
-      }
+    $result .= "var bootstrap = new com.watchlr.system.runtime.Bootstrap(); bootstrap.run();";
+    $result = str_replace("http://www.watchlr.com/", $server, $result);
+    if ($environ != "local") {
+        $static_path = $server . "static/images/";
+        $result = str_replace("http://local.watchlr.com/watchlr/img/", $static_path, $result);
     }
 
-    $result .= "var bootstrap = new com.watchlr.system.runtime.Bootstrap(); bootstrap.run();";
-    $result = str_replace("http://www.watchlr.com", $server, $result);
-
-    $result1 = "(function() {";
-    $result1 .= $result;
-    $result1 .= "})();";
-
-	// optionnal: using a template
-	//$template = file_get_contents('src/main/javascript/template.js');
-	//$result = str_replace('{javascript}', $result, $template);
-
-  $static_path = $server . "static/images/";
-  $result1 = str_replace("http://local.watchlr.com/watchlr/img/", $static_path, $result1);
-
-	file_put_contents('../static/js/watchlr-0.1.min.js', $result1);
-
-	//header("Access-Control-Allow-Origin: *");
-	// die($result);
+    $result = "(function() {" . $result . "})();";
+    file_put_contents('watchlr-' . $version . '.min.js', $result);
 }
 
 ?>

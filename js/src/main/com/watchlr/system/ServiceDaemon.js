@@ -7,7 +7,7 @@ $.Class.extend("com.watchlr.system.ServiceDaemon", {}, {
 	
 	/**
 	 * @param {String} name
-	 * @param {com.kikin.system.Service} service
+	 * @param {com.watchlr.system.Service} service
 	 */
 	addService: function(name, service) {
         if(!name || !service) return;
@@ -21,7 +21,7 @@ $.Class.extend("com.watchlr.system.ServiceDaemon", {}, {
 	},
 	
 	/**
-	 * @type com.kikin.system.Service
+	 * @type com.watchlr.system.Service
 	 * @param {String} name
 	 */
 	getService: function(name) {

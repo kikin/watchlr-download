@@ -1,6 +1,6 @@
 /**
  * @package com.watchlr.system.runtime
- * @author kapil.goel@kikin.com
+ * @author kapil@watchlr.com
  */
 
 $.Class.extend('com.watchlr.system.runtime.Bootstrap', {}, {
@@ -11,12 +11,12 @@ $.Class.extend('com.watchlr.system.runtime.Bootstrap', {}, {
             $cws.controllers = {};
             $cws.controllers.HostController = new com.watchlr.hosts.HostController();
 
-	    	var ksa = $cwh.adapters.KikinSiteAdapter.getInstance();
+	    	var ksa = $cwh.adapters.SiteAdapter.getInstance();
             if (ksa)
                 ksa.run();
     	} catch(e) {
             console.log("from: bootstrap. \nReason:" + e);
-    		// $cwat.trackError({ from: 'bootstrap', exception: e, msg: 'KikinSiteAdapter failed'});
+    		// $cwat.trackError({ from: 'bootstrap', exception: e, msg: 'SiteAdapter failed'});
     	}
     }
 

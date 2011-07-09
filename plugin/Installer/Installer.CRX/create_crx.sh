@@ -18,15 +18,15 @@ version_properties_file=$2
 echo Version file: ${version_properties_file}
 
 echo Retrieving version numbers...
-major=$(echo include\($version_properties_file\)__K_MAJOR_VERSION__| m4)
-minor=$(echo include\($version_properties_file\)__K_MINOR_VERSION__| m4)
-build=$(echo include\($version_properties_file\)__K_BUILD_NUMBER__| m4)
-kikin_plugin_version=$major.$minor.$build
-echo Using version string $kikin_plugin_version
+major=$(echo include\($version_properties_file\)__W_MAJOR_VERSION__| m4)
+minor=$(echo include\($version_properties_file\)__W_MINOR_VERSION__| m4)
+build=$(echo include\($version_properties_file\)__W_BUILD_NUMBER__| m4)
+watchlr_plugin_version=$major.$minor.$build
+echo Using version string $watchlr_plugin_version
 
 output_dir=$3
 echo Output will be located at $output_dir
-output_file=$output_dir/watchlr_installer_${kikin_plugin_version}.crx
+output_file=$output_dir/watchlr_installer_${watchlr_plugin_version}.crx
 
 chrome_files_dir=$4
 echo Using background.html, content_script.js, and images from $chrome_files_dir

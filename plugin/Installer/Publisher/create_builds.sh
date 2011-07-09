@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# This script creates all the builds for kikin video.
+# This script creates all the builds for watchlr.
 
 # Variables
 plugin_base_dir=$(pwd)/../..

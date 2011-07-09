@@ -15,7 +15,7 @@ $.Class.extend("com.watchlr.system.Service", {}, {
 	},
 	
 	/**
-	 * @type com.kikin.system.Config
+	 * @type com.watchlr.system.Config
 	 */
 	getConfig: function() {
         return this.config;

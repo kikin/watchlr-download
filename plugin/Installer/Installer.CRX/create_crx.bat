@@ -27,17 +27,17 @@ echo Using M4 at %M4_TOOL%
 @echo Build properties file: %VERSION_PROPERTIES_FILE%
 
 @echo Retrieving version numbers...
-@for /F "delims=^" %%i IN ('echo include^(^`%VERSION_PROPERTIES_FILE%^'^)__K_MAJOR_VERSION__^| %M4_TOOL%') DO set KIKIN_MAJOR=%%i
-@for /F "delims=^" %%i IN ('echo include^(^`%VERSION_PROPERTIES_FILE%^'^)__K_MINOR_VERSION__^| %M4_TOOL%') DO set KIKIN_MINOR=%%i
-@for /F "delims=^" %%i IN ('echo include^(^`%VERSION_PROPERTIES_FILE%^'^)__K_BUILD_NUMBER__^| %M4_TOOL%') DO set KIKIN_BUILD=%%i
-set KIKIN_VERSION=%KIKIN_MAJOR%.%KIKIN_MINOR%.%KIKIN_BUILD%
-echo Using version string %KIKIN_VERSION%
+@for /F "delims=^" %%i IN ('echo include^(^`%VERSION_PROPERTIES_FILE%^'^)__W_MAJOR_VERSION__^| %M4_TOOL%') DO set WATCHLR_MAJOR=%%i
+@for /F "delims=^" %%i IN ('echo include^(^`%VERSION_PROPERTIES_FILE%^'^)__W_MINOR_VERSION__^| %M4_TOOL%') DO set WATCHLR_MINOR=%%i
+@for /F "delims=^" %%i IN ('echo include^(^`%VERSION_PROPERTIES_FILE%^'^)__W_BUILD_NUMBER__^| %M4_TOOL%') DO set WATCHLR_BUILD=%%i
+set WATCHLR_VERSION=%WATCHLR_MAJOR%.%WATCHLR_MINOR%.%WATCHLR_BUILD%
+echo Using version string %WATCHLR_VERSION%
 
 set OUTPUT_DIR="%~3"
 echo Generating CRX structure at %OUTPUT_DIR%
 
 echo Output will be located at %~3%
-set OUTPUT_FILE="%~3watchlr_installer_%KIKIN_VERSION%.crx"
+set OUTPUT_FILE="%~3watchlr_installer_%WATCHLR_VERSION%.crx"
 echo Final CRX installer file: %OUTPUT_FILE%
 
 set CHROME_FILES_DIR="%~4"

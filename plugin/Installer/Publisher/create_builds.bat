@@ -1,6 +1,6 @@
 @echo off
 
-rem This script creates all the builds for kikin video.
+rem This script creates all the builds for watchlr.
 
 rem Vraibles
 rem Do not put quotes around this

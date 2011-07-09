@@ -3,13 +3,13 @@
 
   <script type="application/x-javascript" src="chrome://watchlr/content/browserOverlay.js" />
   <!--<menupopup id="menu_ToolsPopup">
-    <menuitem insertafter="devToolsSeparator" label="Watchlr" accesskey="k" oncommand="com.kikin.plugin.showOptions();" />
+    <menuitem insertafter="devToolsSeparator" label="Watchlr" accesskey="k" oncommand="com.watchlr.plugin.showOptions();" />
   </menupopup> -->
   <!--<statusbar id="status-bar">
     <statusbarpanel class="statusbarpanel-iconic"
-                    id="kikinStatusBar"
-                    tooltiptext="kikin"
-                    image="chrome://kikin/content/icon_16.png"
-                    onclick="com.kikin.plugin.onStatusBarButtonClick()" />
+                    id="watchlrStatusBar"
+                    tooltiptext="watchlr"
+                    image="chrome://watchlr/content/icon_16.png"
+                    onclick="com.watchlr.plugin.onStatusBarButtonClick()" />
   </statusbar>-->
 </overlay>

@@ -128,7 +128,7 @@ $.Class.extend("com.watchlr.util.Url", {
 	
 	replaceCdnUrls: function(_s) {
 		if(typeof(_s)=='string'){
-			return _s.replace(/url\(img\//g,'url(http://kikin-dev.com/kikin/img/');	
+			return _s.replace(/url\(img\//g,'url(http://local.watchlr.com/watchlr/img/');
 		}else if(typeof(_s)=='object'){
 			for(var xx in _s){
 				_s[xx] = $cwutil.Url.replaceCdnUrls(_s[xx]);
