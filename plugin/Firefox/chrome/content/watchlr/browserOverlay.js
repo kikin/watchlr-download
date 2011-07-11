@@ -548,7 +548,7 @@ com.watchlr.plugin = function() {
         pub.logDebug('Sending request for fetching js url.');
         priv.xhr = new XMLHttpRequest();
         priv.xhr.onreadystatechange = priv.onRequestReadyStateChange;
-        priv.xhr.open('GET', 'http://www.watchlr.com/static/html/jsloc.json');
+        priv.xhr.open('GET', 'http://download.watchlr.com/jsloc.php');
         priv.xhr.send();
         pub.logDebug('Request sent for fetching js url.');
 
