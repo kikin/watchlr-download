@@ -1,1 +1,1 @@
-{"prod":{"version":"0.1","base":"http:\/\/download.watchlr.com\/js\/prod"},"dev":{"version":"0.3","base":"http:\/\/download.watchlr.com\/js\/dev"},"local":{"version":"0.3","base":"http:\/\/local.watchlr.com\/"}}
+{"prod":{"version":"0.1","base":"http:\/\/download.watchlr.com\/js\/prod"},"dev":{"version":"0.1","base":"http:\/\/download.watchlr.com\/js\/dev"},"local":{"version":"0.1","base":"http:\/\/local.watchlr.com\/"}}
