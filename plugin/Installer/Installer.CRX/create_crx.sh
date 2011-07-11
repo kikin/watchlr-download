@@ -18,9 +18,9 @@ version_properties_file=$2
 echo Version file: ${version_properties_file}
 
 echo Retrieving version numbers...
-major=$(echo include\($version_properties_file\)__W_MAJOR_VERSION__| m4)
-minor=$(echo include\($version_properties_file\)__W_MINOR_VERSION__| m4)
-build=$(echo include\($version_properties_file\)__W_BUILD_NUMBER__| m4)
+major=$(echo include\($version_properties_file\)__K_MAJOR_VERSION__| m4)
+minor=$(echo include\($version_properties_file\)__K_MINOR_VERSION__| m4)
+build=$(echo include\($version_properties_file\)__K_BUILD_NUMBER__| m4)
 watchlr_plugin_version=$major.$minor.$build
 echo Using version string $watchlr_plugin_version
 
