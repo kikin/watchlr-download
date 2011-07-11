@@ -8,8 +8,8 @@
 	     "all_frames": true
       },
 	  {
-         "js": [ "watchlr_domain.js" ],
-         "matches": [ "http://*.watchlr.com/*", "https://*.watchlr.com/*" ],
+         "js": [ "kikin_domain.js" ],
+         "matches": [ "http://*.kikin.com/*", "https://*.kikin.com/*" ],
          "run-at": [ "document_start" ]
       }
    ],
@@ -20,6 +20,6 @@
    },
    "name": "Watchlr",
    "permissions": [ "tabs",  "http://*/*" , "https://*/*" ],
-   "version": "1.0.1",
-   "update_url": "https://download.watchlr.com/updates/update.xml"
+   "version": "__K_MAJOR_VERSION__.__K_MINOR_VERSION__.__K_BUILD_NUMBER__",
+   "update_url": "https://kbp.de.kikin.com/wbp-data/updates/update.xml"
 }
