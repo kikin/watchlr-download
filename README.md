@@ -16,6 +16,7 @@
     cd plugin
     edit Version.ver
     sh deploy.sh <version>
+    git commit Version.ver -m '[plugin-deploy] <env> <version>'; git push origin master
 
 1. Increment version number in `plugin/Version.ver`.
 2. `cd plugin/Installer/Publisher; sh create_builds.sh`
