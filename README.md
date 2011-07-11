@@ -10,3 +10,8 @@
 2. Build js library locally for `env`
 3. Push (using script) to `download.watchlr.com`
 4. Shell script also updates configuration on server to bump up current version number for `env`.
+
+## Plugin deploy procedure:
+1. Increment version number in `plugin/Version.ver`.
+2. `cd plugin/Installer/Publisher; sh create_builds.sh`
+3. `scp plugin/Builds/watchlr_installer_<version>.[crx|xpi] download.watchlr.com:/opt/download_env/static/plugin/`
