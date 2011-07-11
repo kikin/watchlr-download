@@ -18,6 +18,7 @@
                 if (index >= 0) {
                     var startIndex = cookiesString.indexOf('=', index) + 1;
                     var lastIndex = cookiesString.indexOf(';', startIndex);
+                    if (lastIndex == -1) lastIndex = cookiesString.length;
                     watchlr_env = cookiesString.substr(startIndex, (lastIndex - startIndex));
                 }
             }
