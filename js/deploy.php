@@ -2,7 +2,7 @@
 
 function ensure_success($cmd) {
   $code = 0;
-  system($cmd, $output, $code);
+  system($cmd, $code);
 
   if ($code != 0) {
     exit($code);
@@ -41,7 +41,7 @@ ensure_success('scp '. $file . ' ' . $DEPLOY_HOSTNAME . ':' . $path . '/'. $file
 $decoded->{$env}->{'version'} = $version;
 file_put_contents($VERSION_FILE_PATH, json_encode($decoded));
 
-ensure_success('git commit ' . $VERSION_FILE_PATH . ' -m "[js-deploy] ' . $version . '"');
-ensure_success('ssh ' . $DEPLOY_HOSTNAME . ' cd ' . $BASE_PATH . 'src; git pull');
+ensure_success('git commit ' . $VERSION_FILE_PATH . ' -m "[js-deploy] ' . $version . '" && git push origin');
+ensure_success('ssh ' . $DEPLOY_HOSTNAME . ' "cd ' . $BASE_PATH . 'src; git pull origin master"');
 
 ?>
