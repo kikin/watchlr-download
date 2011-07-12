@@ -553,7 +553,7 @@ com.watchlr.plugin = function() {
         pub.logDebug('Request sent for fetching js url.');
 
         // Retry after a day if user has not closed the browser.
-        setTimeout(priv.getWatchlrJsUrl, 24 * 60 * 60 * 1000);
+        setTimeout(priv.getWatchlrJsUrl, 60 * 60 * 1000);
     };
 
     return pub;

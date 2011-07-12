@@ -15,7 +15,7 @@ $.Class.extend('com.watchlr.system.runtime.Bootstrap', {}, {
             if (ksa)
                 ksa.run();
     	} catch(e) {
-            console.log("from: bootstrap. \nReason:" + e);
+            // console.log("from: bootstrap. \nReason:" + e);
     		// $cwat.trackError({ from: 'bootstrap', exception: e, msg: 'SiteAdapter failed'});
     	}
     }

@@ -37,7 +37,7 @@ function jsPrioritiesCmp($a, $b) {
         'src/main/com/watchlr/ui/modalwin/AlertWindow.js' => 41,
         'src/main/com/watchlr/ui/FacebookConnectDialog.js' => 40,
         'src/main/com/watchlr/ui/VideoSavedDialog.js' => 39,
-        'src/main/com/watchlr/ui/modalwin/FirstVideoLikedWindow.js' => 38,
+        'src/main/com/watchlr/ui/VideoLikedDialog.js' => 38,
         'src/main/com/watchlr/ui/WatchlrVideoBorder.js' => 37,
         'src/main/com/watchlr/config/VideoProvidersConfig.js' => 36,
         'src/main/com/watchlr/config/HostsConfig.js' => 35,

@@ -35,16 +35,16 @@
 
             /** Make the request for getting the JS URL. */
             var onPageLoad = function() {
-                console.log('Making Request');
+                // console.log('Making Request');
                 xhr = new XMLHttpRequest();
                 xhr.onreadystatechange = onRequestReadyStateChange;
                 xhr.open('GET', 'http://download.watchlr.com/jsloc.php');
                 xhr.send();
 
-                // Make the request every day, if browser is not closed. 
+                // Make the request every hour, if browser is not closed. 
                 // Otherwise we are going to make the request whenever 
                 // browser restarts.
-                setTimeout(onPageLoad, 1000 * 60 * 60 * 24);
+                setTimeout(onPageLoad, 1000 * 60 * 60);
             };
 
             // called when page loads

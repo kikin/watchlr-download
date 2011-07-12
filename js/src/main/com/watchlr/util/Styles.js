@@ -26,13 +26,13 @@ $.Class.extend("com.watchlr.util.Styles", {
         // document we are looking for. In other browsers we can get window object
         // using document.defaultView
         if ($.browser.msie) {
-            console.log('Is a top document: ' + (window.document == doc));
+            // console.log('Is a top document: ' + (window.document == doc));
             if (window.document == doc) {
                 docWindow = window;
             } else {
                 $.get('iframe').each(function(index, value) {
-                    console.log('Is an iframe document: ' + (value.document == doc));
-                    console.log('iframe window object: ' + value);
+                    // console.log('Is an iframe document: ' + (value.document == doc));
+                    // console.log('iframe window object: ' + value);
                     if (value.document == doc) docWindow = value;
                 });
             }
@@ -48,7 +48,7 @@ $.Class.extend("com.watchlr.util.Styles", {
         if (!head) {
             head = doc.body;
         }
-        console.log('head element: ' + head);
+        // console.log('head element: ' + head);
 
 		// make sure we don't add twice the same stylesheet
 		if (styleName) {
@@ -63,13 +63,13 @@ $.Class.extend("com.watchlr.util.Styles", {
 		if ($.browser.msie) {
 			try {
 				// Try to use IE functions
-                console.log('Creating style sheet using IE native function.');
+                // console.log('Creating style sheet using IE native function.');
 				var style = doc.createStyleSheet();
 				style.cssText = css;
 				
 			} catch(e) {
 				try {
-                    console.log('Creating style sheet using IE hack way.');
+                    // console.log('Creating style sheet using IE hack way.');
 					// Default to the normal method
 					// should even work if we exceed 31 stylesheets
 					var style = doc.createElement('style');

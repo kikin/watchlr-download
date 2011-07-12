@@ -12,16 +12,15 @@ function ensure_success($cmd) {
 $DEPLOY_HOSTNAME = 'download.watchlr.com';
 $VERSION_FILE_PATH = '../www/version.json';
 $BASE_PATH = '/opt/download_env/';
+$VERSION_PROPERTIES_FILE = 'Version.ver';
 
-if ($argc < 2) {
-  exit('Usage: php ' . $argv[0] . ' version [env=prod]');
-}
-$version = $argv[1];
-
-$env = 'prod';
-if ($argc > 2) {
-  $env = $argv[2];
-}
+$major = system('echo include\(' . $VERSION_PROPERTIES_FILE . '\)__W_MAJOR_VERSION__| m4');
+$minor = system('echo include\(' . $VERSION_PROPERTIES_FILE . '\)__W_MINOR_VERSION__| m4');
+$build = system('echo include\(' . $VERSION_PROPERTIES_FILE . '\)__W_BUILD_NUMBER__| m4');
+$env = system('echo include\(' . $VERSION_PROPERTIES_FILE . '\)__W_BUILD_ENVIRONMENT__| m4');
+$version = $major . '.' . $minor . '.' . $build;
+echo "Using version number: " . $version . "\n";
+echo "Using environment: " . $env . "\n";
 
 $content = file_get_contents($VERSION_FILE_PATH);
 $decoded = json_decode($content);

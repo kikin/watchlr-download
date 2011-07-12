@@ -74,7 +74,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
     debug : function(str) {
         //if (!$ks.__PRODUCTION__) {
             try {
-                console.log(str);
+                //console.log(str);
                 // alert(str);
             } catch (e) {}
         //}
@@ -762,10 +762,10 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 this.selectedVideo.likingVideo = true;
                 this.watchlrVideoBorder.setLikeButtonState($cwui.WatchlrVideoBorder.LikeButtonState.LIKING);
                 if (this._showFbPushDialog) {
-                    var oAlert = new $cwui.modalwin.FirstVideoLikedWindow();
-                    oAlert.bind('close', $.proxy(this._onPushToFacebookWindowClosed, this));
-                    oAlert.bind('visituserprofilepage', $.proxy(this._handleVisitingVideoPageRequested, this));
-                    oAlert.show();
+                    this.watchlrVideoBorder.createVideoLikedDialog();
+                    this.watchlrVideoBorder.bind($cwui.VideoLikedDialog.VideoLikedDialogEvents.ON_CLOSE,  $.proxy(this._onPushToFacebookWindowClosed, this));
+                    this.watchlrVideoBorder.bind($cwui.VideoLikedDialog.VideoLikedDialogEvents.ON_HOME_PAGE_LINK_CLICKED,  $.proxy(this._handleVisitingVideoPageRequested, this));
+                    this.watchlrVideoBorder.showVideoSavedDialog();
                     /*$kat.track('VideoAdapterEvt', 'FirstLike', {
                         campaign: window.location.host
                     });*/
@@ -814,6 +814,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
 
     _handleFacebookConnectionCancelled: function() {
         this.watchlrVideoBorder.hideLoginDialog();
+        this.debug("Liking video:" + this.selectedVideo.likingVideo);
         if (this.selectedVideo.savingVideo) {
             this.selectedVideo.savingVideo = false;
 
@@ -825,7 +826,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             this.selectedVideo.likingVideo = false;
 
             // change the like button state to unliked
-            this.watchlrVideoBorder.setSaveButtonState($cwui.WatchlrVideoBorder.LikeButtonState.UNLIKED);
+            this.watchlrVideoBorder.setLikeButtonState($cwui.WatchlrVideoBorder.LikeButtonState.UNLIKED);
         }
 
         /*$kat.track('VideoAdapterEvt', 'LoginCancel', {
@@ -873,29 +874,21 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                             }
 
                             case 401: {
-                                this.debug("Session sent was an invalid session");
-                                this.watchlrVideoBorder.showLoginDialog();
+                                // this.debug("Session sent was an invalid session");
+                                this.watchlrVideoBorder.createLoginDialog();
                                 this.watchlrVideoBorder.bind($cwui.FacebookConnectDialog.FacebookConnectDialogEvents.ON_CLOSE_BUTTON_CLICKED, $.proxy(this._handleFacebookConnectionCancelled, this));
                                 this.watchlrVideoBorder.bind($cwui.FacebookConnectDialog.FacebookConnectDialogEvents.ON_FACEBOOK_CONNECT_CLICKED, $.proxy(this._handleFacebookConnectionRequested, this));
+                                this.watchlrVideoBorder.showLoginDialog();
                                 return;
                             }
 
                             default: {
-                                var oAlert = new $cwui.modalwin.AlertWindow(
-                                    this._localize('errorDlgTitle'),
-                                    this._localize('errorDlgMsg')
-                                );
-                                oAlert.show();
+                                alert(this._localize('errorDlgTitle') + "\n\n" + this._localize('errorDlgMsg'));
                                 // $kat.trackError({from: "updateButtonState of base VideoAdapter", msg:"Unable to save video. Error code:" + res.code + ", Error:" + res.error});
                             }
                         }
                     } else {
-                        var oAlert = new $cwui.modalwin.AlertWindow(
-                            this._localize('errorDlgTitle'),
-                            this._localize('errorDlgMsg')
-                        );
-
-                        this.debug('from: updateButtonState of base VideoAdapter. \nReason:' + 'Unable to save video');
+                        alert(this._localize('errorDlgTitle') + "\n\n" + this._localize('errorDlgMsg'));
                         //$kat.trackError({from: "updateButtonState of base VideoAdapter", msg:"Unable to save video. Reason:" + (res ? res.error : "Result is null")});
                     }
                 }
@@ -910,10 +903,10 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                         if (oResult.id != null && oResult.id != undefined)
                             this.selectedVideo.videoId = oResult.id;
                         if(oResult.emptyq) {
-                            var oAlert = new $cwui.modalwin.VideoSavedWindow();
-                            oAlert.bind('close', $.proxy(this._onSavedWindowClosed, this));
-                            oAlert.bind('visituserprofilepage', $.proxy(this._handleVisitingVideoPageRequested, this));
-                            oAlert.show();
+                            this.watchlrVideoBorder.createVideoSavedDialog();
+                            this.watchlrVideoBorder.bind($cwui.VideoSavedDialog.VideoSavedDialogEvents.ON_CLOSE,  $.proxy(this._onSavedWindowClosed, this));
+                            this.watchlrVideoBorder.bind($cwui.VideoSavedDialog.VideoSavedDialogEvents.ON_HOME_PAGE_LINK_CLICKED,  $.proxy(this._handleVisitingVideoPageRequested, this));
+                            this.watchlrVideoBorder.showVideoSavedDialog();
                         }
                     }
 
@@ -977,46 +970,20 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                             }
 
                             case 401: {
-                                this.watchlrVideoBorder.showLoginDialog();
+                                this.watchlrVideoBorder.createLoginDialog();
                                 this.watchlrVideoBorder.bind($cwui.FacebookConnectDialog.FacebookConnectDialogEvents.ON_CLOSE_BUTTON_CLICKED, $.proxy(this._handleFacebookConnectionCancelled, this));
                                 this.watchlrVideoBorder.bind($cwui.FacebookConnectDialog.FacebookConnectDialogEvents.ON_FACEBOOK_CONNECT_CLICKED, $.proxy(this._handleFacebookConnectionRequested, this));
+                                this.watchlrVideoBorder.showLoginDialog();
                                 return;
                             }
 
                             default: {
-                                if (!this.selectedVideo.liked) {
-                                    var oAlert = new $cwui.modalwin.AlertWindow(
-                                        this._localize('errorDlgLikeTitle'),
-                                        this._localize('errorDlgLikeMsg')
-                                    );
-                                    oAlert.show();
-                                } /*else {
-                                    var oAlert = new $cwui.modalwin.AlertWindow(
-                                        this._localize('errorDlgUnlikeTitle'),
-                                        this._localize('errorDlgUnlikeMsg')
-                                    );
-                                    oAlert.show();
-                                }  */
-                                this.debug("from: _onVideoLiked of base VideoAdapter. \nReason:" + err);
-
+                                alert(this._localize('errorDlgLikeTitle') + "\n\n" + this._localize('errorDlgLikeMsg'));
                                 // $kat.trackError({from: "_onVideoLiked of base VideoAdapter", msg:"Unable to like video. Error code:" + res.code + ", Error:" + res.error});
                             }
                         }
                     } else {
-                        if (!this.selectedVideo.liked) {
-                            var oAlert = new $cwui.modalwin.AlertWindow(
-                                this._localize('errorDlgLikeTitle'),
-                                this._localize('errorDlgLikeMsg')
-                            );
-                            oAlert.show();
-                        } /*else {
-                            var oAlert = new $cwui.modalwin.AlertWindow(
-                                this._localize('errorDlgUnlikeTitle'),
-                                this._localize('errorDlgUnlikeMsg')
-                            );
-                            oAlert.show();
-                        }   */
-                        this.debug("from: _onVideoLiked of base VideoAdapter. \nReason:" + err);
+                        alert(this._localize('errorDlgLikeTitle') + "\n\n" + this._localize('errorDlgLikeMsg'));
                         // $kat.trackError({from: "_onVideoLiked of base VideoAdapter", msg:"Unable to like video. Reason:" + (res ? res.error : "Result is null")});
                     }
                 }
@@ -1127,10 +1094,10 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             // If we don't have to show the push to facebook dialog, then make the request to server
             // else we are going to make the call when user closes the push to facebook dialog.
             if (this._showFbPushDialog) {
-                var oAlert = new $cwui.modalwin.FirstVideoLikedWindow();
-                oAlert.bind('close', $.proxy(this._onPushToFacebookWindowClosed, this));
-                oAlert.bind('visituserprofilepage', $.proxy(this._handleVisitingVideoPageRequested, this));
-                oAlert.show();
+                this.watchlrVideoBorder.createVideoLikedDialog();
+                this.watchlrVideoBorder.bind($cwui.VideoLikedDialog.VideoLikedDialogEvents.ON_CLOSE,  $.proxy(this._onPushToFacebookWindowClosed, this));
+                this.watchlrVideoBorder.bind($cwui.VideoLikedDialog.VideoLikedDialogEvents.ON_HOME_PAGE_LINK_CLICKED,  $.proxy(this._handleVisitingVideoPageRequested, this));
+                this.watchlrVideoBorder.showVideoSavedDialog();
             } else {
                 if (!this.selectedVideo.liked) {
                     $cws.WatchlrRequests.sendVideoLikedRequest($.proxy(this._onVideoLiked, this), this.selectedVideo.url);
