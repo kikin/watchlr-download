@@ -11,10 +11,8 @@ $selected = $decoded->{$environ};
 $version = $selected->{'version'};
 $base = $selected->{'base'};
 
-$timestamp = new Date().getTime();
-
 // URL scheme = http://$base/$version/watchlr-$version.min.js
-$location = $base . '/' . $version . '/watchlr-' . $version . '.min.js?v=' . $timestamp;
+$location = $base . '/' . $version . '/watchlr-' . $version . '.min.js?v=' . time();
 
 $callback = $_GET['callback'];
 if ($callback != '') {
