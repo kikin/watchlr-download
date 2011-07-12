@@ -802,6 +802,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
 	},
 
     _commonCallback: function() {
+        this.watchlrVideoBorder.hideLoginDialog();
         // this.debug('get called in common callback');
         if (this.selectedVideo.savingVideo) {
             $cws.WatchlrRequests.sendSaveVideoRequest($.proxy(this._updateButtonState, this), this.selectedVideo.url);
@@ -812,27 +813,19 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
     },
 
     _handleFacebookConnectionCancelled: function() {
+        this.watchlrVideoBorder.hideLoginDialog();
         if (this.selectedVideo.savingVideo) {
             this.selectedVideo.savingVideo = false;
 
             // change the save button state to watch later
             this.watchlrVideoBorder.setSaveButtonState($cwui.WatchlrVideoBorder.SaveButtonState.WATCH_LATER);
 
-            var oAlert = new $cwui.modalwin.AlertWindow(
-                this._localize('errorDlgTitle'),
-                this._localize('errorDlgMsg')
-            );
-            oAlert.show();
 
         } else if (this.selectedVideo.likingVideo) {
             this.selectedVideo.likingVideo = false;
 
             // change the like button state to unliked
             this.watchlrVideoBorder.setSaveButtonState($cwui.WatchlrVideoBorder.LikeButtonState.UNLIKED);
-            var oAlert = new $cwui.modalwin.AlertWindow(
-                this._localize('errorDlgLikeTitle'),
-                this._localize('errorDlgLikeMsg')
-            );
         }
 
         /*$kat.track('VideoAdapterEvt', 'LoginCancel', {
@@ -880,14 +873,11 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                             }
 
                             case 401: {
-                                // this.debug("Session sent was an invalid session");
-                                var oAlert = new $cwui.modalwin.FacebookConnectWindow();
-                                oAlert.bind('close', $.proxy(this._handleFacebookConnectionCancelled, this));
-                                oAlert.bind('connect', $.proxy(this._handleFacebookConnectionRequested, this));
-                                oAlert.bind('visituserprofilepage', $.proxy(this._handleVisitingVideoPageRequested, this));
-                                oAlert.show();
+                                this.debug("Session sent was an invalid session");
+                                this.watchlrVideoBorder.showLoginDialog();
+                                this.watchlrVideoBorder.bind($cwui.FacebookConnectDialog.FacebookConnectDialogEvents.ON_CLOSE_BUTTON_CLICKED, $.proxy(this._handleFacebookConnectionCancelled, this));
+                                this.watchlrVideoBorder.bind($cwui.FacebookConnectDialog.FacebookConnectDialogEvents.ON_FACEBOOK_CONNECT_CLICKED, $.proxy(this._handleFacebookConnectionRequested, this));
                                 return;
-                                break;
                             }
 
                             default: {
@@ -912,7 +902,8 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
 
                 if (videoSavedSuccessfully) {
                     this.watchlrVideoBorder.setSaveButtonState($cwui.WatchlrVideoBorder.SaveButtonState.SAVED);
-
+                    this.selectedVideo.savingVideo = false;
+                    this.selectedVideo.saved = true;
                     // video Id can be 0;
                     if (res.result) {
                         var oResult = res.result;
@@ -986,13 +977,10 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                             }
 
                             case 401: {
-                                var oAlert = new $cwui.modalwin.FacebookConnectWindow();
-                                oAlert.bind('close', $.proxy(this._handleFacebookConnectionCancelled, this));
-                                oAlert.bind('connect', $.proxy(this._handleFacebookConnectionRequested, this));
-                                oAlert.bind('visituserprofilepage', $.proxy(this._handleVisitingVideoPageRequested, this));
-                                oAlert.show();
+                                this.watchlrVideoBorder.showLoginDialog();
+                                this.watchlrVideoBorder.bind($cwui.FacebookConnectDialog.FacebookConnectDialogEvents.ON_CLOSE_BUTTON_CLICKED, $.proxy(this._handleFacebookConnectionCancelled, this));
+                                this.watchlrVideoBorder.bind($cwui.FacebookConnectDialog.FacebookConnectDialogEvents.ON_FACEBOOK_CONNECT_CLICKED, $.proxy(this._handleFacebookConnectionRequested, this));
                                 return;
-                                break;
                             }
 
                             default: {

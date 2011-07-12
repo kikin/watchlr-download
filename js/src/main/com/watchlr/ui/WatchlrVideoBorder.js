@@ -52,6 +52,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
     saveButtonText: null,
     saveButtonState: null,
     likeButtonState: null,
+    loginDialog: null,
 
     // ---------------------------------------------------------------------------
     //                              PRIVATE FUNCTIONS
@@ -301,6 +302,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
                     $(this.likeButtonImage).addClass('watchlr-image watchlr-unlike-button-image');
                     $(this.likeButtonText).html(this._localize('like'));
                     $(this.likeButtonText).css('margin', '0 10px 0 5px');
+                    $(this.likeButtonText).css('color', '#ffffff');
                     break;
                 }
 
@@ -319,7 +321,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
                     $(this.likeButtonImage).addClass('watchlr-image watchlr-like-button-image');
                     $(this.likeButtonText).html(this._localize('liked'));
                     $(this.likeButtonText).css('margin', '0 5px 0 5px');
-                    $(this.saveButtonText).css('color', '#000000');
+                    $(this.likeButtonText).css('color', '#ffffff');
                     break;
                 }
 
@@ -378,6 +380,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
                     $(this.saveButtonText).html(this._localize('btnSave'));
                     $(this.saveButtonImage).removeClass();
                     $(this.saveButtonImage).addClass("watchlr-image watchlr-watch-later-button-image");
+                    $(this.saveButtonText).css('color', '#ffffff');
                     break;
                 }
 
@@ -392,7 +395,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
                 case $cwui.WatchlrVideoBorder.SaveButtonState.SAVED: {
                     this.saveButtonState = $cwui.WatchlrVideoBorder.SaveButtonState.SAVED;
                     $(this.saveButtonText).html(this._localize('btnSaved'));
-                    $(this.saveButtonText).css('color', '#000000');
+                    $(this.saveButtonText).css('color', '#ffffff');
                     $(this.saveButtonImage).removeClass();
                     $(this.saveButtonImage).addClass("watchlr-image watchlr-saved-button-image");
                     break;
@@ -434,6 +437,38 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
         } catch (err) {
             this.debug('from: setSaveButtonState of WatchlrVideoBorder. \nReason:' + e);
             // $kat.trackError({from: "setSaveButtonState of WatchlrVideoBorder", msg: "Unable to change the state of like button.", exception:e});
+        }
+    },
+
+    /**
+     * shows the login dialog in the options button
+     * when user tries to save/like the video but is not logged in.
+     */
+    showLoginDialog: function() {
+        try {
+            this.debug('Create dialog');
+            this.loginDialog = new $cwui.FacebookConnectDialog();
+            this.loginDialog.create(this.optionsButton, document);
+            this.debug('dialog created');
+
+            this.loginDialog.bind($cwui.FacebookConnectDialog.FacebookConnectDialogEvents.ON_CLOSE_BUTTON_CLICKED, $.proxy(this._onLoginDialogCloseButtonClicked, this));
+            this.loginDialog.bind($cwui.FacebookConnectDialog.FacebookConnectDialogEvents.ON_FACEBOOK_CONNECT_CLICKED, $.proxy(this._onLoginDialogFacebookConnectClicked, this));
+            this.loginDialog.show();
+        } catch (err) {
+            this.debug('from: showLoginDialog of WatchlrVideoBorder. \nReason:' + e);
+            // $kat.trackError({from: "showLoginDialog of WatchlrVideoBorder", msg: "Unable to show the login dialog.", exception:e});
+        }
+    },
+
+    /**
+     * hides the login dialog in the option button.
+     */
+    hideLoginDialog: function() {
+        try {
+            this.loginDialog.hide();
+        } catch (err) {
+            this.debug('from: hideLoginDialog of WatchlrVideoBorder. \nReason:' + e);
+            // $kat.trackError({from: "hideLoginDialog of WatchlrVideoBorder", msg: "Unable to hide the login dialog.", exception:e});
         }
     },
 
@@ -614,6 +649,34 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
         } catch (err) {
             this.debug('from: _onLikeButtonClicked of WatchlrVideoBorder. \nReason:' + err);
             // $kat.trackError({from: "_onLikeButtonClicked of WatchlrVideoBorder", exception:err});
+        }
+    },
+
+    /**
+     * when user clicked the close button in login dialog
+     * @param e
+     */
+    _onLoginDialogCloseButtonClicked: function(e) {
+         try {
+            if (e) e.stopPropagation();
+            this.trigger($cwui.FacebookConnectDialog.FacebookConnectDialogEvents.ON_CLOSE_BUTTON_CLICKED);
+        } catch (err) {
+            this.debug('from: _onLoginDialogCloseButtonClicked of WatchlrVideoBorder. \nReason:' + err);
+            // $kat.trackError({from: "_onLoginDialogCloseButtonClicked of WatchlrVideoBorder", exception:err});
+        }
+    },
+
+    /**
+     * When user clicked facebook connect in login dialog
+     * @param e
+     */
+    _onLoginDialogFacebookConnectClicked: function(e) {
+         try {
+            if (e) e.stopPropagation();
+            this.trigger($cwui.FacebookConnectDialog.FacebookConnectDialogEvents.ON_FACEBOOK_CONNECT_CLICKED);
+        } catch (err) {
+            this.debug('from: _onLoginDialogFacebookConnectClicked of WatchlrVideoBorder. \nReason:' + err);
+            // $kat.trackError({from: "_onLoginDialogFacebookConnectClicked of WatchlrVideoBorder", exception:err});
         }
     }
 });
