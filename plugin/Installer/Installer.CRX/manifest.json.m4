@@ -8,7 +8,7 @@
 	     "all_frames": true
       },
 	  {
-         "js": [ "kikin_domain.js" ],
+         "js": [ "watchlr_domain.js" ],
          "matches": [ "http://*.kikin.com/*", "https://*.kikin.com/*" ],
          "run-at": [ "document_start" ]
       }

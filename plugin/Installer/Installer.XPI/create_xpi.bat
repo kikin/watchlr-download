@@ -29,9 +29,9 @@ echo Using M4 at %M4_TOOL%
 @echo Build properties file: %VERSION_PROPERTIES_FILE%
 
 @echo Retrieving version numbers...
-@for /F "delims=^" %%i IN ('echo include^(^`%VERSION_PROPERTIES_FILE%^'^)__W_MAJOR_VERSION__^| %M4_TOOL%') DO set WATCHLR_MAJOR=%%i
-@for /F "delims=^" %%i IN ('echo include^(^`%VERSION_PROPERTIES_FILE%^'^)__W_MINOR_VERSION__^| %M4_TOOL%') DO set WATCHLR_MINOR=%%i
-@for /F "delims=^" %%i IN ('echo include^(^`%VERSION_PROPERTIES_FILE%^'^)__W_BUILD_NUMBER__^| %M4_TOOL%') DO set WATCHLR_BUILD=%%i
+@for /F "delims=^" %%i IN ('echo include^(^`%VERSION_PROPERTIES_FILE%^'^)__K_MAJOR_VERSION__^| %M4_TOOL%') DO set WATCHLR_MAJOR=%%i
+@for /F "delims=^" %%i IN ('echo include^(^`%VERSION_PROPERTIES_FILE%^'^)__K_MINOR_VERSION__^| %M4_TOOL%') DO set WATCHLR_MINOR=%%i
+@for /F "delims=^" %%i IN ('echo include^(^`%VERSION_PROPERTIES_FILE%^'^)__K_BUILD_NUMBER__^| %M4_TOOL%') DO set WATCHLR_BUILD=%%i
 set WATCHLR_VERSION=%WATCHLR_MAJOR%.%WATCHLR_MINOR%.%WATCHLR_BUILD%
 echo Using version string %WATCHLR_VERSION%
 

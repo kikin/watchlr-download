@@ -1,15 +1,17 @@
 <html>
     <head></head>
     <body>
-        <h1>Current Environment:</h1>
-        <h1 id="enviroment"></h1>
-        <br><br>
-        <a onclick="setProd();" style="text-decoration:underline; cursor: pointer;">Production</a>
-        <a onclick="setDev();" style="text-decoration:underline; cursor: pointer;">Dev</a>
-        <a onclick="setLocal();" style="text-decoration:underline; cursor: pointer;">Local</a>
+        <h3>Current Environment:</h3>
+        <pre id="enviroment"></pre>
+        <h3>Set Environment:</h3>
+        <ul>
+          <li><a onclick="setProd();" style="text-decoration:underline; cursor: pointer;">prod</a></li>
+          <li><a onclick="setDev();" style="text-decoration:underline; cursor: pointer;">dev</a></li>
+          <li><a onclick="setLocal();" style="text-decoration:underline; cursor: pointer;">local</a></li>
+        </ul>
 
         <script type="text/javascript">
-            var watchlr_env = 'Production';
+            var watchlr_env = 'prod';
             var envVal = document.getElementById('enviroment');
 
             function readEnv() {
@@ -18,28 +20,29 @@
                 if (index >= 0) {
                     var startIndex = cookiesString.indexOf('=', index) + 1;
                     var lastIndex = cookiesString.indexOf(';', startIndex);
+                    if (lastIndex == -1) lastIndex = cookiesString.length;
                     watchlr_env = cookiesString.substr(startIndex, (lastIndex - startIndex));
                 }
             }
 
             function setEnv(val) {
-                var newCookieString = '_WENV='+val+'; path=;';
+                var newCookieString = '_WENV='+val+'; expires=Tue, 11-Jul-2020 00:00:00 GMT;';
                 document.cookie = newCookieString;
             }
 
             function setProd() {
                 setEnv('prod');
-                envVal.innerHTML = 'Production';
+                envVal.innerHTML = 'prod';
             }
 
             function setDev() {
                 setEnv('dev');
-                envVal.innerHTML = 'Dev';
+                envVal.innerHTML = 'dev';
             }
 
             function setLocal() {
                 setEnv('local');
-                envVal.innerHTML = 'Local';
+                envVal.innerHTML = 'local';
             }
 
             readEnv();

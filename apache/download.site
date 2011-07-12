@@ -1,0 +1,18 @@
+<VirtualHost *:80>
+    ServerName download.watchlr.com
+
+    Alias /robots.txt /opt/video_env/kikinvideo/static/robots.txt
+    Alias /favicon.ico /opt/video_env/kikinvideo/static/images/favicon.ico
+
+    <Directory /opt/download_env/kikinvideo/static/>
+    Order deny,allow
+    Allow from all
+    Options -Indexes
+    </Directory>
+
+    DocumentRoot /opt/download_env/src/www
+
+    LogLevel info
+    CustomLog "|/usr/bin/cronolog --symlink=/opt/download_env/logs/accessLog /opt/download_env/logs/accessLog.%Y%m%d" combined
+
+</VirtualHost>

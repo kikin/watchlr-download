@@ -1,23 +1,23 @@
 <?php
 
 function getAllFiles($directory, $extension) {
-	$ret = array();
-	if ($handle = opendir($directory)) {
-    	while (false !== ($file = readdir($handle))) {
-    		if ($file == '.' || $file == '..') {
-    			continue;
-    		} else if (substr($file, -1*strlen($extension)) == $extension) {
-    		    array_push($ret, $directory.'/'.$file);
-    		} else if (!is_file($directory.'/'.$file)) {
-    			$result = getAllFiles($directory.'/'.$file, $extension);
-    			$ret = array_merge($ret, $result);
-    		}
-	    }
-	    closedir($handle);
-	} else {
-		die("could not find directory $directory");
-	}
-	return $ret;
+  $ret = array();
+  if ($handle = opendir($directory)) {
+      while (false !== ($file = readdir($handle))) {
+        if ($file == '.' || $file == '..') {
+          continue;
+        } else if (substr($file, -1*strlen($extension)) == $extension) {
+            array_push($ret, $directory.'/'.$file);
+        } else if (!is_file($directory.'/'.$file)) {
+          $result = getAllFiles($directory.'/'.$file, $extension);
+          $ret = array_merge($ret, $result);
+        }
+      }
+      closedir($handle);
+  } else {
+    die("could not find directory $directory");
+  }
+  return $ret;
 }
 
 function jsPrioritiesCmp($a, $b) {
@@ -83,55 +83,55 @@ function jsPrioritiesCmp($a, $b) {
 }
 
 function getJavascriptTree($files) {
-	$tree = array();
+  $tree = array();
 
-	// create the tree
-	for ($i=0; $i<count($files); $i++) {
-		$file = $files[$i];
-		$name = substr($file, 0, strrpos($file, '/'));
+  // create the tree
+  for ($i=0; $i<count($files); $i++) {
+    $file = $files[$i];
+    $name = substr($file, 0, strrpos($file, '/'));
 
-		$cur = &$tree;
-		$packages = explode('/', $name);
-		for ($j=0; $j<count($packages); $j++) {
-			$package = $packages[$j];
-			if (!$cur[$package]) {
-				// create package
-				$cur[$package] = array();
-			}
-			$cur = &$cur[$package];
-		}
-	}
-	return $tree;
+    $cur = &$tree;
+    $packages = explode('/', $name);
+    for ($j=0; $j<count($packages); $j++) {
+      $package = $packages[$j];
+      if (!$cur[$package]) {
+        // create package
+        $cur[$package] = array();
+      }
+      $cur = &$cur[$package];
+    }
+  }
+  return $tree;
 }
 
 function createTreeString($tree, $level = 0) {
-	$ret = '';
+  $ret = '';
 
-	if ($level == 0) $ret .= 'var ';
-	foreach ($tree as $key => $value) {
-		if ($ret != '' && $level != 0) $ret .= ',';
-		$ret .= $key.($level==0?'=':':').'{';
-		$ret .= createTreeString($value, $level+1);
-		$ret .= '}';
-	}
-	if ($level == 0) $ret .= ';';
+  if ($level == 0) $ret .= 'var ';
+  foreach ($tree as $key => $value) {
+    if ($ret != '' && $level != 0) $ret .= ',';
+    $ret .= $key.($level==0?'=':':').'{';
+    $ret .= createTreeString($value, $level+1);
+    $ret .= '}';
+  }
+  if ($level == 0) $ret .= ';';
 
-	return $ret;
+  return $ret;
 }
 
 function getJavascriptTreeString($files) {
-	//TODO: fix this
-	return '';
+  //TODO: fix this
+  return '';
 
-	// get the tree
-	$tree = getJavascriptTree($files);
+  // get the tree
+  $tree = getJavascriptTree($files);
 
-	// make the output
-	return createTreeString($tree);
+  // make the output
+  return createTreeString($tree);
 }
 
 if (!isset($_GET['rebuild']) || $_GET['rebuild'] == 'true') {
-	$servers = array("dev" => "http://dev.watchlr.com/", "prod" => "http://www.watchlr.com/", "local" => "http://dev.watchlr.com/");
+  $servers = array("dev" => "http://dev.watchlr.com/", "prod" => "http://www.watchlr.com/", "local" => "http://dev.watchlr.com/");
     if ($argc < 2) {
         echo "Version number is not specified.\n";
         exit(1);
@@ -148,60 +148,60 @@ if (!isset($_GET['rebuild']) || $_GET['rebuild'] == 'true') {
 
     $result = '';
 
-	// get css/html/js files
-	$cssFiles = getAllFiles('src/main', '.css');
-	$htmlFiles = getAllFiles('src/main', '.html');
-	$jsFiles = getAllFiles('src/main', '.js');
+  // get css/html/js files
+  $cssFiles = getAllFiles('src/main', '.css');
+  $htmlFiles = getAllFiles('src/main', '.html');
+  $jsFiles = getAllFiles('src/main', '.js');
 
     // just concat javascript files
-	$temp = usort($jsFiles, "jsPrioritiesCmp");
-	for ($i=0; $i<count($jsFiles); $i++) {
-		$result .= file_get_contents($jsFiles[$i]);
-	}
+  $temp = usort($jsFiles, "jsPrioritiesCmp");
+  for ($i=0; $i<count($jsFiles); $i++) {
+    $result .= file_get_contents($jsFiles[$i]);
+  }
 
     // Add CSS files
-	if(count($cssFiles)){
+  if(count($cssFiles)){
         $result .= "\ncom.watchlr.system.css = {};";
-		// convert css files to variables
-		$result .= getJavascriptTreeString($cssFiles)."\n";
-		for ($i=0; $i<count($cssFiles); $i++) {
-			$content = file_get_contents($cssFiles[$i]);
-			$content = str_replace("'", "\\'", $content);
-			$content = str_replace("\n", "", $content);
-			$content = str_replace("\r", "", $content);
-			$content = str_replace("\t", "", $content);
-            $content = str_replace("    ", "", $content);
+    // convert css files to variables
+    $result .= getJavascriptTreeString($cssFiles)."\n";
+    for ($i=0; $i<count($cssFiles); $i++) {
+      $content = file_get_contents($cssFiles[$i]);
+      $content = str_replace("'", "\\'", $content);
+      $content = str_replace("\n", "", $content);
+      $content = str_replace("\r", "", $content);
+      $content = str_replace("\t", "", $content);
+      $content = str_replace("    ", "", $content);
 
-			$name = basename($cssFiles[$i], ".css");
+      $name = basename($cssFiles[$i], ".css");
 
-			$result .= "com.watchlr.system.css['$name']='$content';\n";
-		}
-	}
+      $result .= "com.watchlr.system.css['$name']='$content';\n";
+    }
+  }
 
     // Add HTML files
-	if(count($htmlFiles)){
-        $result .= "\ncom.watchlr.system.html = {};";
-		// convert css files to variables
-		$result .= getJavascriptTreeString($htmlFiles)."\n";
-		for ($i=0; $i<count($htmlFiles); $i++) {
-			$content = file_get_contents($htmlFiles[$i]);
-			$content = str_replace("'", "\\'", $content);
-			$content = str_replace("\n", "", $content);
-			$content = str_replace("\r", "", $content);
-			$content = str_replace("\t", "", $content);
-            $content = str_replace("    ", "", $content);
+  if(count($htmlFiles)){
+    $result .= "\ncom.watchlr.system.html = {};";
+    // convert css files to variables
+    $result .= getJavascriptTreeString($htmlFiles)."\n";
+    for ($i=0; $i<count($htmlFiles); $i++) {
+      $content = file_get_contents($htmlFiles[$i]);
+      $content = str_replace("'", "\\'", $content);
+      $content = str_replace("\n", "", $content);
+      $content = str_replace("\r", "", $content);
+      $content = str_replace("\t", "", $content);
+      $content = str_replace("    ", "", $content);
 
-			$name = basename($htmlFiles[$i], ".html");
+      $name = basename($htmlFiles[$i], ".html");
 
-			$result .= "com.watchlr.system.html['$name']='$content';\n";
-		}
-	}
+      $result .= "com.watchlr.system.html['$name']='$content';\n";
+    }
+  }
 
     $result .= "var bootstrap = new com.watchlr.system.runtime.Bootstrap(); bootstrap.run();";
     $result = str_replace("http://www.watchlr.com/", $server, $result);
     if ($environ != "local") {
-        $static_path = $server . "static/images/";
-        $result = str_replace("http://local.watchlr.com/watchlr/img/", $static_path, $result);
+      $static_path = $server . "static/images/";
+      $result = str_replace("http://local.watchlr.com/watchlr/img/", $static_path, $result);
     }
 
     $result = "(function() {" . $result . "})();";
