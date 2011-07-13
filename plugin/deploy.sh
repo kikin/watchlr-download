@@ -2,6 +2,7 @@
 
 cd Installer/Publisher; sh create_builds.sh; cd -
 
+version_properties_file="Version.ver"
 major=$(echo include\($version_properties_file\)__K_MAJOR_VERSION__| m4)
 minor=$(echo include\($version_properties_file\)__K_MINOR_VERSION__| m4)
 build=$(echo include\($version_properties_file\)__K_BUILD_NUMBER__| m4)

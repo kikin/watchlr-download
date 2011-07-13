@@ -6,7 +6,7 @@
 
         if (a && a.js_url && (typeof a.js_url == 'string')) {
             var b = document.createElement('script');
-            b.src = 'http://local.watchlr.com/watchlr/build/watchlr.min.js';
+            b.src = a.js_url;
             b.type = 'text/javascript';
             document.body.appendChild(b);
         }
