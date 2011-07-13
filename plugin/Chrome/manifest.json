@@ -20,6 +20,6 @@
    },
    "name": "Watchlr",
    "permissions": [ "tabs",  "http://*/*" , "https://*/*" ],
-   "version": "1.0.2",
+   "version": "1.0.3",
    "update_url": "https://kbp.de.kikin.com/wbp-data/updates/update.xml"
 }

@@ -1,6 +1,6 @@
 /**
  * @file
- * JavaScript section of the kikin plugin.
+ * JavaScript section of the watchlr plugin.
  */
  
 if (!com) {
@@ -458,6 +458,8 @@ com.watchlr.plugin = function() {
                     priv.shouldProcessTabsRestoring = false;
                 }*/
                 triggerWindow = anEvent.originalTarget.defaultView;
+
+
                 
             } else if (anEvent.originalTarget.nodeName == "IFRAME") {
                 triggerWindow = anEvent.originalTarget.contentWindow;
