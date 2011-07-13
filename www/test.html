@@ -25,9 +25,20 @@
                 }
             }
 
+            function refetchJsUrl() {
+                var watchlrDummyElement = document.getElementById('watchlr_dummy_element_for_plugin_detection');
+                //Ready: create a generic event
+                var evt = document.createEvent("Events")
+                //Aim: initialize it to be the event we want
+                evt.initEvent('refreshJsUrl', true, true); //true for can bubble, true for cancelable
+                //FIRE!
+                watchlrDummyElement.dispatchEvent(evt);
+            }
+
             function setEnv(val) {
                 var newCookieString = '_WENV='+val+'; expires=Tue, 11-Jul-2020 00:00:00 GMT;';
                 document.cookie = newCookieString;
+                refetchJsUrl();
             }
 
             function setProd() {
@@ -44,6 +55,8 @@
                 setEnv('local');
                 envVal.innerHTML = 'local';
             }
+
+
 
             readEnv();
             envVal.innerHTML = watchlr_env;

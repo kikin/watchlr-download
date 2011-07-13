@@ -4,8 +4,8 @@
 
 $.Class.extend("com.watchlr.ui.FacebookConnectDialog", {
     FacebookConnectDialogEvents : {
-        ON_CLOSE_BUTTON_CLICKED : "close",
-        ON_FACEBOOK_CONNECT_CLICKED: "connect"
+        ON_CLOSE_BUTTON_CLICKED : "fcclose",
+        ON_FACEBOOK_CONNECT_CLICKED: "fcconnect"
     }
 }, {
     /**
@@ -33,6 +33,21 @@ $.Class.extend("com.watchlr.ui.FacebookConnectDialog", {
             $(this._facebookConnectDialog).trigger(eventName, paramArray);
         } else {
             $(this._facebookConnectDialog).trigger(eventName);
+        }
+    },
+
+    /**
+     * Make dialog visible in viewport.
+     */
+    _makeDialogVisibleInViewPort: function() {
+        var docViewTop = $(window).scrollTop();
+        var docViewBottom = docViewTop + $(window).height();
+
+        var elemTop = $(this._watchlrVideoBorderOptionsButton).offset().top;
+        var elemBottom = elemTop + $(this._watchlrVideoBorderOptionsButton).height();
+
+        if (elemBottom >= docViewBottom) {
+            $(window).scrollTop(docViewTop + (elemBottom - docViewBottom) + 20);
         }
     },
 
@@ -66,6 +81,7 @@ $.Class.extend("com.watchlr.ui.FacebookConnectDialog", {
     show: function() {
         $(this._facebookConnectDialog).fadeIn();
         $(this._watchlrVideoBorderOptionsButton).css('padding-bottom', '12px');
+        this._makeDialogVisibleInViewPort();
     },
 
     /**
@@ -78,18 +94,26 @@ $.Class.extend("com.watchlr.ui.FacebookConnectDialog", {
     },
 
     /**
+     * returns whether the facebook connect dialog is visible.
+     */
+    isVisible: function() {
+        var visibility = $(this._facebookConnectDialog).css('display');
+        return visibility && visibility != 'none';
+    },
+
+    /**
      * on close button clicked
      */
     _onCloseCallback: function () {
+        this.trigger($cwui.FacebookConnectDialog.FacebookConnectDialogEvents.ON_CLOSE_BUTTON_CLICKED);
         this.hide();
-        this.trigger('close');
     },
 
     /**
      * on facebook connect button or 'Sign in with facebook' link clicked
      */
     _onConnectCallback: function() {
-        this.trigger('connect');
+        this.trigger($cwui.FacebookConnectDialog.FacebookConnectDialogEvents.ON_FACEBOOK_CONNECT_CLICKED);
     }
 
 });

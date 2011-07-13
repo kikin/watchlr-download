@@ -1,6 +1,6 @@
 /**
  * @file
- * JavaScript section of the kikin plugin.
+ * JavaScript section of the watchlr plugin.
  */
  
 if (!com) {
@@ -458,6 +458,18 @@ com.watchlr.plugin = function() {
                     priv.shouldProcessTabsRestoring = false;
                 }*/
                 triggerWindow = anEvent.originalTarget.defaultView;
+
+                var host = triggerWindow.location.host;
+                if (/.*\.watchlr\.com/.test(host)) {
+                    var div = triggerWindow.document.createElement('div');
+                    div.id = 'watchlr_dummy_element_for_plugin_detection';
+                    div.style.display = 'hidden';
+                    triggerWindow.document.body.appendChild(div);
+
+                    div.addEventListener('refreshJsUrl', function() {
+                        priv.getWatchlrJsUrl();
+                    }, false);
+                }
                 
             } else if (anEvent.originalTarget.nodeName == "IFRAME") {
                 triggerWindow = anEvent.originalTarget.contentWindow;
@@ -553,7 +565,7 @@ com.watchlr.plugin = function() {
         pub.logDebug('Request sent for fetching js url.');
 
         // Retry after a day if user has not closed the browser.
-        setTimeout(priv.getWatchlrJsUrl, 24 * 60 * 60 * 1000);
+        setTimeout(priv.getWatchlrJsUrl, 60 * 60 * 1000);
     };
 
     return pub;

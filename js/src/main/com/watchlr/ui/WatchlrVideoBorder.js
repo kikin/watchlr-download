@@ -52,7 +52,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
     saveButtonText: null,
     saveButtonState: null,
     likeButtonState: null,
-    loginDialog: null,
+    messageDialog: null,
 
     // ---------------------------------------------------------------------------
     //                              PRIVATE FUNCTIONS
@@ -64,7 +64,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
      */
     debug: function(msg) {
         try {
-            console.log(msg);
+            // console.log(msg);
         } catch (err) {}
     },
 
@@ -74,7 +74,39 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
      * @param _callback
      */
     bind: function(eventName, _callback) {
-        $(this.watchlrVideoBorder).bind(eventName, _callback);
+        switch (eventName) {
+            case $cwui.VideoSavedDialog.VideoSavedDialogEvents.ON_CLOSE:
+            case $cwui.VideoSavedDialog.VideoSavedDialogEvents.ON_HOME_PAGE_LINK_CLICKED: {
+                this.debug("Message dialog is an instance of video saved dialog:" + (this.messageDialog instanceof $cwui.VideoSavedDialog));
+                if (this.messageDialog && (this.messageDialog instanceof $cwui.VideoSavedDialog)) {
+                    this.messageDialog.bind(eventName, _callback);
+                }
+                break;
+            }
+
+            case $cwui.VideoLikedDialog.VideoLikedDialogEvents.ON_CLOSE:
+            case $cwui.VideoLikedDialog.VideoLikedDialogEvents.ON_HOME_PAGE_LINK_CLICKED: {
+                this.debug("Message dialog is an instance of video saved dialog:" + (this.messageDialog instanceof $cwui.VideoLikedDialog));
+                if (this.messageDialog && (this.messageDialog instanceof $cwui.VideoLikedDialog)) {
+                    this.messageDialog.bind(eventName, _callback);
+                }
+                break;
+            }
+
+            case $cwui.FacebookConnectDialog.FacebookConnectDialogEvents.ON_CLOSE_BUTTON_CLICKED:
+            case $cwui.FacebookConnectDialog.FacebookConnectDialogEvents.ON_FACEBOOK_CONNECT_CLICKED: {
+                this.debug("Message dialog is an instance of login dialog:" + (this.messageDialog instanceof $cwui.FacebookConnectDialog));
+                if (this.messageDialog && (this.messageDialog instanceof $cwui.FacebookConnectDialog)) {
+                    this.messageDialog.bind(eventName, _callback);
+                }
+                break;
+            }
+
+            default: {
+                this.debug('Binding default event.');
+                $(this.watchlrVideoBorder).bind(eventName, _callback);
+            }
+        }
     },
 
     /**
@@ -97,6 +129,12 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
 	_localize: function(_key){
 		return $cwc.Locale.get('Watchlr', _key);
 	},
+
+    _hideExistingDialog: function() {
+        if (this.messageDialog && this.messageDialog.isVisible()) {
+            this.messageDialog.hide();
+        }
+    },
 
     // ---------------------------------------------------------------------------
     //                              PUBLIC FUNCTIONS
@@ -359,8 +397,8 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
                 }
             }
         } catch (err) {
-            this.debug('from: setLikeButtonState of WatchlrVideoBorder. \nReason:' + e);
-            // $kat.trackError({from: "setLikeButtonState of WatchlrVideoBorder", msg: "Unable to change the state of like button.", exception:e});
+            this.debug('from: setLikeButtonState of WatchlrVideoBorder. \nReason:' + err);
+            // $kat.trackError({from: "setLikeButtonState of WatchlrVideoBorder", msg: "Unable to change the state of like button.", exception:err});
         }
     },
 
@@ -435,9 +473,24 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
                 }
             }
         } catch (err) {
-            this.debug('from: setSaveButtonState of WatchlrVideoBorder. \nReason:' + e);
-            // $kat.trackError({from: "setSaveButtonState of WatchlrVideoBorder", msg: "Unable to change the state of like button.", exception:e});
+            this.debug('from: setSaveButtonState of WatchlrVideoBorder. \nReason:' + err);
+            // $kat.trackError({from: "setSaveButtonState of WatchlrVideoBorder", msg: "Unable to change the state of like button.", exception:err});
         }
+    },
+
+    /**
+     * create the instance of login dialog
+     */
+    createLoginDialog: function() {
+        try {
+            this._hideExistingDialog();
+            this.messageDialog = new $cwui.FacebookConnectDialog();
+            this.messageDialog.create(this.optionsButton, document);
+        } catch (err) {
+            this.debug('from: createLoginDialog of WatchlrVideoBorder. \nReason:' + err);
+            // $kat.trackError({from: "createLoginDialog of WatchlrVideoBorder", msg: "Unable to create the instance of login dialog.", exception:err});
+        }
+
     },
 
     /**
@@ -446,17 +499,10 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
      */
     showLoginDialog: function() {
         try {
-            this.debug('Create dialog');
-            this.loginDialog = new $cwui.FacebookConnectDialog();
-            this.loginDialog.create(this.optionsButton, document);
-            this.debug('dialog created');
-
-            this.loginDialog.bind($cwui.FacebookConnectDialog.FacebookConnectDialogEvents.ON_CLOSE_BUTTON_CLICKED, $.proxy(this._onLoginDialogCloseButtonClicked, this));
-            this.loginDialog.bind($cwui.FacebookConnectDialog.FacebookConnectDialogEvents.ON_FACEBOOK_CONNECT_CLICKED, $.proxy(this._onLoginDialogFacebookConnectClicked, this));
-            this.loginDialog.show();
+            this.messageDialog.show();
         } catch (err) {
-            this.debug('from: showLoginDialog of WatchlrVideoBorder. \nReason:' + e);
-            // $kat.trackError({from: "showLoginDialog of WatchlrVideoBorder", msg: "Unable to show the login dialog.", exception:e});
+            this.debug('from: showLoginDialog of WatchlrVideoBorder. \nReason:' + err);
+            // $kat.trackError({from: "showLoginDialog of WatchlrVideoBorder", msg: "Unable to show the login dialog.", exception:err});
         }
     },
 
@@ -465,10 +511,90 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
      */
     hideLoginDialog: function() {
         try {
-            this.loginDialog.hide();
+            this.messageDialog.hide();
         } catch (err) {
-            this.debug('from: hideLoginDialog of WatchlrVideoBorder. \nReason:' + e);
-            // $kat.trackError({from: "hideLoginDialog of WatchlrVideoBorder", msg: "Unable to hide the login dialog.", exception:e});
+            this.debug('from: hideLoginDialog of WatchlrVideoBorder. \nReason:' + err);
+            // $kat.trackError({from: "hideLoginDialog of WatchlrVideoBorder", msg: "Unable to hide the login dialog.", exception:err});
+        }
+    },
+
+    /**
+     * create the instance of video saved dialog
+     */
+    createVideoSavedDialog: function() {
+        try {
+            this._hideExistingDialog();
+            this.messageDialog = new $cwui.VideoSavedDialog();
+            this.messageDialog.create(this.optionsButton, document);
+        } catch (err) {
+            this.debug('from: createVideoSavedDialog of WatchlrVideoBorder. \nReason:' + err);
+            // $kat.trackError({from: "createVideoSavedDialog of WatchlrVideoBorder", msg: "Unable to create the instance of video saved dialog.", exception:err});
+        }
+
+    },
+
+    /**
+     * shows the video saved dialog in the options button
+     * when user saves the video.
+     */
+    showVideoSavedDialog: function() {
+        try {
+            this.messageDialog.show();
+        } catch (err) {
+            this.debug('from: showVideoSavedDialog of WatchlrVideoBorder. \nReason:' + err);
+            // $kat.trackError({from: "showVideoSavedDialog of WatchlrVideoBorder", msg: "Unable to show the video saved dialog.", exception:err});
+        }
+    },
+
+    /**
+     * hides the video saved dialog in the option button.
+     */
+    hideVideoSavedDialog: function() {
+        try {
+            this.messageDialog.hide();
+        } catch (err) {
+            this.debug('from: hideVideoSavedDialog of WatchlrVideoBorder. \nReason:' + err);
+            // $kat.trackError({from: "hideVideoSavedDialog of WatchlrVideoBorder", msg: "Unable to hide the video saved dialog.", exception:err});
+        }
+    },
+
+    /**
+     * create the instance of video liked dialog
+     */
+    createVideoLikedDialog: function() {
+        try {
+            this._hideExistingDialog();
+            this.messageDialog = new $cwui.VideoLikedDialog();
+            this.messageDialog.create(this.optionsButton, document);
+        } catch (err) {
+            this.debug('from: createVideoLikedDialog of WatchlrVideoBorder. \nReason:' + err);
+            // $kat.trackError({from: "createVideoLikedDialog of WatchlrVideoBorder", msg: "Unable to create the instance of video liked dialog.", exception:err});
+        }
+
+    },
+
+    /**
+     * shows the video liked dialog in the options button
+     * when user likes the video.
+     */
+    showVideoLikedDialog: function() {
+        try {
+            this.messageDialog.show();
+        } catch (err) {
+            this.debug('from: showVideoLikedDialog of WatchlrVideoBorder. \nReason:' + err);
+            // $kat.trackError({from: "showVideoLikedDialog of WatchlrVideoBorder", msg: "Unable to show the video liked dialog.", exception:err});
+        }
+    },
+
+    /**
+     * hides the video liked dialog in the option button.
+     */
+    hideVideoLikedDialog: function() {
+        try {
+            this.messageDialog.hide();
+        } catch (err) {
+            this.debug('from: hideVideoLikedDialog of WatchlrVideoBorder. \nReason:' + err);
+            // $kat.trackError({from: "hideVideoLikedDialog of WatchlrVideoBorder", msg: "Unable to hide the video liked dialog.", exception:err});
         }
     },
 
@@ -649,34 +775,6 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
         } catch (err) {
             this.debug('from: _onLikeButtonClicked of WatchlrVideoBorder. \nReason:' + err);
             // $kat.trackError({from: "_onLikeButtonClicked of WatchlrVideoBorder", exception:err});
-        }
-    },
-
-    /**
-     * when user clicked the close button in login dialog
-     * @param e
-     */
-    _onLoginDialogCloseButtonClicked: function(e) {
-         try {
-            if (e) e.stopPropagation();
-            this.trigger($cwui.FacebookConnectDialog.FacebookConnectDialogEvents.ON_CLOSE_BUTTON_CLICKED);
-        } catch (err) {
-            this.debug('from: _onLoginDialogCloseButtonClicked of WatchlrVideoBorder. \nReason:' + err);
-            // $kat.trackError({from: "_onLoginDialogCloseButtonClicked of WatchlrVideoBorder", exception:err});
-        }
-    },
-
-    /**
-     * When user clicked facebook connect in login dialog
-     * @param e
-     */
-    _onLoginDialogFacebookConnectClicked: function(e) {
-         try {
-            if (e) e.stopPropagation();
-            this.trigger($cwui.FacebookConnectDialog.FacebookConnectDialogEvents.ON_FACEBOOK_CONNECT_CLICKED);
-        } catch (err) {
-            this.debug('from: _onLoginDialogFacebookConnectClicked of WatchlrVideoBorder. \nReason:' + err);
-            // $kat.trackError({from: "_onLoginDialogFacebookConnectClicked of WatchlrVideoBorder", exception:err});
         }
     }
 });

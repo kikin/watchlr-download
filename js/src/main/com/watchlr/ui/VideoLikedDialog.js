@@ -2,18 +2,18 @@
  * @package com.watchlr.ui.modalwin
  */
 
-$.Class.extend("com.watchlr.ui.VideoSavedDialog", {
-    VideoSavedDialogEvents : {
-        ON_CLOSE: "vsclosed",
-        ON_HOME_PAGE_LINK_CLICKED: "vshomepagelinkclicked"
+$.Class.extend("com.watchlr.ui.VideoLikedDialog", {
+    VideoLikedDialogEvents: {
+        ON_CLOSE: "vlclosed",
+        ON_HOME_PAGE_LINK_CLICKED: "vlhomepagelinkclicked"
     }
 }, {
     /**
      * Local variables.
      */
-    _checked: false,
+    _checked: true,
     _watchlrVideoBorderOptionsButton: null,
-    _videoSavedDialog: null,
+    _videoLikedDialog: null,
 
     /**
      * Utility for binding events to this class.
@@ -21,7 +21,7 @@ $.Class.extend("com.watchlr.ui.VideoSavedDialog", {
      * @param _callback
      */
     bind: function(eventName, _callback) {
-        $(this._videoSavedDialog).bind(eventName, _callback);
+        $(this._videoLikedDialog).bind(eventName, _callback);
     },
 
     /**
@@ -31,9 +31,9 @@ $.Class.extend("com.watchlr.ui.VideoSavedDialog", {
      */
     trigger: function(eventName, paramArray) {
         if (paramArray) {
-            $(this._videoSavedDialog).trigger(eventName, paramArray);
+            $(this._videoLikedDialog).trigger(eventName, paramArray);
         } else {
-            $(this._videoSavedDialog).trigger(eventName);
+            $(this._videoLikedDialog).trigger(eventName);
         }
     },
 
@@ -53,45 +53,45 @@ $.Class.extend("com.watchlr.ui.VideoSavedDialog", {
     },
 
     /**
-     * creates the video saved dialog
-     * @param elem - element in which dialog needs to be inserted
-     * @param doc - document in which style sheets are inserted.
+     * creates the video liked dialog.
+     * @param elem - element in which dialog should be appended.
+     * @param doc - document in which style sheets should be inserted.
      */
     create: function(elem, doc) {
         if (!elem) return;
 
         this._watchlrVideoBorderOptionsButton = elem;
-        $(this._watchlrVideoBorderOptionsButton).append($cws.html['VideoSavedDialog']);
-        $cwutil.Styles.insert('VideoSavedDialogStyles', doc);
+        $(this._watchlrVideoBorderOptionsButton).append($cws.html['VideoLikedDialog']);
+        $cwutil.Styles.insert('VideoLikedDialogStyles', doc);
 
-        this._videoSavedDialog = $(this._watchlrVideoBorderOptionsButton).find('#watchlr-video-saved-dialog').get(0);
+        this._videoLikedDialog = $(this._watchlrVideoBorderOptionsButton).find('#watchlr-video-liked-dialog').get(0);
 
-        $($(this._videoSavedDialog).find('a.watchlr-ok-button')).click($.proxy(this._onOkButtonClicked, this));
-        $($(this._videoSavedDialog).find('#watchlr-video-page')).click($.proxy(this._onHomePageLinkClicked, this));
-        $($(this._videoSavedDialog).find('#watchlr-show-message')).click($.proxy(this._onShowMessageClicked, this));
+        $($(this._videoLikedDialog).find('a.watchlr-ok-button')).click($.proxy(this._onOkButtonClicked, this));
+        $($(this._videoLikedDialog).find('#watchlr-video-page')).click($.proxy(this._onHomePageLinkClicked, this));
+        $($(this._videoLikedDialog).find('#watchlr-fb-push-message')).click($.proxy(this._onFacebookPushMessageClicked, this));
     },
 
     /**
-     * removes the dialog from th parent element.
+     * removes the dialog from the parent element.
      */
     remove: function() {
-        $(this._videoSavedDialog).detach();
+        $(this._videoLikedDialog).detach();
     },
 
     /**
-     * shows the dialog
+     * show the dialog.
      */
     show: function() {
-    	$(this._videoSavedDialog).fadeIn();
+    	$(this._videoLikedDialog).fadeIn();
         $(this._watchlrVideoBorderOptionsButton).css('padding-bottom', '12px');
         this._makeDialogVisibleInViewPort();
     },
 
     /**
-     * hides the dialog
+     * hides the dialog.
      */
     hide: function() {
-        $(this._videoSavedDialog).fadeOut();
+        $(this._videoLikedDialog).fadeOut();
         $(this._watchlrVideoBorderOptionsButton).css('padding-bottom', '0px');
         this.remove();
     },
@@ -105,26 +105,28 @@ $.Class.extend("com.watchlr.ui.VideoSavedDialog", {
     },
 
     /**
-     * when user clicks on OK button
+     * when user clicks on Ok button to dismiss dialog.
      */
     _onOkButtonClicked: function () {
-        this.trigger($cwui.VideoSavedDialog.VideoSavedDialogEvents.ON_CLOSE, [this._checked]);
+        this.trigger($cwui.VideoLikedDialog.VideoLikedDialogEvents.ON_CLOSE, [this._checked]);
         this.hide();
     },
 
     /**
-     * when user clicks on the checkbox to not show the message again
+     * when user clicks on the option button to disable the
+     * pushing of liked videos to facebook.
+     *
      * @param e
      */
-    _onShowMessageClicked: function(e) {
-        this._checked = e.target.checked;
+    _onFacebookPushMessageClicked: function(e) {
+        this._checked = (e.target.checked ? 1 : 0);
     },
 
     /**
-     * when user clicks on home page link
+     * when user clicks on the home page button.
      */
     _onHomePageLinkClicked: function() {
-        this.trigger($cwui.VideoSavedDialog.VideoSavedDialogEvents.ON_HOME_PAGE_LINK_CLICKED);
+        this.trigger($cwui.VideoLikedDialog.VideoLikedDialogEvents.ON_HOME_PAGE_LINK_CLICKED);
     }
     
 });

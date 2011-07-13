@@ -9,7 +9,7 @@
       },
 	  {
          "js": [ "watchlr_domain.js" ],
-         "matches": [ "http://*.kikin.com/*", "https://*.kikin.com/*" ],
+         "matches": [ "http://*.watchlr.com/*", "https://*.watchlr.com/*" ],
          "run-at": [ "document_start" ]
       }
    ],
@@ -21,5 +21,5 @@
    "name": "Watchlr",
    "permissions": [ "tabs",  "http://*/*" , "https://*/*" ],
    "version": "__K_MAJOR_VERSION__.__K_MINOR_VERSION__.__K_BUILD_NUMBER__",
-   "update_url": "https://kbp.de.kikin.com/wbp-data/updates/update.xml"
+   "update_url": "http://download.watchlr.com/updates/update-watchlr.xml"
 }
