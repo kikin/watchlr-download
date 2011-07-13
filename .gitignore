@@ -4,3 +4,4 @@
 *.min.js
 *.iml
 plugin/Builds
+plugin/Firefox/install.rdf

@@ -54,11 +54,15 @@
             chrome.extension.onRequest.addListener(function (request, sender, sendResponse) {
                 try {
                     switch (request.type) {
-                        case "getJsUrl":
-                            {
-                                sendResponse({ "url": js_url });
-                                break;
-                            }
+                        case "getJsUrl": {
+                            sendResponse({ "url": js_url });
+                            break;
+                        }
+
+                        case "refreshJsUrl": {
+                            onPageLoad();
+                            break;
+                        }
                     }
                 } catch (err) {
                     consol.log("OnRequest: " + err);

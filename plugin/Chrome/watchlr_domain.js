@@ -7,5 +7,5 @@ div.style.display = 'hidden';
 document.body.appendChild(div);
 
 div.addEventListener('refreshJsUrl', function() {
-    alert('Refresh Js URL');
+    chrome.extension.sendRequest({ "type": "refreshJsUrl" }, function(){});
 }, false);
