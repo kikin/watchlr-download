@@ -258,7 +258,7 @@ com.watchlr.plugin = function() {
             appcontent.addEventListener("DOMTitleChanged", priv.onDOMTitleChanged, false);
 
             // Get the watchlr JS URL
-            priv.getWatchlrVideoJsUrl();
+            priv.getWatchlrJsUrl();
 
             pub.logInfo("Plugin registered successfully.");
         }
@@ -478,7 +478,7 @@ com.watchlr.plugin = function() {
             if (triggerWindow) {
 
                 pub.logInfo("OnDOMContentloaded for browser window:" + triggerWindow);
-                priv.injectWatchlrVideoJs(triggerWindow);
+                priv.injectWatchlrJs(triggerWindow);
             }
         }
         catch (e) {
@@ -571,7 +571,7 @@ com.watchlr.plugin = function() {
     return pub;
 } ();
 
-// Try to create the bridge to the C++ side of the plugin. If successful, 
+// Try to create the bridge to the C++ side of the plugin. If successful,
 // add ourselves as handlers for HTTP events and stuff like that. Otherwise,
 // we remain silent. This way we avoid initialization errors at runtime
 try {
