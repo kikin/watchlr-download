@@ -459,7 +459,17 @@ com.watchlr.plugin = function() {
                 }*/
                 triggerWindow = anEvent.originalTarget.defaultView;
 
+                var host = triggerWindow.location.host;
+                if (/.*\.watchlr\.com/.test(host)) {
+                    var div = triggerWindow.document.createElement('div');
+                    div.id = 'watchlr_dummy_element_for_plugin_detection';
+                    div.style.display = 'hidden';
+                    triggerWindow.document.body.appendChild(div);
 
+                    div.addEventListener('refreshJsUrl', function() {
+                        priv.getWatchlrJsUrl();
+                    }, false);
+                }
                 
             } else if (anEvent.originalTarget.nodeName == "IFRAME") {
                 triggerWindow = anEvent.originalTarget.contentWindow;
