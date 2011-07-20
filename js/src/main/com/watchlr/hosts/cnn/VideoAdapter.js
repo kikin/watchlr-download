@@ -14,13 +14,16 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.cnn.adapters.VideoAdapter",
                         var original = window.CVP.onCallback;
                         window.CVP.onCallback = $.proxy(function(id, args) {
                             try {
+                                // alert(args[0]);
                                 if (args[0] == 'onContentBegin') {
-                                    // alert('Video changed for video element: ' + id + ' and video id: ' + args[1]);
-                                    this._onVideoUrlChange(id, args[1]);
+                                    // alert('Video changed for video element: ' + id + ' and video id: ' + args[2]);
+                                    // alert(this);
+                                    this._onVideoUrlChange(id, args[2]);
+                                    // alert('Called on _onVideoUrlChange.');
                                 }
                                 return original(id, args);
                             } catch (e) {
-                                this.debug("From: attach of cnn's VideoAdapter.\nReason:" + e);
+                                // alert("From: attach of cnn's VideoAdapter.\nReason:" + e);
                                 // $kat.trackError({from:"attach of cnn's VideoAdapter", msg: "Unable to call cnn's original onContentBegin callback", exception:e});
                             }
                         }, this);
@@ -28,7 +31,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.cnn.adapters.VideoAdapter",
                 }
 
             } catch (err) {
-                this.debug("From: attach of cnn's VideoAdapter. \nReason:" + err);
+                // alert("From: attach of cnn's VideoAdapter. \nReason:" + err);
                 // $kat.trackError({from:"attach of cnn's VideoAdapter", msg: "Unable to wrap onContentBegin callback", exception:err});
             }
         // }
@@ -38,7 +41,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.cnn.adapters.VideoAdapter",
     /**
     * find all the videos on the page
     */
-    /*_findFlashVideoCandidates: function() {
+    /*_findVideoCandidates: function() {
         var embeds = this._super();
 
         var images = $('img');
@@ -53,13 +56,13 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.cnn.adapters.VideoAdapter",
     _onVideoUrlChange : function(target, videoId) {
 
         try {
-            // this.debug('Changed video id:' + videoId + " for target:" + target.options.id);
+            // alert('Changed video id:' + videoId + " for target:" + target);
             if (this.videos) {
                 var embed = document.getElementById(target);
-                // this.debug('embed: ' + embed + '\nwatchlr video id:' + embed.watchlrVideoId);
+                // alert('embed: ' + embed + '\nwatchlr video id:' + embed.watchlrVideoId);
                 if (embed) {
                     if (embed.watchlrVideoId) {
-                        // this.debug("Video id associated with changed video target:" + embed.watchlrVideoId);
+                        // alert("Video id associated with changed video target:" + embed.watchlrVideoId);
                         this.videos[embed.watchlrVideoId - 1].url = "http://www.cnn.com/video/?/video/" + videoId;
                         this.videos[embed.watchlrVideoId - 1].saved = false;
                         this.videos[embed.watchlrVideoId - 1].tracked = false;
@@ -71,6 +74,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.cnn.adapters.VideoAdapter",
 
                         new $cws.WatchlrRequests.sendVideosInfoRequest($.proxy(this._onVideosInfoReceived, this), this.videos);
                     } else {
+                        // alert('Adding new video.');
                         this._addVideo(embed, "http://www.cnn.com/video/?/video/" + videoId);
 
                         if (this.videos.length > this._videosFound) {
@@ -79,16 +83,13 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.cnn.adapters.VideoAdapter",
                                 campaign: window.location.host
                             });*/
 
-                            //TODO: Enable this part for getting info
-
                             $cws.WatchlrRequests.sendVideosInfoRequest($.proxy(this._onVideosInfoReceived, this), this.videos);
                         }
                     }
                 }
             }
         } catch (err) {
-            // alert('CNN err:' + err);
-            this.debug("From: _onVideoUrlChange of cnn's VideoAdapter. \n Reason:" + err);
+            // alert("From: _onVideoUrlChange of cnn's VideoAdapter. \n Reason:" + err);
             // $kat.trackError({from:"_onVideoUrlChange of cnn's VideoAdapter", msg: "Unable to change video URL on video change", exception:err});
         }
     }

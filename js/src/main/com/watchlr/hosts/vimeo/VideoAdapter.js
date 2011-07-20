@@ -8,7 +8,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.vimeo.adapters.VideoAdapter
         this._super();
 	},
 
-    _findFlashVideos: function(embeds) {
+    _findVideos: function(embeds) {
         try {
             this._super(embeds);
             if (this.videos && (this.videos.length == 0)) {
@@ -43,8 +43,8 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.vimeo.adapters.VideoAdapter
 
             }
         } catch (err) {
-            this.debug("From: _findFlashVideos of vimeo's VideoAdapter..\nReqason: " + err);
-            // $kat.trackError({from: "_findFlashVideos of vimeo's VideoAdapter.", exception:err});
+            this.debug("From: _findVideos of vimeo's VideoAdapter..\nReqason: " + err);
+            // $kat.trackError({from: "_findVideos of vimeo's VideoAdapter.", exception:err});
         }
     },
 

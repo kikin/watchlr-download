@@ -7,7 +7,8 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.yahoo.adapters.VideoAdapter
         this._super();
 	},
 
-    _findFlashVideoCandidates: function() {
+    _findVideoCandidates: function() {
+        // this.debug('Finding video elements on yahoo page.');
         $('ul.c-thumb.video li').each($.proxy(this._addWatchlrVideoBorder, this));
         return this._super();
     },
@@ -30,11 +31,10 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.yahoo.adapters.VideoAdapter
                         }
 
                         if (videoUrl) {
-                            $(img).mouseover($.proxy(this._onVideoThumbnailMouseOver, this));
-                            $(img).mouseleave($.proxy(this._onVideoThumbnailMouseOut, this));
+                            this._addVideo(img, videoUrl);
+                            this._listenThumbnailEvents(img);
 
-
-                            var video = {
+                            /*var video = {
                                 url                 : videoUrl,
                                 mouseover           : null,
                                 mouseout            : null,
@@ -47,36 +47,84 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.yahoo.adapters.VideoAdapter
                             // calculate the videoId
                             img.watchlrVideoId = (this.videos.length + 1);
                             this.videos.push(video);
-                            break;
+                            break;*/
                         }
                     }
                 }
             }
         } catch (err) {
-            // alert("From: _addWatchlrVideoBorder of Yahoo Video adapter. \nReason: " + err);
+            this.debug("From: _addWatchlrVideoBorder of Yahoo Video adapter. \nReason: " + err);
         }
+    },
+
+    _listenThumbnailEvents: function(videoElement) {
+        $(videoElement).mouseover($.proxy(this._onVideoThumbnailMouseOver, this));
+        $(videoElement).mouseleave($.proxy(this._onVideoThumbnailMouseOut, this));
     },
 
     getVideoUrl: function(videoDiv) {
         // try to get the link
-        var link = $(videoDiv).find('a');
-        if(link) {
-            // get rurl parameter
-            var href = decodeURIComponent($(link).attr('href')),
-                    params = href.parseQueryString(),
-                    url = (params && params.rurl) ? params.rurl.replace(/&amp;/g, '&') : null;
-            return url;
+        try {
+            var link = $(videoDiv).find('a');
+            // this.debug('Link: ' + link);
+            if(link) {
+                // get rurl parameter
+                var href = decodeURIComponent($(link).attr('href')),
+                        params = this._parseQueryString(href),
+                        url = (params && params.rurl) ? decodeURIComponent(params.rurl.replace(/&amp;/g, '&')) : null;
+                // this.debug('href: ' + href);
+                // this.debug('params: ' + params);
+                // this.debug('rurl: ' + params[rurl]);
+                // this.debug('url: ' + url);
+                return url;
+            }
+        } catch (err) {
+            this.debug("From: getVideoUrl of yahoo's search VideoAdapter.\nReason: " + err);
+            // $kat.trackError({from: "getVideoUrl of yahoo's search VideoAdapter", exception:err});
         }
         // alert(link);
         return null;
     },
 
+    _parseQueryString: function(str) {
+        // this.debug('string to be parsed:' + str);
+        var queryStringStartPos = str.indexOf('?');
+        // this.debug('Start pos: ' + queryStringStartPos);
+        if (queryStringStartPos != -1) {
+            var queryString = str.substr(queryStringStartPos + 1, (str.length - queryStringStartPos - 1));
+            // this.debug('queryString:' + queryString);
+            if (queryString) {
+                var params = {};
+                var paramsList = queryString.split('&');
+                for (var i = 0; i < paramsList.length; i++) {
+                    var paramPair = paramsList[i];
+                    // this.debug('Param pair: ' + paramPair);
+                    var equalPos = paramPair.indexOf('=');
+                    // this.debug('equal pos: ' + equalPos);
+                    if (paramPair && equalPos != -1) {
+                        var paramKey = paramPair.substr(0, equalPos);
+                        // this.debug('param key: ' + paramKey);
+                        var paramValue = paramPair.substr(equalPos + 1, (paramPair.length - equalPos - 1));
+                        // this.debug('param value: ' + paramValue);
+                        params[paramKey] = paramValue;
+                    }
+                }
+
+                return params;
+            }
+        }
+
+        return null;
+    },
+
     _onVideoThumbnailMouseOver : function(e) {
         try {
-            var target = e.target;
+            // var target = e.target;
+            var target = $(e.target).parents('li').get(0);
+            // this.debug('Mouse over target: ' + target);
             this._onVideoElementMouseEnter(target);
         } catch (err) {
-            // alert("From: _onVideoThumbnailMouseOver of yahoo's search VideoAdapter.\nReason: " + err);
+            this.debug("From: _onVideoThumbnailMouseOver of yahoo's search VideoAdapter.\nReason: " + err);
             // $kat.trackError({from: "_onVideoThumbnailMouseOver of yahoo's search VideoAdapter", exception:err});
         }
     },
@@ -86,7 +134,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.yahoo.adapters.VideoAdapter
             var target = e.target;
             this._onVideoElementMouseLeave(target);
         } catch (err) {
-            // alert("From: _onVideoThumbnailMouseOut of yahoo's search VideoAdapter.\nReason: " + err);
+            // this.debug("From: _onVideoThumbnailMouseOut of yahoo's search VideoAdapter.\nReason: " + err);
             // $kat.trackError({from: "_onVideoThumbnailMouseOut of yahoo's search VideoAdapter", exception:err});
         }
     }

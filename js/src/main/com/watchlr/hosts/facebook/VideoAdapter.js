@@ -28,9 +28,9 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.facebook.adapters.VideoAdap
         // this.debug("Number of video elements found:" + anchor_tags.length);
         // this.debug("Number of video elements already found:" + this.videoAnchorTagsLength);
         if (anchor_tags.length > this.videoAnchorTagsLength) {
-            var embeds = this._findFlashVideoCandidates();
+            var embeds = this._findVideoCandidates();
             if (embeds) {
-                this._findFlashVideos(embeds);
+                this._findVideos(embeds);
             }
         }
     },
@@ -38,7 +38,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.facebook.adapters.VideoAdap
     /**
     * find all the videos on the page
     */
-    _findFlashVideoCandidates: function() {
+    _findVideoCandidates: function() {
         try {
             var videoAnchors = [];
             var anchor_tags = $("a.uiVideoThumb");
@@ -70,43 +70,8 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.facebook.adapters.VideoAdap
 
                 // this.debug("Videos object:" + this.videos.length);
                 if (videoUrl) {
-                    var video = {
-                        url                 : videoUrl,
-                        mouseover           : null,
-                        mouseout            : null,
-                        saved               : false,
-                        videoSelected       : false,
-                        saveButtonSelected  : false,
-                        coordinates         : null,
-                        parentNode          : $(elem).parent().get(0),
-                        tracked             : false,
-                        liked               : false,
-                        likes               : 0,
-                        saves               : 0,
-                        id                  : (this.videos.length + 1)
-                    };
-
-                    // calculate the videoId
-                    var videoId = video.id;
-                    var anchorTagParent = $(elem).parent().get(0);
-
-                    anchorTagParent.watchlrVideoId = videoId;
-                    elem.watchlrVideoId = videoId;
-
-                    // console.log('AnchorTag watchlrVideoId:' + elem.watchlrVideoId);
-
-                    var anchorTagChildNodes = $(elem).children() ;
-                    if (anchorTagChildNodes && anchorTagChildNodes.length > 0) {
-                        for (var j = 0; j < anchorTagChildNodes.length; j++) {
-                            $(anchorTagChildNodes[j]).watchlrVideoId = videoId;
-                        }
-                    }
-
-                    $(elem).click($.proxy(this._onVideoImageClicked, this));
-                    $(elem).mouseenter($.proxy(this._onVideoThumbnailMouseOver, this));
-                    $(elem).mouseleave($.proxy(this._onVideoThumbnailMouseOut, this));
-
-                    this.videos.push(video);
+                    this._addVideo(elem, videoUrl);
+                    this._listenThumbnailEvents(elem);
                 }
             }, this));
 
@@ -125,6 +90,55 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.facebook.adapters.VideoAdap
             this.debug("From: findFlashVideoCandidates of facebook's VideoAdapater. \nReason:" + err);
             // $kat.trackError({from: "findFlashVideoCandidates of facebook's VideoAdapater.", msg: "Unable to find flash videos on facebook page.", exception:err});
         }
+    },
+
+    _addVideo: function(videoElement, videoUrl) {
+        try {
+            var anchorTagParent = $(videoElement).parent().get(0);
+
+            var video = {
+                url                 : videoUrl,
+                mouseover           : null,
+                mouseout            : null,
+                saved               : false,
+                videoSelected       : false,
+                saveButtonSelected  : false,
+                coordinates         : null,
+                parentNode          : anchorTagParent,
+                tracked             : false,
+                liked               : false,
+                likes               : 0,
+                saves               : 0,
+                id                  : (this.videos.length + 1)
+            };
+
+            anchorTagParent.watchlrVideoId = video.id;
+            videoElement.watchlrVideoId = video.id;
+
+            // console.log('AnchorTag watchlrVideoId:' + elem.watchlrVideoId);
+
+            var anchorTagChildNodes = $(videoElement).children() ;
+            if (anchorTagChildNodes && anchorTagChildNodes.length > 0) {
+                for (var j = 0; j < anchorTagChildNodes.length; j++) {
+                    $(anchorTagChildNodes[j]).watchlrVideoId = video.id;
+                }
+            }
+
+            this.videos.push(video);
+
+            return video;
+
+        } catch (err) {
+            this.debug("From: findFlashVideoCandidates of facebook's VideoAdapater. \nReason:" + err);
+            // $kat.trackError({from: "findFlashVideoCandidates of facebook's VideoAdapater.", msg: "Unable to find flash videos on facebook page.", exception:err});
+        }
+
+    },
+
+    _listenThumbnailEvents: function(videoElement) {
+        $(videoElement).click($.proxy(this._onVideoImageClicked, this));
+        $(videoElement).mouseenter($.proxy(this._onVideoThumbnailMouseOver, this));
+        $(videoElement).mouseleave($.proxy(this._onVideoThumbnailMouseOut, this));
     },
 
     _onVideoImageClicked: function(e) {

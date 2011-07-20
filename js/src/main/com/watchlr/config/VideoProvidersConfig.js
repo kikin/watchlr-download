@@ -341,6 +341,13 @@ $.Class.extend("com.watchlr.config.VideoProvidersConfig", {
             flash_regex: [/&adKeys=talk=([^;]+)/],
             url_regex: [/ted\.com\/talks\/([^;]+)\.html/i],
             url: function(id) { return 'http://www.ted.com/talks/' + id[1] + '.html'; }
+        }/*,
+        {
+            domains: ['player.ooyala.com'],
+            // source_regex: [/player\.ooyala\.com\/static\/cacheable\/[0-9a-zA-Z]+\/player_v2\.swf/],
+            flash_regex: [/externalId=espn:([0-9]+)/],
+            url_regex: [/espn\.go\.com\/.+\/video\/.+\?videoId=([0-9]+)/i, /espn\.go\.com\/video\/clip\?id=([0-9]+)/i],
+            url: 'http://espn.go.com/video/clip?id='
         },
         {
             domains: ['espn.go.com'],
@@ -348,7 +355,7 @@ $.Class.extend("com.watchlr.config.VideoProvidersConfig", {
             flash_regex: [/^id=([0-9]+)$/],
             url_regex: [/espn\.go\.com\/.+\/video\/.+\?videoId=([0-9]+)/i, /espn\.go\.com\/video\/clip\?id=([0-9]+)/i],
             url: 'http://espn.go.com/video/clip?id='
-        } //,
+        } //,*/
         /*
         {
             domains: ['mtvnservices.com'],

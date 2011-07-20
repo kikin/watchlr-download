@@ -34,9 +34,11 @@ ensure_success('php build.php ' . $version . ' ' . $env);
 $file = 'watchlr-' . $version . '.min.js';
 $path = $BASE_PATH . 'static/js/' . $env . '/' . $version;
 
-ensure_success('ssh ' . $DEPLOY_HOSTNAME . ' mkdir -p ' . $path);
-ensure_success('scp '. $file . ' ' . $DEPLOY_HOSTNAME . ':' . $path . '/'. $file);
-ensure_success('scp watchlr_bookmarklet.html ' . $DEPLOY_HOSTNAME . ':' . $path);
+if ($env != 'local') {
+    ensure_success('ssh ' . $DEPLOY_HOSTNAME . ' mkdir -p ' . $path);
+    ensure_success('scp '. $file . ' ' . $DEPLOY_HOSTNAME . ':' . $path . '/'. $file);
+    ensure_success('scp watchlr_bookmarklet.html ' . $DEPLOY_HOSTNAME . ':' . $path);
+}
 
 $decoded->{$env}->{'version'} = $version;
 file_put_contents($VERSION_FILE_PATH, json_encode($decoded));
@@ -45,5 +47,6 @@ system('git commit ' . $VERSION_FILE_PATH . ' -m "[js-deploy] ' . $env . ' - ' .
 system('git push origin master');
 
 ensure_success('ssh ' . $DEPLOY_HOSTNAME . ' "cd ' . $BASE_PATH . 'src; git pull origin master"');
+
 
 ?>

@@ -45,9 +45,9 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.espn.adapters.VideoAdapter"
 
             } else {
                 setTimeout($.proxy(function() {
-                    var embeds = this._findFlashVideoCandidates();
+                    var embeds = this._findVideoCandidates();
                     if (embeds)
-                        this._findFlashVideos(embeds);
+                        this._findVideos(embeds);
 
                     if (this.videos && (this.videos.length == 1)) {
                         this.videos[0].url = "http://espn.go.com/video/clip?id=" + videoId;

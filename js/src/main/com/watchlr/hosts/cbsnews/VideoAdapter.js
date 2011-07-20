@@ -13,7 +13,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.cbsnews.adapters.VideoAdapt
     /**
     * find all the videos on the page
     */
-    _findFlashVideoCandidates: function() {
+    _findVideoCandidates: function() {
         var embeds = this.parent();
 
         try {
@@ -40,8 +40,8 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.cbsnews.adapters.VideoAdapt
                             this._addVideo(videoElement, url);
                         }
                     } catch (err) {
-                        // alert("From: _findFlashVideoCandidates of CBS news. \nReason:" + err);
-                        // $kat.trackError({from:"_findFlashVideoCandidates of CBS news", msg: "Unable to get falshvars using CBS JS API.", exception:err})
+                        // this.debug("From: _findVideoCandidates of CBS news. \nReason:" + err);
+                        // $kat.trackError({from:"_findVideoCandidates of CBS news", msg: "Unable to get falshvars using CBS JS API.", exception:err})
                     }
                 }
 
@@ -61,8 +61,8 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.cbsnews.adapters.VideoAdapt
             }
 
         } catch (outerErr) {
-            // alert('From: _findFlashVideoCandidates of CBS news. \nReason:' + outerErr);
-            // $kat.trackError({from:"_findFlashVideoCandidates of CBS news", msg: "Unable to find CBS video element.", exception:outerErr})
+            // this.debug('From: _findVideoCandidates of CBS news. \nReason:' + outerErr);
+            // $kat.trackError({from:"_findVideoCandidates of CBS news", msg: "Unable to find CBS video element.", exception:outerErr})
         }
 
         return embeds;
@@ -117,9 +117,9 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.cbsnews.adapters.VideoAdapt
         }
 
         if (hasnewVideos) {
-            var embeds = this._findFlashVideoCandidates();
+            var embeds = this._findVideoCandidates();
             if (embeds) {
-                this._findFlashVideos(embeds);
+                this._findVideos(embeds);
             }
         }
     },

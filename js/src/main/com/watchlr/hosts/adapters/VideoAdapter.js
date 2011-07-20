@@ -25,12 +25,13 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
 
 }, {
 
+    /** Variable to keep track whether popup window is open or not. */
     _popupMonitor : null,
+
+    /** popup window. */
     _connectionPopup : null,
 
-    /**
-    * list of videos on the page
-    */
+    /** list of videos on the page. */
     videos: [],
 
     /** currently selected video. */
@@ -39,9 +40,15 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
     /** number of watchlr supported videos found on page. */
     _videosFound : 0,
 
-    /** div tag to create border around video. */
+    /** border element created around the video. */
     watchlrVideoBorder: null,
 
+    /**
+     * variable to keep track whether we should show the message
+     * to user when user likes the video first time. This message
+     * asks the user whether watchlr should push the videos they
+     * save top facebook.
+     */
     _showFbPushDialog: false,
 
     /** list of services supported by watchlr. */
@@ -61,80 +68,89 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
         fn();
     },
 
+    /**
+     * when hash of the page changes.
+     * @param e
+     */
     _onHashChange: function(e) {
-        var embeds = this._findFlashVideoCandidates();
-        if (embeds)
-            this._findFlashVideos(embeds);
+        var videoCandidates = this._findVideoCandidates();
+        if (videoCandidates)
+            this._findVideos(videoCandidates);
 
         if ((this.videos.length > 0) && !this.watchlrVideoBorder) {
             this._createWatchlrVideoBorder();
         }
     },
 
+    /**
+     * used for logging debug strings
+     * @param str
+     */
     debug : function(str) {
-        //if (!$ks.__PRODUCTION__) {
-            try {
-                //console.log(str);
-                // alert(str);
-            } catch (e) {}
-        //}
+        try {
+            console.log(str);
+        } catch (e) {}
     },
 
     /**
-    * find all the videos on the page
+    * find all the elements on the page that can be video.
     */
-    _findFlashVideoCandidates: function() {
+    _findVideoCandidates: function() {
         try {
-            var embeds = [];
+            var videoCandidates = [];
 
             var embed_tags = $('embed');
             this.debug('Found ' + embed_tags.length + ' embeds');
             for (var i = 0; i < embed_tags.length; i++) {
-                embeds.push(embed_tags[i]);
+                videoCandidates.push(embed_tags[i]);
             }
 
             var objects = $('object');
             this.debug('Found ' + objects.length + ' objects');
             for (var i = 0; i < objects.length; i++) {
                 if (!/<embed/i.test(objects[i].innerHTML) || (!/<object/i.test(objects[i].innerHTML))) {
-                    embeds.push(objects[i]);
+                    videoCandidates.push(objects[i]);
                 }
             }
 
             var iframes = $('iframe');
             this.debug('Found ' + iframes.length + ' iframes');
             for (var i = 0; i < iframes.length; i++) {
-                embeds.push(iframes[i]);
+                videoCandidates.push(iframes[i]);
             }
 
             var videos = $('video');
             this.debug('Found ' + videos.length + ' videos');
             for (var i = 0; i < videos.length; i++) {
-                embeds.push(videos[i]);
+                videoCandidates.push(videos[i]);
             }
 
-            return embeds;
+            return videoCandidates;
         } catch (err) {
-            this.debug("from: _findFlashVideoCandidates of base VideoAdapter. \n Reason:" + err);
-            //$kat.trackError({from: "_findFlashVideoCandidates of base VideoAdapter.", exception:err});
+            this.debug("from: _findVideoCandidates of base VideoAdapter. \n Reason:" + err);
+            //$kat.trackError({from: "_findVideoCandidates of base VideoAdapter.", exception:err});
         }
 
         return null;
     },
 
-    _findFlashVideos: function(embeds) {
+    /**
+     * find the videos on the page
+     * @param videoCandidates
+     */
+    _findVideos: function(videoCandidates) {
         try {
-            // this.debug('Searching through ' + embeds.length + ' candidates');
-            for (var i = 0; i < embeds.length; i++) {
-                var embedTag = $(embeds[i]);
-                if (embedTag.watchlrVideoId != null) {
+            // this.debug('Searching through ' + videoCandidates.length + ' candidates');
+            for (var i = 0; i < videoCandidates.length; i++) {
+                var videoElement = $(videoCandidates[i]);
+                if (videoElement.watchlrVideoId != null) {
                     continue;
                 }
 
-                var videoUrl = this._findVideoUrl(embeds[i]);
-                // this.debug("Adding video for embed:" + embeds[i] + " and url: " + videoUrl);
+                var videoUrl = this._findVideoUrl(videoCandidates[i]);
+                // this.debug("Adding video for video element:" + videoCandidates[i] + " and url: " + videoUrl);
                 if (videoUrl) {
-                    this._addVideo(embeds[i], videoUrl);
+                    this._addVideo(videoCandidates[i], videoUrl);
                 }
             }
 
@@ -144,21 +160,24 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                     campaign: window.location.host
                 });*/
 
-                //TODO: Enable this part for getting info
-
                 $cws.WatchlrRequests.sendVideosInfoRequest($.proxy(this._onVideosInfoReceived, this), this.videos);
             }
 
             // this.debug("Number of videos found:" + this.videos.length);
         } catch (err) {
-            this.debug("from: _findFlashVideos of base VideoAdapter. \nReason:" + err);
-            // $kat.trackError({from: "_findFlashVideos of base VideoAdapter.", exception:err});
+            this.debug("from: _findVideos of base VideoAdapter. \nReason:" + err);
+            // $kat.trackError({from: "_findVideos of base VideoAdapter.", exception:err});
         }
     },
 
-    _findVideoUrl: function(embed) {
-        var src = this._getNodeValue(embed, 'src') || this._getNodeValue(embed, 'data');
-        var flashvars = this._getNodeValue(embed, 'flashvars');
+    /**
+     * find the URL of the video element.
+     *
+     * @param videoElement
+     */
+    _findVideoUrl: function(videoElement) {
+        var src = this._getNodeValue(videoElement, 'src') || this._getNodeValue(videoElement, 'data');
+        var flashvars = this._getNodeValue(videoElement, 'flashvars');
 
         if (src.indexOf('/') == 0) {
             src = this._qualifyURL(src);
@@ -192,7 +211,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                     } else if (match.video_id) {
                         // this.debug('Found video with id: ' + match.video_id);
                         if (typeof(oService.url) == 'function') {
-                            this.debug('Using URL:' + oService.url(match.video_id));
+                            // this.debug('Using URL:' + oService.url(match.video_id));
                             return oService.url(match.video_id);
                         } else {
                             // this.debug("Video ids:" + match.video_id);
@@ -208,11 +227,17 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
         return "";
     },
 
-    _addVideo : function(embed, videoUrl) {
+    /**
+     * Add the video to the list of videos watchlr detects on the page.
+     *
+     * @param videoElement
+     * @param videoUrl
+     */
+    _addVideo : function(videoElement, videoUrl) {
         try {
             // create the video object
-            var onmouseout= (embed ? embed.onmouseout : null);
-            var onmouseover = (embed ? embed.onmouseover : null);
+            var onmouseout= (videoElement ? videoElement.onmouseout : null);
+            var onmouseover = (videoElement ? videoElement.onmouseover : null);
             var video = {
                 url                 : videoUrl,
                 mouseover           : onmouseover,
@@ -228,11 +253,11 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 id                  : (this.videos.length + 1)
             };
 
-            if (embed)
-                this._addMouseEvents(embed);
+            if (videoElement)
+                this._addMouseEvents(videoElement);
 
-            // assign the video id to embed object
-            embed.watchlrVideoId = video.id;
+            // assign the video id to video element
+            videoElement.watchlrVideoId = video.id;
 
             // push the video object to list.
             this.videos.push(video);
@@ -244,7 +269,13 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
         }
     },
 
-    _addMouseEvents : function(embed) {
+    /**
+     * Listen for the mouse enter and leave events for
+     * the video.
+     *
+     * @param videoElement
+     */
+    _addMouseEvents : function(videoElement) {
         // add mouse events to the object
         var _onVideoMouseOver = $.proxy(this._onVideoMouseOver, this);
         var _onVideoMouseOut = $.proxy(this._onVideoMouseOut, this);
@@ -255,36 +286,44 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
         // 2. Collegehumour will fire event on 'addEventListener' in Firefox/Chrome and 'attachEvent' in IE
         // 3. Vimeo will always fire the event on 'addEventListener' (even for IE7 and IE8)
         try {
-            embed.onmouseover = _onVideoMouseOver;
-            embed.onmouseout = _onVideoMouseOut;
-            // this.debug('Added mouse events successfully for embed:' + embed);
+            videoElement.onmouseover = _onVideoMouseOver;
+            videoElement.onmouseout = _onVideoMouseOut;
+            // this.debug('Added mouse events successfully for video element:' + videoElement);
         } catch (e) {
             this.debug("From: _addMouse events. \n Reason:" + e);
         }
 
         // If attachEvent is supported listen mouse events using attachEvent
-        if (embed.attachEvent) {
+        if (videoElement.attachEvent) {
             try {
-                embed.attachEvent('onmouseover', _onVideoMouseOver);
-                embed.attachEvent('onmouseout', _onVideoMouseOut);
-                // this.debug('Attached mouse events successfully for embed:' + embed);
+                videoElement.attachEvent('onmouseover', _onVideoMouseOver);
+                videoElement.attachEvent('onmouseout', _onVideoMouseOut);
+                // this.debug('Attached mouse events successfully for video element:' + videoElement);
             } catch (e) {
                 this.debug("From: _addMouse events. \n Reason:" + e);
             }
         }
 
         // If addEventListener is supported listen mouse events using addEventListener
-        if (embed.addEventListener) {
+        if (videoElement.addEventListener) {
             try {
-                embed.addEventListener('mouseover', _onVideoMouseOver, false);
-                embed.addEventListener('mouseoout', _onVideoMouseOut, false);
-                // this.debug('Added events listeners for mouse events successfully for embed:' + embed);
+                videoElement.addEventListener('mouseover', _onVideoMouseOver, false);
+                videoElement.addEventListener('mouseoout', _onVideoMouseOut, false);
+                // this.debug('Added events listeners for mouse events successfully for video element:' + videoElement);
             } catch (e) {
                 this.debug("From: _addMouse events. \n Reason:" + e);
             }
         }
     },
 
+    /**
+     * Get the value of the given attribute.
+     * In case of embed tags value is retrieved as a regular attribute value.
+     * In case of object tags, value is retrieved from the param tags.
+     *
+     * @param obj
+     * @param id
+     */
     _getNodeValue: function (obj, id) {
         //var value = $(obj).attr(id);
         var value = "";
@@ -308,6 +347,13 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
         return decodeURIComponent(value);
     },
 
+    /**
+     * check if the video source is one of the domains
+     * that is supported by watchlr.
+     *
+     * @param src
+     * @param domains
+     */
     _isSupportedDomain: function(src, domains) {
         for (var i = 0; i < domains.length; i++) {
             // this.debug('Testing against domain: ' + domains[i] + ' with src: ' + src);
@@ -319,6 +365,13 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
         return false;
     },
 
+    /**
+     * extract the video id from the source.
+     *
+     * @param str
+     * @param patterns
+     * @param match
+     */
     _extractId: function(str, patterns, match) {
         for (var i = 0; i < patterns.length; i++) {
             // this.debug('Matching: ' + patterns[i] + ' against ' + str);
@@ -332,16 +385,32 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
         }
     },
 
+    /**
+     * escape HTML.
+     *
+     * @param s
+     */
     _escapeHTML: function(s) {
         return s.split('&').join('&amp;').split('<').join('&lt;').split('"').join('&quot;');
     },
 
+    /**
+     * get the absolute URL.
+     *
+     * @param url
+     */
     _qualifyURL: function(url) {
         var el = document.createElement('div');
         el.innerHTML = '<a href="' + this._escapeHTML(url) + '">x</a>';
         return el.firstChild.href;
     },
 
+    /**
+     * create the watchlr border element.
+     * Also here we attach for the events fired by the
+     * watchlr border element.
+     *
+     */
     _createWatchlrVideoBorder : function() {
         try {
             this.watchlrVideoBorder = new $cwui.WatchlrVideoBorder();
@@ -358,27 +427,32 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
     },
 
     /**
-     * retrieves the coordinates for the video
-     * @param embed
+     * retrieves the coordinates for the video element
+     *
+     * @param videoElement
      */
-    _getVideoCoordinates: function(embed) {
+    _getVideoCoordinates: function(videoElement) {
         try {
             // this.debug("Get called in base class getVideoCoordinates");
-            var videoWidth = embed.clientWidth || embed.width;
+            var videoWidth = videoElement.clientWidth || videoElement.width;
             if (!videoWidth) {
-                videoWidth = this._getNodeValue(embed, 'width');
+                videoWidth = this._getNodeValue(videoElement, 'width');
             }
 
-            var videoHeight = embed.clientHeight || embed.height;
+            // this.debug('Video width:' + videoWidth);
+
+            var videoHeight = videoElement.clientHeight || videoElement.height;
             if (!videoHeight) {
-                videoHeight = this._getNodeValue(embed, 'height');
+                videoHeight = this._getNodeValue(videoElement, 'height');
             }
 
-            var parent = embed;
+            // this.debug('Video height:' + videoHeight);
+
+            var parent = videoElement;
             var offsetLeft = 0;
             var offsetTop = 0;
 
-            this.debug('Embed element: ' + parent);
+            // this.debug('Embed element: ' + parent);
             // Calculate the absolute position of the video
             while (parent && (parent != document.body)) {
                 offsetLeft += parent.offsetLeft;
@@ -386,14 +460,15 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 var oldParent = parent;
                 parent = parent.offsetParent;
 
+                // this.debug('Offset parent element: ' + parent);
                 // if the element has set the scroll property,
                 // then calculate the relative position of video in the view port.
                 // relative position of video in context of view port can be calculated using
                 // offsetLeft = element.scrollLeft - (absolute position of video in the element)
                 // offsetTop = element.scrollTop - (absolute position of video in the element)
                 var parentElement = oldParent;
-                while (parentElement && (parentElement != parent)) {
-                    // this.debug('Parent element: ' + parentElement.tagName);
+                while (parentElement && (parentElement != parent) && (parentElement != document.body)) {
+                    // this.debug('Parent element: ' + parentElement);
                     var overFlow = $(parentElement).css('overflow');
                     if (overFlow && (overFlow == "scroll" || overFlow == "auto")) {
                         if (parentElement.scrollLeft) {
@@ -419,7 +494,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                         }
                     }
 
-                    parentElement = $(parentElement).parent().get(0);
+                    parentElement = parentElement.parentNode; //  $(parentElement).parent().get(0);
                 }
 
                 // this.debug("Offset Left:" + offsetLeft + " \t Offset Top: " + offsetTop);
@@ -453,6 +528,8 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
      */
     _onVideoElementMouseEnter: function(target, watchlrVideoId) {
         try {
+            // this.debug(target);
+            // this.debug(target.watchlrVideoId);
             if (!target) return;
             if (!watchlrVideoId) watchlrVideoId = target.watchlrVideoId;
             if (!watchlrVideoId) return;
@@ -481,10 +558,10 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             if (!this.watchlrVideoBorder) {
                 this._createWatchlrVideoBorder();
             }
+
             if (this.watchlrVideoBorder.isHidden()) {
                 // calculate the coordinates for video
                 selectedVideo.coordinates = this._getVideoCoordinates(target);
-
                 if (selectedVideo.coordinates) {
                     this.debug("Coordinates for video:" + selectedVideo.coordinates.left + ", " +
                         selectedVideo.coordinates.top + ", " +
@@ -763,7 +840,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 this.watchlrVideoBorder.setLikeButtonState($cwui.WatchlrVideoBorder.LikeButtonState.LIKING);
                 if (this._showFbPushDialog) {
                     this.watchlrVideoBorder.createVideoLikedDialog();
-                    this.watchlrVideoBorder.bind($cwui.VideoLikedDialog.VideoLikedDialogEvents.ON_CLOSE,  $.proxy(this._onPushToFacebookWindowClosed, this));
+                    this.watchlrVideoBorder.bind($cwui.VideoLikedDialog.VideoLikedDialogEvents.ON_CLOSE,  $.proxy(this._onPushToFacebookDialogDismissed, this));
                     this.watchlrVideoBorder.bind($cwui.VideoLikedDialog.VideoLikedDialogEvents.ON_HOME_PAGE_LINK_CLICKED,  $.proxy(this._handleVisitingVideoPageRequested, this));
                     this.watchlrVideoBorder.showVideoSavedDialog();
                     /*$kat.track('VideoAdapterEvt', 'FirstLike', {
@@ -787,7 +864,8 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
     },
 
     /**
-	 * determine if the popup window is closed, when it is call the commonCallback
+	 * determine if the popup window is closed,
+     * when popup window closes call the _commonCallback method.
 	 */
 	_monitorPopup: function() {
         // this.debug("Window is created:" + (this._connectionPopup==null));
@@ -801,6 +879,10 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
 		}
 	},
 
+    /**
+     * this method hides the login dialog and sends the
+     * request again.
+     */
     _commonCallback: function() {
         this.watchlrVideoBorder.hideLoginDialog();
         // this.debug('get called in common callback');
@@ -808,10 +890,15 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             $cws.WatchlrRequests.sendSaveVideoRequest($.proxy(this._updateButtonState, this), this.selectedVideo.url);
         } else if (this.selectedVideo.likingVideo) {
             // this.debug('making the request for fetching user info');
-            $cws.WatchlrRequests.sendUserProfileRequest($.proxy(this.onUserProfileReceived, this));
+            $cws.WatchlrRequests.sendUserProfileRequest($.proxy(this._onUserPreferencesReceived, this));
         }
     },
 
+    /**
+     * if user cancels the login action,
+     * then hide the login window and cacel the
+     * previous request.
+     */
     _handleFacebookConnectionCancelled: function() {
         this.watchlrVideoBorder.hideLoginDialog();
         this.debug("Liking video:" + this.selectedVideo.likingVideo);
@@ -834,6 +921,10 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
         });*/
     },
 
+    /**
+     * show the popup window when user opted for
+     * the facebook sign in.
+     */
     _handleFacebookConnectionRequested: function() {
         var url = $cwh.adapters.VideoAdapter.WATCHLR_COM + 'login/facebook?next=' + encodeURIComponent($cwh.adapters.VideoAdapter.WATCHLR_COM+'static/html/connectWindow.html?connected=true&code=200');
         this._connectionPopup = window.open(url, '_blank', 'location=1, width=' + 800 + ',height=' + 600 + ',left=' + 200 + ',top=' + 200);
@@ -841,6 +932,10 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
         this._monitorPopup();
     },
 
+    /**
+     * when user requests for visiting watchlr.com
+     * open it in the new tab or window (depending on the user settings).
+     */
     _handleVisitingVideoPageRequested: function() {
         window.open($cwh.adapters.VideoAdapter.WATCHLR_COM);
         /*$kat.track('Video', 'ToWatchlrCom', {
@@ -869,11 +964,13 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                         switch (res.code) {
 
                             case 400: {
+                                // video is already saved
                                 videoSavedSuccessfully = true;
                                 break;
                             }
 
                             case 401: {
+                                // user is not logged in
                                 // this.debug("Session sent was an invalid session");
                                 this.watchlrVideoBorder.createLoginDialog();
                                 this.watchlrVideoBorder.bind($cwui.FacebookConnectDialog.FacebookConnectDialogEvents.ON_CLOSE_BUTTON_CLICKED, $.proxy(this._handleFacebookConnectionCancelled, this));
@@ -883,6 +980,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                             }
 
                             default: {
+                                // unknown reason.
                                 alert(this._localize('errorDlgTitle') + "\n\n" + this._localize('errorDlgMsg'));
                                 // $kat.trackError({from: "updateButtonState of base VideoAdapter", msg:"Unable to save video. Error code:" + res.code + ", Error:" + res.error});
                             }
@@ -901,10 +999,13 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                     if (res.result) {
                         var oResult = res.result;
                         if (oResult.id != null && oResult.id != undefined)
+                            // save the video id.
                             this.selectedVideo.videoId = oResult.id;
                         if(oResult.emptyq) {
+                            // if user has not oped out for showing the message whenever user saves the
+                            // video, show the video saved message.
                             this.watchlrVideoBorder.createVideoSavedDialog();
-                            this.watchlrVideoBorder.bind($cwui.VideoSavedDialog.VideoSavedDialogEvents.ON_CLOSE,  $.proxy(this._onSavedWindowClosed, this));
+                            this.watchlrVideoBorder.bind($cwui.VideoSavedDialog.VideoSavedDialogEvents.ON_CLOSE,  $.proxy(this._onSavedVideoDialogDismissed, this));
                             this.watchlrVideoBorder.bind($cwui.VideoSavedDialog.VideoSavedDialogEvents.ON_HOME_PAGE_LINK_CLICKED,  $.proxy(this._handleVisitingVideoPageRequested, this));
                             this.watchlrVideoBorder.showVideoSavedDialog();
                         }
@@ -965,11 +1066,13 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                         switch (res.code) {
 
                             case 400: {
+                                // video is already liked.
                                 videoLikedSuccessfully = true;
                                 break;
                             }
 
                             case 401: {
+                                // user is not logged in.
                                 this.watchlrVideoBorder.createLoginDialog();
                                 this.watchlrVideoBorder.bind($cwui.FacebookConnectDialog.FacebookConnectDialogEvents.ON_CLOSE_BUTTON_CLICKED, $.proxy(this._handleFacebookConnectionCancelled, this));
                                 this.watchlrVideoBorder.bind($cwui.FacebookConnectDialog.FacebookConnectDialogEvents.ON_FACEBOOK_CONNECT_CLICKED, $.proxy(this._handleFacebookConnectionRequested, this));
@@ -978,6 +1081,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                             }
 
                             default: {
+                                // unknown server error
                                 alert(this._localize('errorDlgLikeTitle') + "\n\n" + this._localize('errorDlgLikeMsg'));
                                 // $kat.trackError({from: "_onVideoLiked of base VideoAdapter", msg:"Unable to like video. Error code:" + res.code + ", Error:" + res.error});
                             }
@@ -1032,21 +1136,36 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
         }
 	},
 
-    _onSavedWindowClosed: function(evt, showMessageUnchecked) {
+    /**
+     * when user dimisses the saved video dialog.
+     * check if user has opted for not showing the
+     * dialog any more.
+     *
+     * @param evt
+     * @param showMessageUnchecked
+     */
+    _onSavedVideoDialogDismissed: function(evt, showMessageUnchecked) {
         try {
             if (showMessageUnchecked) {
-                 $cws.WatchlrRequests.sendUpdateUserProfileRequest($.proxy(this._onUserProfileUpdated, this));
+                 $cws.WatchlrRequests.sendUpdateUserProfileRequest($.proxy(this._onUserPreferencesUpdated, this));
             }
         } catch (err) {
-            this.debug("From: _onSavedWindowClosed of base VideoAdapter. \nReason:" + err);
+            this.debug("From: _onSavedVideoDialogDismissed of base VideoAdapter. \nReason:" + err);
             // $kat.trackError
         }
     },
 
-    _onPushToFacebookWindowClosed: function(evt, pushToFcaebook) {
+    /**
+     * when user dismisses the dialog for pushing the videos to facebbok dialog,
+     * check if user ahs opted for not pushing the liked videos to facebook.
+     *
+     * @param evt
+     * @param pushToFcaebook
+     */
+    _onPushToFacebookDialogDismissed: function(evt, pushToFcaebook) {
         try {
             if (pushToFcaebook == '0' || pushToFcaebook == '1') {
-                $cws.WatchlrRequests.sendUpdateUserPreferenceRequest($.proxy(this._onUserProfileUpdated, this), pushToFcaebook);
+                $cws.WatchlrRequests.sendUpdateUserPreferenceRequest($.proxy(this._onUserPreferencesUpdated, this), pushToFcaebook);
             }
 
             if (!this.selectedVideo.liked) {
@@ -1061,20 +1180,30 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 });*/
             }
         } catch (err) {
-            this.debug("From: _onPushToFacebookWindowClosed of base VideoAdapter. \nReason:" + err);
+            this.debug("From: _onPushToFacebookDialogDismissed of base VideoAdapter. \nReason:" + err);
             // $kat.trackError
         }
     },
 
-    _onUserProfileUpdated: function(data) {
-        var str = "";
+    /**
+     * on user preferences updated.
+     *
+     * @param data
+     */
+    _onUserPreferencesUpdated: function(data) {
+        /*var str = "";
         for (var i in data) {
             str += i + ": " + data[i] + "\r\n";
-        }
+        } */
         // this.debug(str);
     },
 
-	onUserProfileReceived: function(data) {
+    /**
+     * when user preferences are received.
+     *
+     * @param data
+     */
+	_onUserPreferencesReceived: function(data) {
         // this.debug("User profile info received.");
         var res = null;
         if (typeof data == 'object') {
@@ -1095,7 +1224,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             // else we are going to make the call when user closes the push to facebook dialog.
             if (this._showFbPushDialog) {
                 this.watchlrVideoBorder.createVideoLikedDialog();
-                this.watchlrVideoBorder.bind($cwui.VideoLikedDialog.VideoLikedDialogEvents.ON_CLOSE,  $.proxy(this._onPushToFacebookWindowClosed, this));
+                this.watchlrVideoBorder.bind($cwui.VideoLikedDialog.VideoLikedDialogEvents.ON_CLOSE,  $.proxy(this._onPushToFacebookDialogDismissed, this));
                 this.watchlrVideoBorder.bind($cwui.VideoLikedDialog.VideoLikedDialogEvents.ON_HOME_PAGE_LINK_CLICKED,  $.proxy(this._handleVisitingVideoPageRequested, this));
                 this.watchlrVideoBorder.showVideoSavedDialog();
             } else {
@@ -1114,6 +1243,11 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
         }
     },
 
+    /**
+     * on videos info received.
+     *
+     * @param data
+     */
     _onVideosInfoReceived: function(data) {
         var res = null;
         if (typeof data == 'object') {

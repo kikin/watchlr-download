@@ -55,9 +55,9 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
                                                  $(target).find("object").length +
                                                  $(target).find("embed").length;
                 if (flashVideoCandidatesLength > this.numberOfVideoElementCandidates) {
-                    var embeds = this._findFlashVideoCandidates();
+                    var embeds = this._findVideoCandidates();
                     if (embeds) {
-                        this._findFlashVideos(embeds);
+                        this._findVideos(embeds);
                     }
                 }
             }
@@ -70,7 +70,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
     /**
     * find all the videos on the page
     */
-    _findFlashVideoCandidates: function() {
+    _findVideoCandidates: function() {
         var embeds = [];
         if (window.location.href.match(/^http:\/\/www\.google\.com\/reader\/.*/)) {
             // this.debug("Finding flash video candidates in google reader implementation.");
@@ -135,12 +135,11 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
                         }
 
                         if (videoUrl) {
-                            var imgParent = $(img).parents('td').get(0);
-                            $(imgParent).mouseover($.proxy(this._onVideoThumbnailMouseOver, this));
-                            $(imgParent).mouseleave($.proxy(this._onVideoThumbnailMouseOut, this));
+                            var imgParent = $(img).parents('tr').get(0);
+                            this._addVideo(img, videoUrl);
+                            this._listenThumbnailEvents(imgParent);
 
-
-                            var video = {
+                            /*var video = {
                                 url                 : videoUrl,
                                 mouseover           : null,
                                 mouseout            : null,
@@ -152,7 +151,8 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
 
                             // calculate the videoId
                             img.watchlrVideoId = (this.videos.length + 1);
-                            this.videos.push(video);
+                            this.videos.push(video);*/
+
                             break;
                         }
                     }
@@ -163,12 +163,21 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
         }
     },
 
-    getVideoUrl: function(img) {
-        var imgParentTable = null;
+    _listenThumbnailEvents: function(videoElement) {
+        $(videoElement).mouseover($.proxy(this._onVideoThumbnailMouseOver, this));
+        $(videoElement).mouseleave($.proxy(this._onVideoThumbnailMouseOut, this));
+    },
 
-		if(imgParentTable = $(img).parent('a').get(0)) {
+    getVideoUrl: function(img) {
+        var imgParentTable = $(img).parents('a').get(0);
+
+        // this.debug('Image element parent: ' + imgParentTable);
+		if(imgParentTable) {
             var url = imgParentTable.href,
                 videoUrl = /url\?url=(.*)&rct=/i.exec(url);
+
+            // this.debug('Anchor element URL:' + url);
+            // this.debug('Video url:' + videoUrl);
             if (videoUrl && videoUrl.length > 1) {
                 return decodeURIComponent(videoUrl[1]);
             }
@@ -177,11 +186,20 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
 		return null;
     },
 
+    /**
+     * retrieves the coordinates for the video element
+     *
+     * @param videoElement
+     */
+    _getVideoCoordinates: function(videoElement) {
+
+    },
+
     _onVideoThumbnailMouseOver : function(e) {
         try {
             var target = $($(e.target).parents('table').get(0)).find('td a img');
             target = target.get(0);
-            // this.debug("Mouseover target watchlr video id:" + target.watchlrVideoId);
+            this.debug("Mouseover target watchlr video id:" + target.watchlrVideoId);
             this._onVideoElementMouseEnter(target);
         } catch (err) {
             this.debug("From: _onVideoThumbnailMouseOver of google's search VideoAdapter.\nReason: " + err);
