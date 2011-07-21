@@ -1,0 +1,204 @@
+#watchlrIsvfContainer {
+	position:absolute;
+	height:325px;
+	width:659px;
+	overflow:hidden;
+	z-index:10000;
+	margin-top:-2px;
+	display:none;
+}
+#watchlrIsvLoader {
+	z-index: 10001;
+	background:#000;
+	position:absolute;
+}
+#watchlr .watchlrIsvOverlay,
+.watchlrIsvOverlay {
+	position: absolute;
+	cursor: pointer;
+	background:transparent;
+}
+#watchlr.trident .watchlrIsvOverlay,
+.watchlrIsvOverlay {
+	position: absolute;
+}
+#watchlr .watchlr-wrapper .watchlr-image .watchlrIsvOverlay {
+	/*position: relative;*/
+	margin-bottom:0; 
+	margin-top:-90px;
+}
+#watchlr.trident5 .watchlr-wrapper .watchlr-image .watchlrIsvOverlay{
+	position:static !important;
+}
+#watchlr .watchlrIsvOverlayArrow,
+.watchlrIsvOverlayArrow {
+	/*background: url('http://local.watchlr.com/watchlr/img/watchlr_play.png');
+	width:12px;
+	height:12px;*/
+}
+.watchlrIsvGoogleOverlay .watchlrIsvButton {
+	margin:37px 0 0 32px;
+}
+#watchlr .watchlrIsvOverlay .watchlrIsvButton,
+.watchlrIsvOverlay .watchlrIsvButton {
+	background: url('http://local.watchlr.com/watchlr/img/watchlr_play.png') no-repeat scroll 0px 0px transparent;
+	width:39px;
+	height:18px;
+}
+.watchlrIsvGoogleOverlay {
+	width: 80px;
+	height: 50px;
+    z-index: 2000;
+}
+.watchlrIsvButton {
+	padding:4px 0 0 5px;
+}
+#watchlr .watchlrIsvWatchlrOverlay .watchlrIsvButton {
+	padding:4px 0 0 5px;
+	margin:65px 0 0 71px;
+}
+#watchlr .watchlrIsvwatchlrOverlay {
+	width: 120px;
+	height: 90px;
+}
+#watchlrIsvfArrow {
+	width:16px;
+	height:16px;
+	display:none;
+	position:absolute;
+	z-index:10002;
+	background:url('http://local.watchlr.com/watchlr/img/kikinSearch.png') no-repeat -378px -38px;
+}
+#watchlrIsvfWrapper {
+	width:659px;
+	height:317px;
+	background-color:transparent;
+	color:#fff;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:10px;
+	top:-325px;
+	line-height:19px;
+	font-weight:normal;
+}
+#watchlrIsvfBtm {
+	position: absolute;
+	bottom: 0;
+	height: 4px;
+	right: 0;
+	left: 0;
+	font-size:0px;
+	line-height:0px;
+	background:transparent url('http://local.watchlr.com/watchlr/img/kikinSearch.png') no-repeat -2px 0px;
+}
+#watchlrIsvfTop {
+	position: absolute;
+	top: 0;
+	height: 3px;
+	right: 0;
+	left: 0;
+	font-size:0px;
+	line-height:0px;
+	background:transparent url('http://local.watchlr.com/watchlr/img/kikinSearch.png') no-repeat -2px -78px;
+}
+#watchlrIsvfLeft {
+	position: absolute;
+	top: 3px;
+	bottom: 4px;
+	left: 0;
+	border-left:solid #7f7f7f 1px;
+	right: 158px;
+	padding: 9px 0 9px 12px;
+	background-color:#252525;
+}
+#watchlrIsvfPlayer {
+	height:299px;
+	width:488px;
+	background-color:#000;
+	overflow:hidden;
+}
+#watchlrIsvfRight {
+	position: absolute;
+	top: 3px;
+	right: 1px;
+	border-right:solid #7f7f7f 1px;
+	width:157px;
+	background-color:#252525;
+	bottom: 4px;
+}
+#watchlrIsvfContainer .watchlrIsvfxBtn {
+	float:right;
+	padding:9px 9px 0 0;
+}
+#watchlrIsvfContainer .watchlrIsvfxBtn a {
+	display:block;
+    background: transparent url('http://local.watchlr.com/watchlr/img/kikinSearch.png') no-repeat -321px -10px;
+    width:15px;
+	cursor:pointer;
+	height:14px;
+}
+#watchlrIsvfContainer .watchlrIsvfxBtn a:hover {
+	background-position:-304px -10px;
+}
+#watchlrIsvfContainer .watchlrIsvfTitle {
+	padding:15px 13px 0 13px;
+	height:109px;
+	overflow:hidden;
+}
+#watchlrIsvfContainer .watchlrIsvfTitle strong {
+	font-size:15px;
+}
+#watchlrIsvfContainer .watchlrIsvfsrcRef {
+	position:relative;
+	margin-bottom:14px;
+	left:13px;
+	color:#fff;
+}
+#watchlrMWLoading{
+	
+	height:12px;
+	width:100%;
+}
+#watchlrIsvfPoweredDiv {
+	border-top: solid #484848 1px;
+}
+.watchlrIsvfPowered {
+	background:#252525 url('http://local.watchlr.com/watchlr/img/watchlr_logo1.png') no-repeat scroll 0px 0px;
+	display:block;
+	float:right;
+	height:16px;
+	width:68px;
+	margin:15px 0 0 0;
+	padding-right:9px;
+}
+.watchlrIsvfPoweredText {
+	float:right;
+	margin:15px 0 0 0;
+	padding-right:6px;
+    color: #484848
+}
+#watchlrIsvfWrapper .clear {
+	clear:both;
+}
+/*overflow cuttoff fix for video time*/
+#watchlr .watchlr-four .watchlr-wrapper div div .watchlr-prop-list{height:14px;}
+#watchlr .watchlr-four .watchlr-wrapper div div .watchlr-prop-list li{height:14px;}
+
+#watchlr .watchlr-result-container .watchlr-carouselContainerContent{
+	width:575px;
+}
+
+#watchlr .watchlr-video-title {
+    height:36px;
+}
+#watchlr .watchlr-video-rating .watchlr-prop-list {
+    margin: -3px 0 0 5px;
+    width:auto !important;
+}
+
+#watchlr .watchlr-video-ad {
+	padding: 0 10px;
+	width: 124px;
+	float:left;
+}
+
+#watchlr .watchlr-result-container .watchlr-carouselPane{height:149px;}

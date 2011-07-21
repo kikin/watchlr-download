@@ -22,54 +22,83 @@ function getAllFiles($directory, $extension) {
 
 function jsPrioritiesCmp($a, $b) {
 	$priorities = array(
-		'src/main/com/jquery/jquery.js' => 60,
-		'src/main/com/jquery/jquery.class.js' => 59,
-        'src/main/com/watchlr/system/runtime/main.js' => 58,
-        'src/main/com/watchlr/util/Error.js' => 50,
-        'src/main/com/watchlr/util/Styles.js' => 49,
-        'src/main/com/watchlr/util/Url.js' => 48,
-        'src/main/com/watchlr/config/Locale.js' => 47,
-        'src/main/com/watchlr/system/Config.js' => 46,
-        'src/main/com/watchlr/system/Service.js' => 45,
-        'src/main/com/watchlr/system/ServiceDaemon.js' => 44,
-        'src/main/com/watchlr/system/WatchlrRequests.js' => 43,
-        'src/main/com/watchlr/ui/modalwin/WatchlrIframeWindow.js' => 42,
-        'src/main/com/watchlr/ui/modalwin/AlertWindow.js' => 41,
-        'src/main/com/watchlr/ui/FacebookConnectDialog.js' => 40,
-        'src/main/com/watchlr/ui/VideoSavedDialog.js' => 39,
-        'src/main/com/watchlr/ui/VideoLikedDialog.js' => 38,
-        'src/main/com/watchlr/ui/WatchlrVideoBorder.js' => 37,
-        'src/main/com/watchlr/config/VideoProvidersConfig.js' => 36,
-        'src/main/com/watchlr/config/HostsConfig.js' => 35,
-        'src/main/com/watchlr/hosts/Host.js' => 34,
-        'src/main/com/watchlr/hosts/HostController.js' => 33,
-        'src/main/com/watchlr/hosts/adapters/SiteAdapter.js' => 32,
-        'src/main/com/watchlr/hosts/adapters/VideoAdapter.js' => 31,
-        'src/main/com/watchlr/hosts/espn/SiteAdapter.js' => 29,
-        'src/main/com/watchlr/hosts/espn/VideoAdapter.js' => 28,
-        'src/main/com/watchlr/hosts/cnn/SiteAdapter.js' => 27,
-        'src/main/com/watchlr/hosts/cnn/VideoAdapter.js' => 26,
-        'src/main/com/watchlr/hosts/cbsnews/SiteAdapter.js' => 25,
-        'src/main/com/watchlr/hosts/cbsnews/VideoAdapter.js' => 24,
-        'src/main/com/watchlr/hosts/orkut/SiteAdapter.js' => 23,
-        'src/main/com/watchlr/hosts/orkut/VideoAdapter.js' => 22,
-        'src/main/com/watchlr/hosts/foxsports/SiteAdapter.js' => 21,
-        'src/main/com/watchlr/hosts/foxsports/VideoAdapter.js' => 20,
-        'src/main/com/watchlr/hosts/facebook/SiteAdapter.js' => 19,
-        'src/main/com/watchlr/hosts/facebook/VideoAdapter.js' => 18,
-        'src/main/com/watchlr/hosts/defaultEngine/SiteAdapter.js' => 17,
-        'src/main/com/watchlr/hosts/defaultEngine/VideoAdapter.js' => 16,
-        'src/main/com/watchlr/hosts/bing/SiteAdapter.js' => 15,
-        'src/main/com/watchlr/hosts/bing/VideoAdapter.js' => 14,
-        'src/main/com/watchlr/hosts/google/SiteAdapter.js' => 12,
-        'src/main/com/watchlr/hosts/google/VideoAdapter.js' => 11,
-        'src/main/com/watchlr/hosts/yahoo/SiteAdapter.js' => 9,
-        'src/main/com/watchlr/hosts/yahoo/VideoAdapter.js' => 8,
-        'src/main/com/watchlr/hosts/youtube/SiteAdapter.js' => 6,
-        'src/main/com/watchlr/hosts/youtube/VideoAdapter.js' => 5,
-        'src/main/com/watchlr/hosts/watchlr/SiteAdapter.js' => 3,
-        'src/main/com/watchlr/hosts/watchlr/VideoAdapter.js' => 2,
-        'src/main/com/watchlr/hosts/vimeo/VideoAdapter.js' => 1,
+		'src/main/com/jquery/jquery.js' => 100,
+		'src/main/com/jquery/jquery.class.js' => 99,
+        'src/main/com/jquery/jquery.swfobject.js' => 98,
+
+        'src/main/com/watchlr/system/runtime/main.js' => 97,
+
+        'src/main/com/watchlr/util/Error.js' => 90,
+        'src/main/com/watchlr/util/Styles.js' => 89,
+        'src/main/com/watchlr/util/String.js' => 88,
+        'src/main/com/watchlr/util/Url.js' => 87,
+
+        'src/main/com/watchlr/config/FeaturesConfig.js' => 86,
+        'src/main/com/watchlr/config/HostsConfig.js' => 85,
+        'src/main/com/watchlr/config/Locale.js' => 84,
+        'src/main/com/watchlr/config/VideoProvidersConfig.js' => 83,
+
+        'src/main/com/watchlr/system/Config.js' => 80,
+        'src/main/com/watchlr/system/Service.js' => 79,
+        'src/main/com/watchlr/system/ServiceDaemon.js' => 78,
+        'src/main/com/watchlr/system/WatchlrRequests.js' => 77,
+
+        'src/main/com/watchlr/ui/FacebookConnectDialog.js' => 70,
+        'src/main/com/watchlr/ui/VideoSavedDialog.js' => 69,
+        'src/main/com/watchlr/ui/VideoLikedDialog.js' => 68,
+        'src/main/com/watchlr/ui/WatchlrVideoBorder.js' => 67,
+
+        'src/main/com/watchlr/features/insituvideo/InSituDefaultPlayer.js' => 66,
+        'src/main/com/watchlr/features/insituvideo/InSituVideoFeature.js' => 65,
+        'src/main/com/watchlr/features/insituvideo/InSituVideoPanel.js' => 64,
+
+        'src/main/com/watchlr/hosts/Host.js' => 60,
+        'src/main/com/watchlr/hosts/HostController.js' => 59,
+
+        'src/main/com/watchlr/hosts/adapters/SiteAdapter.js' => 58,
+        'src/main/com/watchlr/hosts/adapters/VideoAdapter.js' => 57,
+        'src/main/com/watchlr/hosts/adapters/InSituVideoAdapter.js' => 56,
+
+        'src/main/com/watchlr/hosts/bing/SiteAdapter.js' => 31,
+        'src/main/com/watchlr/hosts/bing/VideoAdapter.js' => 30,
+
+        'src/main/com/watchlr/hosts/cbsnews/SiteAdapter.js' => 28,
+        'src/main/com/watchlr/hosts/cbsnews/VideoAdapter.js' => 27,
+
+        'src/main/com/watchlr/hosts/cnn/SiteAdapter.js' => 26,
+        'src/main/com/watchlr/hosts/cnn/VideoAdapter.js' => 25,
+
+        'src/main/com/watchlr/hosts/defaultEngine/SiteAdapter.js' => 24,
+        'src/main/com/watchlr/hosts/defaultEngine/VideoAdapter.js' => 23,
+
+        'src/main/com/watchlr/hosts/espn/SiteAdapter.js' => 22,
+        'src/main/com/watchlr/hosts/espn/VideoAdapter.js' => 21,
+
+        'src/main/com/watchlr/hosts/facebook/SiteAdapter.js' => 20,
+        'src/main/com/watchlr/hosts/facebook/VideoAdapter.js' => 19,
+
+        'src/main/com/watchlr/hosts/foxsports/SiteAdapter.js' => 18,
+        'src/main/com/watchlr/hosts/foxsports/VideoAdapter.js' => 17,
+
+        'src/main/com/watchlr/hosts/google/SiteAdapter.js' => 16,
+        'src/main/com/watchlr/hosts/google/VideoAdapter.js' => 15,
+        'src/main/com/watchlr/hosts/google/InSituVideoAdapter.js' => 14,
+
+        'src/main/com/watchlr/hosts/orkut/SiteAdapter.js' => 13,
+        'src/main/com/watchlr/hosts/orkut/VideoAdapter.js' => 12,
+
+        'src/main/com/watchlr/hosts/vimeo/SiteAdapter.js' => 11,
+        'src/main/com/watchlr/hosts/vimeo/VideoAdapter.js' => 10,
+
+        'src/main/com/watchlr/hosts/watchlr/SiteAdapter.js' => 8,
+        'src/main/com/watchlr/hosts/watchlr/VideoAdapter.js' => 7,
+
+        'src/main/com/watchlr/hosts/yahoo/SiteAdapter.js' => 6,
+        'src/main/com/watchlr/hosts/yahoo/VideoAdapter.js' => 5,
+
+        'src/main/com/watchlr/hosts/youtube/SiteAdapter.js' => 3,
+        'src/main/com/watchlr/hosts/youtube/VideoAdapter.js' => 2,
+
         'src/main/com/watchlr/system/runtime/Bootstrap.js' => -1
 	);
 

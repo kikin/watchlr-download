@@ -49,9 +49,15 @@ $.Class.extend("com.watchlr.system.WatchlrRequests", {
 
     sendVideosInfoRequest: function(_callback, _videos) {
         var reqUrl = $cws.WatchlrRequests._WATCHLR_API_URL + 'info?callback=?';
+        var videosUrl = [];
+        for (var i = 0; i < _videos.length; i++) {
+            videosUrl.push({
+                'url': _videos[i].url,
+                'id': _videos[i].id
+            });
+        }
 
-
-        var _videosString = JSON.stringify(_videos, function(key, value) {
+        var _videosString = JSON.stringify(videosUrl, function(key, value) {
             if (typeof HTMLElement === "object") {
                 if(value instanceof HTMLElement) {
                     return undefined;

@@ -59,20 +59,19 @@ $cwh.adapters.SiteAdapter.extend("com.watchlr.hosts.google.adapters.SiteAdapter"
 	
 	delayedInjection: function() {
     	try {
-			try {
-                var kva = $cwh.adapters.VideoAdapter.getInstance();
-                if (kva) kva.attach();
-            } catch(e) {
-                // this.debug("From: google_site_adapter. \nReason: " + e);
-                //$kat.trackError({ from: 'google_site_adapter', exception: e, msg: 'unable to create video adapter'});
-            }
+            var isva = new $cwh.adapters.InSituVideoAdapter.getInstance();
+            if (isva) isva.attach();
 
-    	} catch(err) {
-            // this.debug("From: site_adapter. \nReason:" + err);
-			// $kat.trackError({ from: 'site_adapter', exception: e, msg: 'injectiong failed in google'});
-    	}
-    	
-    	this._delayedInject = null;
+            console.log('We found InsituVideoAdapter instance:' + isva);
+
+            var kva = $cwh.adapters.VideoAdapter.getInstance();
+            if (kva) kva.attach();
+        } catch(err) {
+            console.log("From: google_site_adapter. \nReason: " + err);
+            //$kat.trackError({ from: 'google_site_adapter', exception: err, msg: 'unable to create video adapter'});
+        }
+
+        this._delayedInject = null;
 	}
 			
 });

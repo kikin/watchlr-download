@@ -88,7 +88,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
      */
     debug : function(str) {
         try {
-            console.log(str);
+            // console.log(str);
         } catch (e) {}
     },
 

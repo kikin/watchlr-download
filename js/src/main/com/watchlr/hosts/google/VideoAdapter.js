@@ -138,21 +138,6 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
                             var imgParent = $(img).parents('tr').get(0);
                             this._addVideo(img, videoUrl);
                             this._listenThumbnailEvents(imgParent);
-
-                            /*var video = {
-                                url                 : videoUrl,
-                                mouseover           : null,
-                                mouseout            : null,
-                                saved               : false,
-                                videoSelected       : false,
-                                saveButtonSelected  : false,
-                                coordinates         : null
-                            };
-
-                            // calculate the videoId
-                            img.watchlrVideoId = (this.videos.length + 1);
-                            this.videos.push(video);*/
-
                             break;
                         }
                     }

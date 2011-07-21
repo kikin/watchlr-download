@@ -24,6 +24,14 @@ if (!com.watchlr.hosts) {
     com.watchlr.hosts = {};
 }
 
+if (!com.watchlr.features) {
+    com.watchlr.features = {};
+}
+
+if (!com.watchlr.features.insituvideo) {
+    com.watchlr.features.insituvideo = {};
+}
+
 if (!com.watchlr.hosts.adapters) {
     com.watchlr.hosts.adapters = {};
 }
@@ -89,11 +97,11 @@ var $cws    = com.watchlr.system,
     $cwc    = com.watchlr.config,
     $cwutil = com.watchlr.util,
     $cwf    = com.watchlr.features,
-    $cwa    = com.watchlr.analytics,
+    // $cwa    = com.watchlr.analytics,
     $cwui   = com.watchlr.ui,
     // $cwuiw  = com.watchlr.ui.widgets,
-    $cwe    = com.watchlr.error,
-    $cwm    = com.watchlr.monetization,
+    // $cwe    = com.watchlr.error,
+    // $cwm    = com.watchlr.monetization,
     $cwh    = com.watchlr.hosts,
     // these below are defined in the Bootstraps
     $cwss   = undefined, // $ks.services

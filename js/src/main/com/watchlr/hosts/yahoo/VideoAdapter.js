@@ -70,7 +70,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.yahoo.adapters.VideoAdapter
             if(link) {
                 // get rurl parameter
                 var href = decodeURIComponent($(link).attr('href')),
-                        params = this._parseQueryString(href),
+                        params = $cwutil.String.parseQueryString(href),
                         url = (params && params.rurl) ? decodeURIComponent(params.rurl.replace(/&amp;/g, '&')) : null;
                 // this.debug('href: ' + href);
                 // this.debug('params: ' + params);
@@ -83,37 +83,6 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.yahoo.adapters.VideoAdapter
             // $kat.trackError({from: "getVideoUrl of yahoo's search VideoAdapter", exception:err});
         }
         // alert(link);
-        return null;
-    },
-
-    _parseQueryString: function(str) {
-        // this.debug('string to be parsed:' + str);
-        var queryStringStartPos = str.indexOf('?');
-        // this.debug('Start pos: ' + queryStringStartPos);
-        if (queryStringStartPos != -1) {
-            var queryString = str.substr(queryStringStartPos + 1, (str.length - queryStringStartPos - 1));
-            // this.debug('queryString:' + queryString);
-            if (queryString) {
-                var params = {};
-                var paramsList = queryString.split('&');
-                for (var i = 0; i < paramsList.length; i++) {
-                    var paramPair = paramsList[i];
-                    // this.debug('Param pair: ' + paramPair);
-                    var equalPos = paramPair.indexOf('=');
-                    // this.debug('equal pos: ' + equalPos);
-                    if (paramPair && equalPos != -1) {
-                        var paramKey = paramPair.substr(0, equalPos);
-                        // this.debug('param key: ' + paramKey);
-                        var paramValue = paramPair.substr(equalPos + 1, (paramPair.length - equalPos - 1));
-                        // this.debug('param value: ' + paramValue);
-                        params[paramKey] = paramValue;
-                    }
-                }
-
-                return params;
-            }
-        }
-
         return null;
     },
 
