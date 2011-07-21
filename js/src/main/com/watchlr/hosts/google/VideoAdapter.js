@@ -6,6 +6,8 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
     numberOfVideoElementCandidates: 0,
     viewerPageContainer : null,
     sameDirContainer : null,
+    isInSituVideoPanelOpen: false,
+    inSituVideoPanel: null,
 
 	/* @override */
 	attach: function() {
@@ -21,6 +23,8 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
                 this._applyPageModifyEvent(this.viewerPageContainer);
             }
         }
+
+        this.frameBorderTimeout = 100;
 
         this._super();
 	},
@@ -135,7 +139,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
                         }
 
                         if (videoUrl) {
-                            var imgParent = $(img).parents('tr').get(0);
+                            var imgParent = $(img).parents('a').prev('.watchlrIsvGoogleOverlay').get(0);
                             this._addVideo(img, videoUrl);
                             this._listenThumbnailEvents(imgParent);
                             break;
@@ -151,6 +155,13 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
     _listenThumbnailEvents: function(videoElement) {
         $(videoElement).mouseover($.proxy(this._onVideoThumbnailMouseOver, this));
         $(videoElement).mouseleave($.proxy(this._onVideoThumbnailMouseOut, this));
+        $(videoElement).click($.proxy(this._onVideoThumbnailClick, this));
+    },
+
+    _listenInSituVideoEvents: function(inSituVideElement) {
+        $(inSituVideElement).mouseover($.proxy(this._onInSituVideElementMouseOver, this));
+        $(inSituVideElement).mouseleave($.proxy(this._onInSituVideElementMouseOut, this));
+        $(inSituVideElement).bind('close', $.proxy(this._onInSituVideElementClosed, this));
     },
 
     getVideoUrl: function(img) {
@@ -171,21 +182,19 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
 		return null;
     },
 
-    /**
-     * retrieves the coordinates for the video element
-     *
-     * @param videoElement
-     */
-    _getVideoCoordinates: function(videoElement) {
-
-    },
-
     _onVideoThumbnailMouseOver : function(e) {
         try {
-            var target = $($(e.target).parents('table').get(0)).find('td a img');
-            target = target.get(0);
-            this.debug("Mouseover target watchlr video id:" + target.watchlrVideoId);
-            this._onVideoElementMouseEnter(target);
+            var target = $(e.target).parents('table').get(0);
+            var originalTarget = $(target).find('td a img');
+            var watchlrVideoId = originalTarget.get(0).watchlrVideoId;
+
+            // if video panel is open for the video then
+            // show the mouse over action for the video.
+            if (this.inSituVideoPanel && this.isInSituVideoPanelOpen && (this.inSituVideoPanel.watchlrVideoId == watchlrVideoId)) {
+                target = this.inSituVideoPanel;
+            }
+            // this.debug("Mouseover target watchlr video id:" + watchlrVideoId);
+            this._onVideoElementMouseEnter(target, watchlrVideoId);
         } catch (err) {
             this.debug("From: _onVideoThumbnailMouseOver of google's search VideoAdapter.\nReason: " + err);
             // $kat.trackError({from: "_onVideoThumbnailMouseOver of google's search VideoAdapter", exception:err});
@@ -194,13 +203,73 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
 
     _onVideoThumbnailMouseOut : function(e) {
         try {
-            var target = $($(e.target).parents('table').get(0)).find('td a img');
-            target = target.get(0);
-            // this.debug("Mouseover target watchlr video id:" + target.watchlrVideoId);
-            this._onVideoElementMouseLeave(target);
+            var target = $(e.target).parents('table').get(0);
+            var originalTarget = $(target).find('td a img');
+            var watchlrVideoId = originalTarget.get(0).watchlrVideoId;
+
+            // if video panel is open for the video then
+            // show the mouse over action for the video.
+            if (this.inSituVideoPanel && this.isInSituVideoPanelOpen && (this.inSituVideoPanel.watchlrVideoId == watchlrVideoId)) {
+                target = this.inSituVideoPanel;
+            }
+            // this.debug("Mouseover target watchlr video id:" + watchlrVideoId);
+            this._onVideoElementMouseLeave(target, watchlrVideoId);
         } catch (err) {
             this.debug("From: _onVideoThumbnailMouseOut of google's search VideoAdapter.\nReason: " + err);
             // $kat.trackError({from: "_onVideoThumbnailMouseOut of google's search VideoAdapter", exception:err});
+        }
+    },
+
+    _onVideoThumbnailClick: function(e) {
+        try {
+            var originalTarget = $($(e.target).parents('table').get(0)).find('td a img');
+            var watchlrVideoId = $(originalTarget).get(0).watchlrVideoId;
+            // var selectedVideo = this.videos[watchlrVideoId - 1];
+
+            // calculate the coordinates for video
+            if (!this.inSituVideoPanel) {
+                this.inSituVideoPanel = $('#watchlrIsvfContainer').get(0);
+                this._listenInSituVideoEvents(this.inSituVideoPanel);
+            }
+
+            this.inSituVideoPanel.watchlrVideoId = watchlrVideoId;
+            this._onVideoElementMouseEnter(this.inSituVideoPanel, watchlrVideoId, true);
+            this.isInSituVideoPanelOpen = true;
+
+        } catch (err) {
+            this.debug("From: _onVideoThumbnailClick of google's search VideoAdapter.\nReason: " + err);
+            // $kat.trackError({from: "_onVideoThumbnailClick of google's search VideoAdapter", exception:err});
+        }
+    },
+
+    _onInSituVideElementMouseOver: function(e) {
+        try {
+            this.debug('On insitu video element mouse enter');
+            this._onVideoElementMouseEnter(this.inSituVideoPanel);
+        } catch (err) {
+            this.debug("From: _onInSituVideElementMouseOver of google's search VideoAdapter.\nReason: " + err);
+            // $kat.trackError({from: "_onInSituVideElementMouseOver of google's search VideoAdapter", exception:err});
+        }
+    },
+
+    _onInSituVideElementMouseOut: function(e) {
+        try {
+            this.debug('On insitu video element mouse leave');
+            this._onVideoElementMouseLeave(this.inSituVideoPanel);
+        } catch (err) {
+            this.debug("From: _onInSituVideElementMouseOut of google's search VideoAdapter.\nReason: " + err);
+            // $kat.trackError({from: "_onInSituVideElementMouseOut of google's search VideoAdapter", exception:err});
+        }
+    },
+
+    _onInSituVideElementClosed: function(e) {
+        try {
+            this.debug('On insitu video element close');
+            this._onVideoElementMouseLeave(this.inSituVideoPanel);
+            this.isInSituVideoPanelOpen = false;
+        } catch (err) {
+            this.debug("From: _onInSituVideElementMouseOut of google's search VideoAdapter.\nReason: " + err);
+            // $kat.trackError({from: "_onInSituVideElementMouseOut of google's search VideoAdapter", exception:err});
         }
     }
 });

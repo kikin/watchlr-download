@@ -152,7 +152,7 @@ $.Class.extend("com.watchlr.features.insituvideo.InSituVideoPanel", {
 	
 	hide: function() {
 		this._element.fadeOut();
-		// this.fireEvent('hide');
+		this._element.trigger('close');
 	},
 	
 	show: function() {

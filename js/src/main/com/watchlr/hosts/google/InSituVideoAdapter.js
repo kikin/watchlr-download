@@ -124,7 +124,7 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.google.adapters.InSit
 
 	onClickVideoThumbnail: function(e) {
 	    try {
-            e.stopPropagation();
+            // e.stopPropagation();
 
             // create once the video panel that will show the videos
             if (!this.videoPanel) {

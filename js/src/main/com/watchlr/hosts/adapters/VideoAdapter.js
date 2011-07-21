@@ -43,6 +43,8 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
     /** border element created around the video. */
     watchlrVideoBorder: null,
 
+    frameBorderTimeout: 1000,
+
     /**
      * variable to keep track whether we should show the message
      * to user when user likes the video first time. This message
@@ -88,7 +90,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
      */
     debug : function(str) {
         try {
-            // console.log(str);
+            console.log(str);
         } catch (e) {}
     },
 
@@ -100,13 +102,13 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             var videoCandidates = [];
 
             var embed_tags = $('embed');
-            this.debug('Found ' + embed_tags.length + ' embeds');
+            // this.debug('Found ' + embed_tags.length + ' embeds');
             for (var i = 0; i < embed_tags.length; i++) {
                 videoCandidates.push(embed_tags[i]);
             }
 
             var objects = $('object');
-            this.debug('Found ' + objects.length + ' objects');
+            // this.debug('Found ' + objects.length + ' objects');
             for (var i = 0; i < objects.length; i++) {
                 if (!/<embed/i.test(objects[i].innerHTML) || (!/<object/i.test(objects[i].innerHTML))) {
                     videoCandidates.push(objects[i]);
@@ -114,13 +116,13 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             }
 
             var iframes = $('iframe');
-            this.debug('Found ' + iframes.length + ' iframes');
+            // this.debug('Found ' + iframes.length + ' iframes');
             for (var i = 0; i < iframes.length; i++) {
                 videoCandidates.push(iframes[i]);
             }
 
             var videos = $('video');
-            this.debug('Found ' + videos.length + ' videos');
+            // this.debug('Found ' + videos.length + ' videos');
             for (var i = 0; i < videos.length; i++) {
                 videoCandidates.push(videos[i]);
             }
@@ -459,8 +461,8 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 offsetTop += parent.offsetTop;
                 var oldParent = parent;
                 parent = parent.offsetParent;
-
                 // this.debug('Offset parent element: ' + parent);
+
                 // if the element has set the scroll property,
                 // then calculate the relative position of video in the view port.
                 // relative position of video in context of view port can be calculated using
@@ -526,7 +528,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
      * @param target
      * @param watchlrVideoId
      */
-    _onVideoElementMouseEnter: function(target, watchlrVideoId) {
+    _onVideoElementMouseEnter: function(target, watchlrVideoId, differentElement) {
         try {
             // this.debug(target);
             // this.debug(target.watchlrVideoId);
@@ -546,10 +548,13 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
 
             // if selected video is different than the video saved in the object
             // hide the saved object video if it is visible
+
+
             if (this.selectedVideo && this.selectedVideo != selectedVideo) {
-                this.watchlrVideoBorder.hide();
+                // this.watchlrVideoBorder.hide();
                 this.selectedVideo.videoSelected = false;
                 this.selectedVideo.saveButtonSelected = false;
+                differentElement = true;
             }
 
             // set the new selected video
@@ -559,14 +564,17 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 this._createWatchlrVideoBorder();
             }
 
-            if (this.watchlrVideoBorder.isHidden()) {
+            // this.debug("Is watchlr border hidden:" + this.watchlrVideoBorder.isHidden());
+            if (this.watchlrVideoBorder.isHidden() || differentElement) {
                 // calculate the coordinates for video
                 selectedVideo.coordinates = this._getVideoCoordinates(target);
+
+                // this.debug("Do we have valid coordinates:" + selectedVideo.coordinates);
                 if (selectedVideo.coordinates) {
-                    this.debug("Coordinates for video:" + selectedVideo.coordinates.left + ", " +
+                    /*this.debug("Coordinates for video:" + selectedVideo.coordinates.left + ", " +
                         selectedVideo.coordinates.top + ", " +
                         selectedVideo.coordinates.width + ", " +
-                        selectedVideo.coordinates.height);
+                        selectedVideo.coordinates.height);  */
 
                     // draw the border around video
                     this.watchlrVideoBorder.show(selectedVideo.coordinates.left,
@@ -634,7 +642,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 {
                     this.watchlrVideoBorder.hide();
                 }
-            }, this), 1000);
+            }, this), this.frameBorderTimeout);
 
 
             try {
@@ -787,7 +795,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 {
                     this.watchlrVideoBorder.hide();
                 }
-            }, this), 1000);
+            }, this), this.frameBorderTimeout);
         } catch (err) {
             this.debug('from: onSaveButtonMouseOut of base VideoAdapter. \nReason:' + err);
             // $kat.trackError({from: "onSaveButtonMouseOut of base VideoAdapter", exception:err});
@@ -1035,7 +1043,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                     {
                         this.watchlrVideoBorder.hide();
                     }
-                }, this), 1000);
+                }, this), this.frameBorderTimeout);
             }
         } catch (err) {
             this.debug('from: updateButtonState of base VideoAdapter. \nReason:' + err);
@@ -1128,7 +1136,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                     {
                         this.watchlrVideoBorder.hide();
                     }
-                }, this), 1000);
+                }, this), this.frameBorderTimeout);
             }
         } catch (err) {
             this.debug("From: _onVideoLiked of base VideoAdapter. \nReason:" + err);

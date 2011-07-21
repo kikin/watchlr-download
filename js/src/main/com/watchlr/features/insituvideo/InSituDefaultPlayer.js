@@ -18,11 +18,21 @@ $.Class.extend("com.watchlr.features.insituvideo.InSituDefaultPlayer", {}, {
 		this._src = options.data.src;
 		
 		// add default swiff inside
-		$(this._element).flash({
-            swf: this._src,
-            width: '100%',
-            height: '100%'
-        });
+        if (options.data.vars) {
+            $(this._element).flash({
+                swf: this._src,
+                width: '100%',
+                height: '100%',
+                flashvars: options.data.vars
+            });
+        } else {
+            $(this._element).flash({
+                swf: this._src,
+                width: '100%',
+                height: '100%'
+            });
+        }
+
 	},
 
     appendTo: function(elem) {
