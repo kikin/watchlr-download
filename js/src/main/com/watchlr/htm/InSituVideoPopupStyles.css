@@ -1,0 +1,239 @@
+#watchlrIsvfContainer {
+	position:absolute;
+	height:325px;
+	width:659px;
+	overflow:hidden;
+	z-index:10000;
+	margin-top:-2px;
+	display:none;
+}
+#watchlrIsvLoader {
+	z-index: 10001;
+	background:#000;
+}
+#watchlr .watchlrIsvOverlay,
+.watchlrIsvOverlay {
+	position: absolute;
+	cursor: pointer;
+	background:transparent;
+	margin-bottom:-85px;
+}
+.watchlrIsvOverlay {
+	position: absolute;
+}
+
+#watchlr .watchlr-wrapper .watchlr-image .watchlrIsvOverlay{
+	position: relative;
+	margin-bottom:0; 
+	margin-top:-90px;
+}
+#watchlr-bar-popup.trident5 .watchlr-wrapper .watchlr-image .watchlrIsvOverlay{
+	*position:static;
+}
+
+#watchlr-bar-popup #watchlr .watchlrIsvOverlayArrow{
+	display:none;
+}
+
+#watchlr-bar-popup.trident5 .watchlrIsvButton{
+	position:static;
+}
+
+#watchlr-bar-popup .watchlrIsvButton{
+	background:url('http://local.watchlr.com/watchlr/img/pop_sprites.png') no-repeat -99px -299px;
+	width:51px;
+	height:51px;
+	margin-top:20px;
+	margin-left:38px;
+}
+
+#watchlr-bar-popup a .watchlrIsvButton {
+     opacity: 0.85;
+}
+#watchlr-bar-popup a:hover .watchlrIsvButton {
+     opacity: 1;
+}
+
+#watchlr .watchlrIsvKikinOverlay {
+	width: 120px;
+	height: 90px;
+}
+#watchlrIsvfWrapper {
+	width:659px;
+	background-color:transparent;
+	color:#fff;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:10px;
+	top:-325px;
+	line-height:19px;
+	font-weight:normal;
+}
+
+/*overflow cuttoff fix for video time*/
+#watchlr .watchlr-video .watchlr-wrapper div div .watchlr-prop-list{height:14px;}
+#watchlr .watchlr-video .watchlr-wrapper div div .watchlr-prop-list li{height:14px;}
+
+#watchlr-bar-popup #watchlr #watchlr-mc .watchlr-result-container{
+	height:auto !important;
+} 
+#watchlr .watchlr-result-container .watchlr-result{
+	float:left;
+}
+
+#watchlr .watchlr-result-container .watchlr-result:hover {
+   background: url('http://local.watchlr.com/watchlr/img/entry_bg.png') bottom repeat-x;
+}
+.trident .watchlr-result-container .watchlr-result:hover { /* IE is a bitch and does weird stuff with the scrollbar with the background image hover..so let's do a background-color instead */
+    background-image: none !important;
+    background-color:#EFEFEF !important;
+}
+
+#watchlr-bar-popup #watchlr .watchlr-video-details {
+    color:#474747;
+    font-size:12px;
+	float:left;
+	margin-left:5px;
+	width: 320px;
+/*	width:490px;*/
+	clear:none !important;
+}
+#watchlr-bar-popup .watchlr-video-imgCont{
+	float:left !important;
+}
+#watchlr .watchlr-rating{
+	margin-right:5px;
+}
+#watchlr-bar-popup #watchlr .watchlr-video-title,
+#watchlr-bar-popup #watchlr .watchlr-video-rating{
+	display:block;
+	clear:both !important;
+	height:auto !important;
+	height:auto;
+
+}
+
+#watchlr-bar-popup .smart-clip-image {
+	float: none;
+}
+
+#watchlr-bar-popup .watchlr-video-ad {
+	padding:0 0 10px 10px;
+	border-top: 1px solid #DBDCDD;
+	float: none;
+}
+
+#watchlr-bar-popup .watchlr-result.watchlr-video {
+    border-top:1px solid #DBDCDD;
+    padding-top:10px;
+}
+
+#watchlr-bar-popup .watchlr-video-playerPane{
+	width:655px;
+	display:block;
+	float:left;
+}
+#watchlr-bar-popup #watchlr #watchlr-mc .watchlr-result-container{
+	width:655px;
+	display:block;
+    padding-top:0;
+	float:left;
+}
+#watchlr-bar-popup .watchlr-pop-video-player{
+	width:100%;
+}
+
+#watchlr-bar-popup .watchlr-pop-video-playerDetails{
+	height:37px;
+	float:none;
+	background:url('http://local.watchlr.com/watchlr/img/popup_detail_bg.png') repeat-x;
+}
+#watchlr-bar-popup .watchlr-pop-video-playerTitle{
+	font-size:17px;
+	margin-left:10px;
+	margin-top:10px;
+	float:left;
+}
+#watchlr-bar-popup .watchlr-pop-video-playerRating{
+	margin-right:20px;
+	margin-top:10px;
+	float:right;
+}
+#watchlr-bar-popup .watchlr-pop-video-playerCont{
+	float:none;
+	height:300px;
+	overflow: hidden;
+	height:100%;
+	background:#111;
+}
+
+#watchlr-bar-popup .watchlr-video-info span {
+    margin: 0 2px;
+}
+
+#watchlr-bar-popup .watchlr-video-info{
+	padding-top:5px;
+	line-height:normal;
+}
+#watchlr-bar-popup .watchlr-video-duration{
+	margin-left:8px;
+}
+
+#watchlr-bar-popup .watchlr-video-user{
+	margin:6px 0px;
+}
+#watchlr-bar-popup .watchlr-video-user a{
+	text-decoration:none;
+}
+#watchlr-bar-popup .watchlr-video-user a span{
+	text-decoration:underline;
+}
+
+#watchlr-bar-popup .watchlr-video-details .watchlr-rating{
+    float:none !important;
+	margin-top:6px;
+}
+
+#watchlr-bar-popup .watchlr-video-details .watchlr-rating div {
+    display:inline;
+}
+
+#watchlr-bar-popup #watchlr .watchlr-result{
+    height:125px;
+    width:auto;
+	position:static;
+    float:none!important;
+}
+
+#watchlr-bar-popup .watchlr-video-numbers,
+#watchlr-bar-popup .watchlr-rating{
+	color:#626262;
+}
+
+#watchlr-bar-popup #watchlr .watchlr-video-title,
+#watchlr-bar-popup #watchlr .watchlr-video-desc{
+	overflow:hidden;
+	width:100%;
+}
+
+#watchlr-bar-popup #watchlr .watchlr-video-desc{
+	height:50px; 
+    line-height:16px;
+}
+
+#watchlr-bar-popup .watchlr-four h3 {
+	height: auto;
+}
+
+#watchlr .watchlr-dsp-ads-about-cont{
+	display:block;
+	float:none;
+}
+#watchlr-bar-popup #watchlr .watchlrVidDspAdCont{
+	float:right !important;
+	width:162px;
+}
+.watchlrVidDspAdCont iframe{
+	width:160px;
+	height:600px;
+	overflow:hidden;
+}
