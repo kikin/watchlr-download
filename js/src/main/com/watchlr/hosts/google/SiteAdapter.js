@@ -62,7 +62,7 @@ $cwh.adapters.SiteAdapter.extend("com.watchlr.hosts.google.adapters.SiteAdapter"
             var isva = new $cwh.adapters.InSituVideoAdapter.getInstance();
             if (isva) isva.attach();
 
-            console.log('We found InsituVideoAdapter instance:' + isva);
+            // console.log('We found InsituVideoAdapter instance:' + isva);
 
             var kva = $cwh.adapters.VideoAdapter.getInstance();
             if (kva) kva.attach();

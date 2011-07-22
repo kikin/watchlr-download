@@ -150,7 +150,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 }
 
                 var videoUrl = this._findVideoUrl(videoCandidates[i]);
-                // this.debug("Adding video for video element:" + videoCandidates[i] + " and url: " + videoUrl);
+                this.debug("Adding video for video element:" + videoCandidates[i] + " and url: " + videoUrl);
                 if (videoUrl) {
                     this._addVideo(videoCandidates[i], videoUrl);
                 }
@@ -255,11 +255,11 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 id                  : (this.videos.length + 1)
             };
 
-            if (videoElement)
-                this._addMouseEvents(videoElement);
-
             // assign the video id to video element
             videoElement.watchlrVideoId = video.id;
+
+            if (videoElement)
+                this._addMouseEvents(videoElement, video.id);
 
             // push the video object to list.
             this.videos.push(video);
@@ -277,7 +277,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
      *
      * @param videoElement
      */
-    _addMouseEvents : function(videoElement) {
+    _addMouseEvents : function(videoElement, watchlrVideoId) {
         // add mouse events to the object
         var _onVideoMouseOver = $.proxy(this._onVideoMouseOver, this);
         var _onVideoMouseOut = $.proxy(this._onVideoMouseOut, this);
@@ -662,6 +662,8 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
      */
     _onVideoMouseOver: function(e) {
         try {
+            this.debug("Video mouse over");
+
             var evt = e;
             if (!evt)
                 evt = window.event;
@@ -675,7 +677,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             if (!target)
                 target = evt.srcElement;
 
-            // this.debug("Video mouse over for target:" + (target ? target.nodeName : "not found"));
+            this.debug("Video mouse over for target:" + (target ? target.nodeName : "not found"));
 
             if (target) {
                 if (target.nodeType == 3) {
@@ -691,7 +693,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                     }
                 }
 
-                // this.debug("Video id associated with target:" + watchlrVideoId);
+                this.debug("Video id associated with target:" + watchlrVideoId);
 
                 this._onVideoElementMouseEnter(target, watchlrVideoId);
             }

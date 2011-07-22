@@ -187,7 +187,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.facebook.adapters.VideoAdap
                 if (iframe && iframe.length > 0) {
                     // this.debug('Iframe found');
                     iframe = iframe.get(0);
-                    this._addMouseEvents(iframe);
+                    this._addMouseEvents(iframe, parentNode.watchlrVideoId);
                     iframe.watchlrVideoId = parentNode.watchlrVideoId;
                     this.selectedVideo.mouseover = iframe.onmouseover;
                     this.selectedVideo.mouseoout = iframe.onmouseout;
@@ -198,7 +198,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.facebook.adapters.VideoAdap
                 if (object && object.length > 0) {
                     // this.debug('Object found');
                     object = object.get(0);
-                    this._addMouseEvents(object);
+                    this._addMouseEvents(object, parentNode.watchlrVideoId);
                     object.watchlrVideoId = parentNode.watchlrVideoId;
                     this.selectedVideo.mouseover = object.onmouseover;
                     this.selectedVideo.mouseoout = object.onmouseout;
@@ -209,7 +209,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.facebook.adapters.VideoAdap
                 if (embed && embed.length > 0) {
                     // this.debug('Embed found');
                     embed = embed.get(0);
-                    this._addMouseEvents(embed);
+                    this._addMouseEvents(embed, parentNode.watchlrVideoId);
                     embed.watchlrVideoId = parentNode.watchlrVideoId;
                     this.selectedVideo.mouseover = embed.onmouseover;
                     this.selectedVideo.mouseoout = embed.onmouseout;

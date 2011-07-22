@@ -95,9 +95,11 @@ function jsPrioritiesCmp($a, $b) {
 
         'src/main/com/watchlr/hosts/yahoo/SiteAdapter.js' => 6,
         'src/main/com/watchlr/hosts/yahoo/VideoAdapter.js' => 5,
+        'src/main/com/watchlr/hosts/yahoo/InSituVideoAdapter.js' => 4,
 
         'src/main/com/watchlr/hosts/youtube/SiteAdapter.js' => 3,
         'src/main/com/watchlr/hosts/youtube/VideoAdapter.js' => 2,
+        'src/main/com/watchlr/hosts/youtube/InSituVideoAdapter.js' => 1,
 
         'src/main/com/watchlr/system/runtime/Bootstrap.js' => -1
 	);

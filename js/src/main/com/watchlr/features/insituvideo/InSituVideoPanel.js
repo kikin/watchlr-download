@@ -4,7 +4,6 @@
 $.Class.extend("com.watchlr.features.insituvideo.InSituVideoPanel", {
     openedInstance : null
 }, {
-	animate: true,
 	player: null,
 	infos: null,
 	loader: null,
@@ -15,19 +14,11 @@ $.Class.extend("com.watchlr.features.insituvideo.InSituVideoPanel", {
             $('<div id="watchlrIsvfContainer"></div>').prependTo($(options.document.body));
             this._element = $('#watchlrIsvfContainer');
             $(this._element).html($cws.html['InSituVideoMarkup']);
-            /*this.parent('div', {
-                id: 'kikinIsvfContainer',
-                html: $ku.Localize.apply($ks.html.InSituVideoMarkup, 'InSituVideoFeature'),
-                document: options.document
-            });*/
 
             $cwutil.Styles.addCSSHelperClasses(this._element);
             $cwutil.Styles.insert('InSituVideoPopupStyles', options.document);
 
             $(this._element).hide();
-            // this.inject(options.document.body, 'top');
-
-            this.setAnimate(true);
             this.setContainerEvents();
         } catch (err) {
             console.log("From: init of InSituVideoPanel. \nReason: " + err);
@@ -47,11 +38,6 @@ $.Class.extend("com.watchlr.features.insituvideo.InSituVideoPanel", {
 	setPlayer: function(player) {
 		this.player = player;
 	},	
-	
-	setAnimate: function(animate) {
-		this.animate = animate;
-		$($(this._element).find('div[id=watchlrIsvfWrapper]')).css('top', (animate ? -348 : 0) + 'px');
-	},
 	
 	setContainerEvents: function() {
         try {
@@ -86,7 +72,7 @@ $.Class.extend("com.watchlr.features.insituvideo.InSituVideoPanel", {
                     feature: this.infos.url
                 });*/
 
-            window.location = this.infos.url;
+            window.open(this.infos.url, '_balnk');
 
         } catch (err) {
             console.log("From: onClickGoToWebsite of InSituVideoPanel. \nReason: " + err);
@@ -94,6 +80,21 @@ $.Class.extend("com.watchlr.features.insituvideo.InSituVideoPanel", {
         }
 
 	},
+
+    /**
+     * Make dialog visible in viewport.
+     */
+    _makeInSituPlayerVisibleInViewPort: function() {
+        var docViewTop = $(window).scrollTop();
+        var docViewBottom = docViewTop + $(window).height();
+
+        var elemTop = $(this._element).offset().top;
+        var elemBottom = elemTop + $(this._element).height();
+
+        if (elemBottom >= docViewBottom) {
+            $(window).scrollTop(docViewTop + (elemBottom - docViewBottom) + 20);
+        }
+    },
 	
 	open: function(clickSrc) {
 		this._element.show();
@@ -119,35 +120,18 @@ $.Class.extend("com.watchlr.features.insituvideo.InSituVideoPanel", {
 		// inject the player
 		$($(this._element).find('div[id=watchlrIsvfPlayer]')).html('');
 		this.player.appendTo($(this._element).find('div[id=watchlrIsvfPlayer]'));
-		// only for smarclipvideo
-		// if (this.player.play) this.player.play(435, 240);
-		
-		// do the sliding animation
-		if (this.animate) {
-			/*$($(this._element).find('div[id=watchlrIsvfWrapper]')).animate({
-                'left' : $(this._element).css('left'),
-                'top': ($(this._element).css('top') + $(this._element).css('height')),
-                'link': 'cancel'
-            }, 1000, 'linear', $.proxy(this.onShowAnimComplete, this));*/
-            this.show();
-		}
-		
+
+		this.show();
+        this._makeInSituPlayerVisibleInViewPort();
+
 		// track that
 		// $kat.f_clk('InSituVideo', this.infos.url, (clickSrc?clickSrc:'image'), this.infos.partnerId);
 	},
 	
 	close: function() {
 		this.player.remove();
-		// do the sliding animation
-		if (this.animate) {
-			/*$($(this._element).find('div[id=watchlrIsvfWrapper]')).animate({
-                'top': "-=348",
-                'link': 'cancel'
-            }, 1000, 'linear', $.proxy(this.onHideAnimComplete, this));*/
-            this.hide();
-		} else {
-			this.hide();
-		}
+		this.hide();
+
 	},
 	
 	hide: function() {
@@ -160,16 +144,7 @@ $.Class.extend("com.watchlr.features.insituvideo.InSituVideoPanel", {
 		// this.fireEvent('show');
 	},
 	
-	onHideAnimComplete: function() {
-		this.hide();
-		// this.fireEvent('hideAnimComplete');
-	},
-	
-	onShowAnimComplete: function() {
-		// this.fireEvent('showAnimComplete');
-	},
-
-    css: function(prop, propVal) {
+	css: function(prop, propVal) {
         if (!propVal) {
             return $(this._element).css(prop);
         } else {

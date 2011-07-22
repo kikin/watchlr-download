@@ -1,7 +1,7 @@
 /**
- * @package com.watchlr.hosts.google.adapters
+ * @package com.watchlr.hosts.yahoo.adapters
  */
-$cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.google.adapters.InSituVideoAdapter", {}, {
+$cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.yahoo.adapters.InSituVideoAdapter", {}, {
 	_stats: null,
 	
 	attach: function() {
@@ -12,27 +12,26 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.google.adapters.InSit
             $cwutil.Styles.insert('InSituVideoStyles', document);
 
             // look the page for video images
-            $('#res li.videobox a img[id*=vidthumb]').each($.proxy(this._addVideoPlayback, this));
-            //single video result - http://www.google.com/search?hl=en&q=ducati+696
-            $('#res table a img[id*=vidthumb]').each($.proxy(this._addVideoPlayback, this));
+            $('ul.c-thumb.video li').each($.proxy(this._addVideoPlayback, this));
 
             // track unsupported domains
             /*if (this._stats.unsupportedDomains.length > 0) {
                 $kat.track('InSituAdapterEvt','Unsupported', {campaign: this._stats.unsupportedDomains.join(',')});
             } */
+
         } catch (err) {
-            console.log("From: attach of Google search InSituVideoAdapter. \nReason: " + err);
+            console.log("From: attach of Yahoo search InSituVideoAdapter. \nReason: " + err);
             // $kat.trackError({from: 'attach of Google search InSituVideoAdapter', msg: '', exception: err});
         }
 	},
 
-	_addVideoPlayback: function(pos, img) {
+	_addVideoPlayback: function(pos, videoDiv) {
     	try {
-            if ($(img).parents('a').prev('.watchlrIsvGoogleOverlay').get(0))
+            if ($(videoDiv).parents('a').prev('.watchlrIsvGoogleOverlay').get(0))
                 return;
 
             // get the host config (fails if not compatible)
-            var videoUrl = this.getVideoUrl(img),
+            var videoUrl = this.getVideoUrl(videoDiv),
                 supportedHosts = $cwc.FeaturesConfig.plugins.InSituVideoFeature.config.supportedHosts,
                 hostConfig = videoUrl ? supportedHosts[$cwutil.Url.getHostName(videoUrl)] : null;
 
@@ -50,8 +49,10 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.google.adapters.InSit
             var name = hostConfig.name; // .toString();
             // console.log('name: ' + name);
 
+            var imgLink = $(videoDiv).find('.thm').get(0);
+
             // Create button overlay
-            var overlay = $('<div class="watchlrIsvOverlay watchlrIsvGoogleOverlay"></div>').insertBefore($(img).parents('a'));
+            var overlay = $('<div class="watchlrIsvOverlay watchlrIsvGoogleOverlay"></div>').insertBefore(imgLink);
                 /*overlay = new Element('div', {
                     'class': 'kikinIsvOverlay kikinIsvGoogleOverlay'
                 }).inject(img.getParent('a'), 'before'),*/
@@ -71,8 +72,8 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.google.adapters.InSit
                 BORDER_RAD = 2;
 
             overlay.css({
-                width: img.offsetWidth,
-                height: img.offsetHeight
+                width: videoDiv.offsetWidth,
+                height: videoDiv.offsetHeight
             });
 
             button.css({
@@ -80,49 +81,44 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.google.adapters.InSit
                 'margin-left': (parseInt(button.css('marginLeft')) + img.offsetWidth - SMALL_THUMB_X - BORDER_RAD * 2) + 'px'
             });
 
-            var handler = $.proxy(this.onClickVideoThumbnail, this);
-            var googleLink = overlay.next();
-            $(googleLink).unbind('click');
-            $(googleLink).click(handler);
-            var googlePlay = $(googleLink).find('.play_icon');
-
-            // $ku.Element.setBrowserClasses(button);
             $cwutil.Styles.addCSSHelperClasses(button);
+            var handler = $.proxy(this.onClickVideoThumbnail, this);
 
-            // Remove google's overlay play button and insert new watchlr button
-            if ($(img).next()) $($(img).next()).remove();
-            if (googlePlay) $(googlePlay).css('background', 'none');
+            // Remove yahoo's overlay play button
+			$(imgLink).find('em').remove();
 
             // Attach event to button for video play
             overlay.click(handler);
 
             this._stats.supported++;
+
         } catch (err) {
-            console.log("From: _addVideoPlayback of Google search InSituVideoAdapter. \nReason: " + err);
+            console.log("From: _addVideoPlayback of Yahoo search InSituVideoAdapter. \nReason: " + err);
             // $kat.trackError({from: '_addVideoPlayback of Google search InSituVideoAdapter', msg: '', exception: err});
         }
 	},
 
-	getVideoUrl: function(img) {
-        // console.log('Image element received:' + img);
-		var imgParentTable = $(img).parents('a').get(0);
-
-        // console.log('Image element parent: ' + imgParentTable);
-		if(imgParentTable) {
-            var url = imgParentTable.href,
-                videoUrl = /url\?url=(.*)&rct=/i.exec(url);
-
-            // console.log('Anchor element URL:' + url);
-            // console.log('Video url:' + videoUrl);
-            if (videoUrl && videoUrl.length > 1) {
-                return decodeURIComponent(videoUrl[1]);
+	getVideoUrl: function(videoDiv) {
+        // try to get the link
+        try {
+            var link = $(videoDiv).find('a');
+            // this.debug('Link: ' + link);
+            if(link) {
+                // get rurl parameter
+                var href = decodeURIComponent($(link).attr('href')),
+                        params = $cwutil.String.parseQueryString(href),
+                        url = (params && params.rurl) ? decodeURIComponent(params.rurl.replace(/&amp;/g, '&')) : null;
+                return url;
             }
+        } catch (err) {
+            console.log("From: getVideoUrl of yahoo's search InSituVideoAdapter.\nReason: " + err);
+            // $kat.trackError({from: "getVideoUrl of yahoo's search InSituVideoAdapter", exception:err});
         }
-
-		return null;
+        // alert(link);
+        return null;
 	},
 
-	onClickVideoThumbnail: function(e) {
+    onClickVideoThumbnail: function(e) {
 	    try {
             // e.stopPropagation();
 
@@ -134,45 +130,43 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.google.adapters.InSit
             }
 
             // get some infos
-            var elContainer = $(e.target).parents('table').get(0),
-                elInfoContainer = $(elContainer).find('td:last-child'),
-                elRating = $(elInfoContainer).find('font'),
-                elTitle = $(elContainer).find('a.l'),
-                elVideoLink = $(elContainer).find('td a'),
-                elVideoImg = $(elContainer).find('td a img'),
-                videoUrl = this.getVideoUrl(elVideoImg),
-                supportedHosts = $cwc.FeaturesConfig.plugins.InSituVideoFeature.config.supportedHosts,
-                hostConfig = videoUrl ? supportedHosts[$cwutil.Url.getHostName(videoUrl)] : null;
+            var videoDiv = $(e.target).parents('li').get(0),
+	    	imgLink = $(videoDiv).find('.thm').get(0),
+	    	img = $(imgLink).find('img').get(0),
+	    	elTitle = $(videoDiv).find('a:not(.thm)').get(0),
+	    	url = this.getVideoUrl(videoDiv),
+            supportedHosts = $cwc.FeaturesConfig.plugins.InSituVideoFeature.config.supportedHosts,
+	        hostConfig = url ? supportedHosts[$cwutil.Url.getHostName(url)] : null;
 
             // set infos in the right panel
             this.videoPanel.setInfos({
-                title: $(elTitle).html(),
+                title: $(elTitle).text(),
                 rating: '',
                 // partnerId: $kf.core.FeaturesDisplayNames.ids.ORGANIC,
                 hostName: hostConfig.name,
-                url: $(elTitle).attr('href')
+                url: url
             });
 
             // set the player
             this.videoPanel.setPlayer(
                 new $cwf.insituvideo.InSituDefaultPlayer({
-                    data: $cwf.insituvideo.InSituVideoFeature.getSwiffData($(elVideoImg).parents('a')),
+                    data: $cwf.insituvideo.InSituVideoFeature.getSwiffData(url),
                     document: document
                 })
             );
 
-            var imgHeight = $(elVideoImg).height() || 66;
+            var imgHeight = $(imgLink).height() || 90;
             /*var relElement = $('#watchlr_top') || $('#center_col') || $(document.body);
             console.log("relElement:" + relElement);
             console.log("$(relElement).offset():" + relElement.position(document.body));*/
 
-            this.videoPanel.css('left', $(elVideoImg).offset().left);
-            this.videoPanel.css('top', $(elVideoImg).offset().top + imgHeight);
+            this.videoPanel.css('left', $(imgLink).offset().left);
+            this.videoPanel.css('top', $(imgLink).offset().top + imgHeight);
 
             // show the panel and start playing
             this.videoPanel.open();
         } catch (err) {
-            console.log("From: onClickVideoThumbnail of Google search InSituVideoAdapter. \nReason: " + err);
+            console.log("From: onClickVideoThumbnail of Yahoo search InSituVideoAdapter. \nReason: " + err);
             // $kat.trackError({from: 'onClickVideoThumbnail of Google search InSituVideoAdapter', msg: '', exception: err});
         }
 	}
