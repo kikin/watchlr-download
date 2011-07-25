@@ -459,13 +459,16 @@ com.watchlr.plugin = function() {
                 }*/
                 triggerWindow = anEvent.originalTarget.defaultView;
 
+                // inject the element on the page so that we can
+                // detect if watchlr plugin is installed.
+                var div = triggerWindow.document.createElement('div');
+                div.id = 'watchlr_dummy_element_for_plugin_detection';
+                div.style.display = 'hidden';
+                triggerWindow.document.body.appendChild(div);
+
+
                 var host = triggerWindow.location.host;
                 if (/.*\.watchlr\.com/.test(host)) {
-                    var div = triggerWindow.document.createElement('div');
-                    div.id = 'watchlr_dummy_element_for_plugin_detection';
-                    div.style.display = 'hidden';
-                    triggerWindow.document.body.appendChild(div);
-
                     div.addEventListener('refreshJsUrl', function() {
                         priv.getWatchlrJsUrl();
                     }, false);

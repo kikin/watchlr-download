@@ -20,6 +20,6 @@
    },
    "name": "Watchlr",
    "permissions": [ "tabs",  "http://*/*" , "https://*/*" ],
-   "version": "1.0.4",
+   "version": "1.0.5",
    "update_url": "http://download.watchlr.com/updates/update-watchlr.xml"
 }
