@@ -4,7 +4,15 @@
     Alias /robots.txt /opt/video_env/kikinvideo/static/robots.txt
     Alias /favicon.ico /opt/video_env/kikinvideo/static/images/favicon.ico
 
-    <Directory /opt/download_env/kikinvideo/static/>
+    Alias /static/ /opt/download_env/static/
+    <Directory /opt/download_env/static/>
+    Order deny,allow
+    Allow from all
+    Options -Indexes
+    </Directory>
+
+    Alias /img/ /opt/download_env/src/img/
+    <Directory /opt/download_env/src/img/>
     Order deny,allow
     Allow from all
     Options -Indexes
@@ -25,6 +33,13 @@
 
     Alias /static/ /opt/download_env/static/
     <Directory /opt/download_env/static/>
+    Order deny,allow
+    Allow from all
+    Options -Indexes
+    </Directory>
+
+    Alias /img/ /opt/download_env/src/img/
+    <Directory /opt/download_env/src/img/>
     Order deny,allow
     Allow from all
     Options -Indexes
