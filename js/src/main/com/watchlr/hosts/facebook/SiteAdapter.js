@@ -30,7 +30,7 @@ $cwh.adapters.SiteAdapter.extend("com.watchlr.hosts.facebook.adapters.SiteAdapte
 
         } catch(e) {
             // alert("From: facebook_site_adapter. \nReason:" + e);
-            // $kat.trackError({ from: 'facebook_site_adapter', exception: e, msg: 'unable to create video adapter'});
+            $cws.Tracker.trackError({ from: 'facebook_site_adapter', exception: e, msg: 'unable to create video adapter'});
         }
 
 	}

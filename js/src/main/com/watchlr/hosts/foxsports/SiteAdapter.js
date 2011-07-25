@@ -8,7 +8,7 @@ $cwh.adapters.SiteAdapter.extend("com.watchlr.hosts.foxsports.adapters.SiteAdapt
             if (kva) kva.attach();
         } catch(e) {
             // alert("From: fox_sports_site_adapter. \nReason: " + e);
-            // $kat.trackError({ from: 'fox_sports_site_adapter', exception: e, msg: 'unable to create video adapter'});
+            $cws.Tracker.trackError({ from: 'fox_sports_site_adapter', exception: e, msg: 'unable to create video adapter'});
         }
 	}
 });

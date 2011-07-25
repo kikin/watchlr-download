@@ -17,7 +17,7 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.youtube.adapters.InSi
 
         } catch (err) {
             console.log("From: attach of Youtube search InSituVideoAdapter. \nReason: " + err);
-            // $kat.trackError({from: 'attach of Youtube search InSituVideoAdapter', msg: '', exception: err});
+            $cws.Tracker.trackError({from: 'attach of Youtube search InSituVideoAdapter', msg: '', exception: err});
         }
 	},
 
@@ -61,7 +61,7 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.youtube.adapters.InSi
 
         } catch (err) {
             console.log("From: _addVideoPlayback of Youtube search InSituVideoAdapter. \nReason: " + err);
-            // $kat.trackError({from: '_addVideoPlayback of Youtube search InSituVideoAdapter', msg: '', exception: err});
+            $cws.Tracker.trackError({from: '_addVideoPlayback of Youtube search InSituVideoAdapter', msg: '', exception: err});
         }
 	},
 
@@ -157,7 +157,7 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.youtube.adapters.InSi
             return false;
         } catch (err) {
             console.log("From: onClickVideoThumbnail of Youtube search InSituVideoAdapter. \nReason: " + err);
-            // $kat.trackError({from: 'onClickVideoThumbnail of Youtube search InSituVideoAdapter', msg: '', exception: err});
+            $cws.Tracker.trackError({from: 'onClickVideoThumbnail of Youtube search InSituVideoAdapter', msg: '', exception: err});
         }
 	}
 

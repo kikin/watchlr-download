@@ -38,19 +38,16 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.cbsnews.adapters.VideoAdapt
                         if (videoId) {
                             var url = "http://www.cbsnews.com/video/watch/?video_id=" + videoId;
                             this._addVideo(videoElement, url);
+                            $cws.Tracker.track('VideoAdapterEvt', 'SupportedVideoFound', url);
                         }
                     } catch (err) {
                         // this.debug("From: _findVideoCandidates of CBS news. \nReason:" + err);
-                        // $kat.trackError({from:"_findVideoCandidates of CBS news", msg: "Unable to get falshvars using CBS JS API.", exception:err})
+                        $cws.Tracker.trackError({from:"_findVideoCandidates of CBS news", msg: "Unable to get falshvars using CBS JS API.", exception:err})
                     }
                 }
 
                 if (this.videos.length > this._videosFound) {
                     this._videosFound = this.videos.length;
-                    /*$kat.track('VideoAdapterEvt', 'SupportedVideoFound', {
-                        campaign: window.location.host
-                    });*/
-
                     new $cws.WatchlrRequests.sendVideosInfoRequest($.proxy(this._onVideosInfoReceived.bind, this), this.videos);
                 }
 
@@ -62,7 +59,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.cbsnews.adapters.VideoAdapt
 
         } catch (outerErr) {
             // this.debug('From: _findVideoCandidates of CBS news. \nReason:' + outerErr);
-            // $kat.trackError({from:"_findVideoCandidates of CBS news", msg: "Unable to find CBS video element.", exception:outerErr})
+            $cws.Tracker.trackError({from:"_findVideoCandidates of CBS news", msg: "Unable to find CBS video element.", exception:outerErr})
         }
 
         return embeds;
@@ -146,9 +143,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.cbsnews.adapters.VideoAdapt
                     this.videos[0].tracked = false;
 
                     this._videosFound = this.videos.length;
-                    /*$kat.track('VideoAdapterEvt', 'SupportedVideoFound', {
-                        campaign: window.location.host
-                    });*/
+                    $cws.Tracker.track('VideoAdapterEvt', 'SupportedVideoFound', this.videos[0].url);
 
                     new $cws.WatchlrRequests.sendVideosInfoRequest($.proxy(this._onVideosInfoReceived, this), this.videos);
 
@@ -156,7 +151,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.cbsnews.adapters.VideoAdapt
             }
         } catch (err) {
             // alert("From: _onVideoUrlChange of CBS news VideoAdapter. \nReason:" + err);
-            // $kat.trackError({from:"_onVideoUrlChange of CBS news VideoAdapter", msg: "Unable to change video URL on video change", exception:err});
+            $cws.Tracker.trackError({from:"_onVideoUrlChange of CBS news VideoAdapter", msg: "Unable to change video URL on video change", exception:err});
         }
     }
 });

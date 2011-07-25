@@ -101,5 +101,41 @@ $.Class.extend("com.watchlr.system.WatchlrRequests", {
           data: {'url': _videoUrl},
           success: _callback
         });
-	}
+	},
+
+  sendActionTrackingRequest: function(obj) {
+      var reqUrl = $cws.WatchlrRequests._WATCHLR_API_URL + 'track/action?callback=?';
+
+      obj['agent'] = 'plugin';
+      obj['version'] = com.watchlr.version;
+
+      $.ajax({
+          url: reqUrl,
+          data: obj
+      });
+  },
+
+  sendEventTrackingRequest: function(obj) {
+      var reqUrl = $cws.WatchlrRequests._WATCHLR_API_URL + 'track/event?callback=?';
+
+      obj['agent'] = 'plugin';
+      obj['version'] = com.watchlr.version;
+
+      $.ajax({
+          url: reqUrl,
+          data: obj
+      });
+  },
+
+  sendErrorTrackingRequest: function(obj) {
+      var reqUrl = $cws.WatchlrRequests._WATCHLR_API_URL + 'track/error?callback=?';
+
+      obj['agent'] = 'plugin';
+      obj['version'] = com.watchlr.version;
+
+      $.ajax({
+          url: reqUrl,
+          data: obj
+      });
+  }
 }, {});

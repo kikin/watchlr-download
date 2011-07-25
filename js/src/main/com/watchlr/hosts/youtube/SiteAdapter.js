@@ -17,7 +17,7 @@ $cwh.adapters.SiteAdapter.extend("com.watchlr.hosts.youtube.adapters.SiteAdapter
 
         } catch(e) {
             console.log("From: youtube_site_adapter.\nReason: " + e);
-            // $kat.trackError({ from: 'youtube_site_adapter', exception: e, msg: 'unable to create video adapter'});
+            $cws.Tracker.trackError({ from: 'youtube_site_adapter', exception: e, msg: 'unable to create video adapter'});
         }
 	}
 	

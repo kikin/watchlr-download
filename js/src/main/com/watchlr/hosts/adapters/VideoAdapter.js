@@ -130,7 +130,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             return videoCandidates;
         } catch (err) {
             this.debug("from: _findVideoCandidates of base VideoAdapter. \n Reason:" + err);
-            //$kat.trackError({from: "_findVideoCandidates of base VideoAdapter.", exception:err});
+            $cws.Tracker.trackError({from:"_findVideoCandidates of base VideoAdapter.", exception:err});
         }
 
         return null;
@@ -153,22 +153,19 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 this.debug("Adding video for video element:" + videoCandidates[i] + " and url: " + videoUrl);
                 if (videoUrl) {
                     this._addVideo(videoCandidates[i], videoUrl);
+                    $cws.Tracker.track('VideoAdapterEvt', 'SupportedVideoFound', videoUrl);
                 }
             }
 
             if (this.videos.length > this._videosFound) {
                 this._videosFound = this.videos.length;
-                /*$kat.track('VideoAdapterEvt', 'SupportedVideoFound', {
-                    campaign: window.location.host
-                });*/
-
                 $cws.WatchlrRequests.sendVideosInfoRequest($.proxy(this._onVideosInfoReceived, this), this.videos);
             }
 
             // this.debug("Number of videos found:" + this.videos.length);
         } catch (err) {
             this.debug("from: _findVideos of base VideoAdapter. \nReason:" + err);
-            // $kat.trackError({from: "_findVideos of base VideoAdapter.", exception:err});
+            $cws.Tracker.trackError({from: "_findVideos of base VideoAdapter.", exception:err});
         }
     },
 
@@ -267,7 +264,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             return video;
         } catch (err) {
             this.debug("from: _addVideo of base VideoAdapter. \n Reason:" + err);
-            // $kat.trackError({from: "_addVideo of base VideoAdapter.", msg:"Error while adding video.", exception:err});
+            $cws.Tracker.trackError({from: "_addVideo of base VideoAdapter.", msg:"Error while adding video.", exception:err});
         }
     },
 
@@ -424,7 +421,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
 
         } catch (e) {
             this.debug("from: _createWatchlrVideoBorder of base VideoAdapter. \nReason:" + e);
-            // $kat.trackError({from:"_createWatchlrVideoBorder of base VideoAdapter", msg: "Unable to create the border around video.", exception:e});
+            $cws.Tracker.trackError({from:"_createWatchlrVideoBorder of base VideoAdapter", msg: "Unable to create the border around video.", exception:e});
         }
     },
 
@@ -512,7 +509,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             return coordinates;
         } catch (e) {
             this.debug('from: getVideoCoordinates of base VideoAdapter. \nReason:' + e);
-            // $kat.trackError({from: "getVideoCoordinates of base VideoAdapter", msg: "Unable to calculate the coordinates for video.", exception:e});
+            $cws.Tracker.trackError({from: "getVideoCoordinates of base VideoAdapter", msg: "Unable to calculate the coordinates for video.", exception:e});
         }
 
         return null;
@@ -539,9 +536,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             var selectedVideo = this.videos[watchlrVideoId - 1];
             try {
                 if (!selectedVideo.tracked) {
-                    /*$kat.track('VideoAdapterEvt', 'VideoMouseOver', {
-                        campaign: window.location.host
-                    });*/
+                    $cws.Tracker.track('VideoAdapterEvt', 'VideoMouseOver', selectedVideo.url);
                     selectedVideo.tracked = true;
                 }
             } catch (tarckError) {}
@@ -598,7 +593,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             } catch (e) {}
         } catch (err) {
             this.debug('from: _onVideoElementMouseOver of base VideoAdapter. \nReason:' + e);
-            // $kat.trackError({from: "_onVideoElementMouseOver of base VideoAdapter", msg: "Unable to show watchlr video border.", exception:e});
+            $cws.Tracker.trackError({from: "_onVideoElementMouseOver of base VideoAdapter", msg: "Unable to show watchlr video border.", exception:e});
         }
     },
 
@@ -652,7 +647,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             }  catch (e) {}
         } catch (err) {
             this.debug('from: _onVideoElementMouseLeave of base VideoAdapter. \nReason:' + e);
-            // $kat.trackError({from: "_onVideoElementMouseLeave of base VideoAdapter", msg: "Unable to hide watchlr video border.", exception:e});
+            $cws.Tracker.trackError({from: "_onVideoElementMouseLeave of base VideoAdapter", msg: "Unable to hide watchlr video border.", exception:e});
         }
     },
 
@@ -699,7 +694,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             }
         } catch (err) {
             this.debug('from: onVideoMouseOver of base VideoAdapter. \nReason:' + err);
-            // $kat.trackError({from: "onVideoMouseOver of base VideoAdapter", exception:err});
+            $cws.Tracker.trackError({from: "onVideoMouseOver of base VideoAdapter", exception:err});
         }
     },
 
@@ -745,7 +740,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             }
         } catch (err) {
             this.debug('from: onVideoMouseOut of base VideoAdapter. \nReason:' + err);
-            // $kat.trackError({from: "onVideoMouseOut of base VideoAdapter", exception:err});
+            $cws.Tracker.trackError({from: "onVideoMouseOut of base VideoAdapter", exception:err});
         }
     },
 
@@ -761,7 +756,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             this.selectedVideo.saveButtonSelected = true;
         } catch (err) {
             this.debug('from: onSaveButtonMouseOver of base VideoAdapter. \nReason:' + err);
-            // $kat.trackError({from: "onSaveButtonMouseOver of base VideoAdapter", exception:err});
+            $cws.Tracker.trackError({from: "onSaveButtonMouseOver of base VideoAdapter", exception:err});
         }
     },
 
@@ -800,7 +795,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             }, this), this.frameBorderTimeout);
         } catch (err) {
             this.debug('from: onSaveButtonMouseOut of base VideoAdapter. \nReason:' + err);
-            // $kat.trackError({from: "onSaveButtonMouseOut of base VideoAdapter", exception:err});
+            $cws.Tracker.trackError({from: "onSaveButtonMouseOut of base VideoAdapter", exception:err});
         }
     },
 
@@ -818,18 +813,14 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 this.watchlrVideoBorder.setSaveButtonState($cwui.WatchlrVideoBorder.SaveButtonState.SAVING);
                 this.selectedVideo.savingVideo = true;
                 $cws.WatchlrRequests.sendSaveVideoRequest($.proxy(this._updateButtonState, this), this.selectedVideo.url);
-                /*$kat.track('Video', 'SaveVideoClk', {
-                    campaign: window.location.host
-                });*/
+                $cws.Tracker.track('Video', 'SaveVideo', selectedVideo.url);
             } else {
                 window.open($cwh.adapters.VideoAdapter.WATCHLR_COM);
-                /*$kat.track('Video', 'ToWatchlrCom', {
-                    campaign: window.location.host
-                });*/
+                $cws.Tracker.track('VideoAdapterEvt', 'WatchSavedVideo', selectedVideo.url);
             }
         } catch (err) {
             this.debug('from: onSaveButtonClicked of base VideoAdapter. \nReason:' + err);
-            // $kat.trackError({from: "onSaveButtonClicked of base VideoAdapter", exception:err});
+            $cws.Tracker.trackError({from: "onSaveButtonClicked of base VideoAdapter", exception:err});
         }
     },
 
@@ -853,20 +844,14 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                     this.watchlrVideoBorder.bind($cwui.VideoLikedDialog.VideoLikedDialogEvents.ON_CLOSE,  $.proxy(this._onPushToFacebookDialogDismissed, this));
                     this.watchlrVideoBorder.bind($cwui.VideoLikedDialog.VideoLikedDialogEvents.ON_HOME_PAGE_LINK_CLICKED,  $.proxy(this._handleVisitingVideoPageRequested, this));
                     this.watchlrVideoBorder.showVideoSavedDialog();
-                    /*$kat.track('VideoAdapterEvt', 'FirstLike', {
-                        campaign: window.location.host
-                    });*/
+                    $cws.Tracker.track('VideoAdapterEvt', 'FirstLike', selectedVideo.url);
                 } else {
                     $cws.WatchlrRequests.sendVideoLikedRequest($.proxy(this._onVideoLiked, this), this.selectedVideo.url);
                 }
-                //$kat.track('Video', 'LikeVideoClk', {
-                //    campaign: window.location.host
-                //});
+                $cws.Tracker.track('Video', 'LikeVideo', selectedVideo.url);
             } else {
                 window.open($cwh.adapters.VideoAdapter.WATCHLR_COM + '#!/liked_queue');
-                /*$kat.track('Video', 'ToWatchlrCom', {
-                    campaign: window.location.host
-                });*/
+                $cws.Tracker.track('VideoAdapterEvt', 'WatchLikedVideo', selectedVideo.url);
             }
         } catch (err) {
             this.debug('from: onLikeButtonClicked of base VideoAdapter. \nReason:' + err);
@@ -926,9 +911,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             this.watchlrVideoBorder.setLikeButtonState($cwui.WatchlrVideoBorder.LikeButtonState.UNLIKED);
         }
 
-        /*$kat.track('VideoAdapterEvt', 'LoginCancel', {
-            campaign: window.location.host
-        });*/
+        $cws.Tracker.track('VideoAdapterEvt', 'LoginCancel', this.selectedVideo.savingVideo ? 'Save' : 'Like');
     },
 
     /**
@@ -948,9 +931,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
      */
     _handleVisitingVideoPageRequested: function() {
         window.open($cwh.adapters.VideoAdapter.WATCHLR_COM);
-        /*$kat.track('Video', 'ToWatchlrCom', {
-            campaign: window.location.host
-        });*/
+        $cws.Tracker.track('VideoAdapterEvt', 'ToWatchlrCom');
     },
 
     /** When video is saved. */
@@ -992,12 +973,12 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                             default: {
                                 // unknown reason.
                                 alert(this._localize('errorDlgTitle') + "\n\n" + this._localize('errorDlgMsg'));
-                                // $kat.trackError({from: "updateButtonState of base VideoAdapter", msg:"Unable to save video. Error code:" + res.code + ", Error:" + res.error});
+                                $cws.Tracker.trackError({from: "updateButtonState of base VideoAdapter", msg:"Unable to save video. Error code:" + res.code + ", Error:" + res.error});
                             }
                         }
                     } else {
                         alert(this._localize('errorDlgTitle') + "\n\n" + this._localize('errorDlgMsg'));
-                        //$kat.trackError({from: "updateButtonState of base VideoAdapter", msg:"Unable to save video. Reason:" + (res ? res.error : "Result is null")});
+                        $cws.Tracker.trackError({from: "updateButtonState of base VideoAdapter", msg:"Unable to save video. Reason:" + (res ? res.error : "Result is null")});
                     }
                 }
 
@@ -1049,7 +1030,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             }
         } catch (err) {
             this.debug('from: updateButtonState of base VideoAdapter. \nReason:' + err);
-            // $kat.trackError({from: "updateButtonState of base VideoAdapter", exception:err});
+            $cws.Tracker.trackError({from: "updateButtonState of base VideoAdapter", exception:err});
         }
 	},
 
@@ -1093,12 +1074,12 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                             default: {
                                 // unknown server error
                                 alert(this._localize('errorDlgLikeTitle') + "\n\n" + this._localize('errorDlgLikeMsg'));
-                                // $kat.trackError({from: "_onVideoLiked of base VideoAdapter", msg:"Unable to like video. Error code:" + res.code + ", Error:" + res.error});
+                                $cws.Tracker.trackError({from: "_onVideoLiked of base VideoAdapter", msg:"Unable to like video. Error code:" + res.code + ", Error:" + res.error});
                             }
                         }
                     } else {
                         alert(this._localize('errorDlgLikeTitle') + "\n\n" + this._localize('errorDlgLikeMsg'));
-                        // $kat.trackError({from: "_onVideoLiked of base VideoAdapter", msg:"Unable to like video. Reason:" + (res ? res.error : "Result is null")});
+                        $cws.Tracker.trackError({from: "_onVideoLiked of base VideoAdapter", msg:"Unable to like video. Reason:" + (res ? res.error : "Result is null")});
                     }
                 }
 
@@ -1142,7 +1123,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             }
         } catch (err) {
             this.debug("From: _onVideoLiked of base VideoAdapter. \nReason:" + err);
-            //$kat.trackError({from: "_onVideoLiked of base VideoAdapter", exception:err});
+            $cws.Tracker.trackError({from: "_onVideoLiked of base VideoAdapter", exception:err});
         }
 	},
 
@@ -1161,7 +1142,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             }
         } catch (err) {
             this.debug("From: _onSavedVideoDialogDismissed of base VideoAdapter. \nReason:" + err);
-            // $kat.trackError
+            $cws.Tracker.trackError({from: "_onSavedVideoDialogDismissed of base VideoAdapter", exception:err});
         }
     },
 
@@ -1180,18 +1161,14 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
 
             if (!this.selectedVideo.liked) {
                 $cws.WatchlrRequests.sendVideoLikedRequest($.proxy(this._onVideoLiked, this), this.selectedVideo.url);
-                /*$kat.track('Video', 'LikeVideoClk', {
-                    campaign: window.location.host
-                });*/
+                $cws.Tracker.track('Video', 'LikeVideo', this.selectedVideo.url);
             } else {
                 $cws.WatchlrRequests.sendVideoUnlikedRequest($.proxy(this._onVideoLiked, this), this.selectedVideo.url);
-                /*$kat.track('Video', 'UnlikeVideoClk', {
-                    campaign: window.location.host
-                });*/
+                $cws.Tracker.track('Video', 'UnlikeVideo', this.selectedVideo.url);
             }
         } catch (err) {
             this.debug("From: _onPushToFacebookDialogDismissed of base VideoAdapter. \nReason:" + err);
-            // $kat.trackError
+            $cws.Tracker.trackError({from: "_onPushToFacebookDialogDismissed of base VideoAdapter", exception:err});
         }
     },
 
@@ -1240,14 +1217,10 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             } else {
                 if (!this.selectedVideo.liked) {
                     $cws.WatchlrRequests.sendVideoLikedRequest($.proxy(this._onVideoLiked, this), this.selectedVideo.url);
-                    /*$kat.track('Video', 'LikeVideoClk', {
-                        campaign: window.location.host
-                    });*/
+                    $cws.Tracker.track('Video', 'LikeVideo', this.selectedVideo.url);
                 } else {
                     $cws.WatchlrRequests.sendVideoUnlikedRequest($.proxy(this._onVideoLiked, this), this.selectedVideo.url);
-                    /*$kat.track('Video', 'UnlikeVideoClk', {
-                        campaign: window.location.host
-                    });*/
+                    $cws.Tracker.track('Video', 'UnlikeVideo', this.selectedVideo.url);
                 }
             }
         }

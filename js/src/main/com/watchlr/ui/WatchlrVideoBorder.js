@@ -194,7 +194,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
 
         } catch (e) {
             this.debug("from: create of WatchlrVideoBorder. \nReason:" + e);
-            // $kat.trackError({from:"create of WatchlrVideoBorder", msg: "Unable to create the border around video.", exception:e});
+            $cws.Tracker.trackError({from:"create of WatchlrVideoBorder", msg: "Unable to create the border around video.", exception:e});
         }
     },
 
@@ -303,7 +303,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
 
             } catch (e) {
                 this.debug('from: show of WatchlrVideoBorder. \nReason:' + e);
-                // $kat.trackError({from: "show of WatchlrVideoBorder", msg: "Unable to reposition border around video.", exception:e});
+                $cws.Tracker.trackError({from: "show of WatchlrVideoBorder", msg: "Unable to reposition border around video.", exception:e});
             }
         }
     },
@@ -393,12 +393,12 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
 
                 default: {
                     this.debug('from: setLikeButtonState of WatchlrVideoBorder. \nReason: Invalid state is sent to the function');
-                    // $kat.trackError({from: "setLikeButtonState of WatchlrVideoBorder", msg: "Invalid state is sent to the function."});
+                    $cws.Tracker.trackError({from: "setLikeButtonState of WatchlrVideoBorder", msg: "Invalid state is sent to the function."});
                 }
             }
         } catch (err) {
             this.debug('from: setLikeButtonState of WatchlrVideoBorder. \nReason:' + err);
-            // $kat.trackError({from: "setLikeButtonState of WatchlrVideoBorder", msg: "Unable to change the state of like button.", exception:err});
+            $cws.Tracker.trackError({from: "setLikeButtonState of WatchlrVideoBorder", msg: "Unable to change the state of like button.", exception:err});
         }
     },
 
@@ -469,12 +469,12 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
 
                 default: {
                     this.debug('from: setSaveButtonState of WatchlrVideoBorder. \nReason: Invalid state is sent to the function');
-                    // $kat.trackError({from: "setSaveButtonState of WatchlrVideoBorder", msg: "Invalid state is sent to the function."});
+                    $cws.Tracker.trackError({from: "setSaveButtonState of WatchlrVideoBorder", msg: "Invalid state is sent to the function."});
                 }
             }
         } catch (err) {
             this.debug('from: setSaveButtonState of WatchlrVideoBorder. \nReason:' + err);
-            // $kat.trackError({from: "setSaveButtonState of WatchlrVideoBorder", msg: "Unable to change the state of like button.", exception:err});
+            $cws.Tracker.trackError({from: "setSaveButtonState of WatchlrVideoBorder", msg: "Unable to change the state of like button.", exception:err});
         }
     },
 
@@ -488,7 +488,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             this.messageDialog.create(this.optionsButton, document);
         } catch (err) {
             this.debug('from: createLoginDialog of WatchlrVideoBorder. \nReason:' + err);
-            // $kat.trackError({from: "createLoginDialog of WatchlrVideoBorder", msg: "Unable to create the instance of login dialog.", exception:err});
+            $cws.Tracker.trackError({from: "createLoginDialog of WatchlrVideoBorder", msg: "Unable to create the instance of login dialog.", exception:err});
         }
 
     },
@@ -502,7 +502,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             this.messageDialog.show();
         } catch (err) {
             this.debug('from: showLoginDialog of WatchlrVideoBorder. \nReason:' + err);
-            // $kat.trackError({from: "showLoginDialog of WatchlrVideoBorder", msg: "Unable to show the login dialog.", exception:err});
+            $cws.Tracker.trackError({from: "showLoginDialog of WatchlrVideoBorder", msg: "Unable to show the login dialog.", exception:err});
         }
     },
 
@@ -514,7 +514,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             this.messageDialog.hide();
         } catch (err) {
             this.debug('from: hideLoginDialog of WatchlrVideoBorder. \nReason:' + err);
-            // $kat.trackError({from: "hideLoginDialog of WatchlrVideoBorder", msg: "Unable to hide the login dialog.", exception:err});
+            $cws.Tracker.trackError({from: "hideLoginDialog of WatchlrVideoBorder", msg: "Unable to hide the login dialog.", exception:err});
         }
     },
 
@@ -528,7 +528,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             this.messageDialog.create(this.optionsButton, document);
         } catch (err) {
             this.debug('from: createVideoSavedDialog of WatchlrVideoBorder. \nReason:' + err);
-            // $kat.trackError({from: "createVideoSavedDialog of WatchlrVideoBorder", msg: "Unable to create the instance of video saved dialog.", exception:err});
+            $cws.Tracker.trackError({from: "createVideoSavedDialog of WatchlrVideoBorder", msg: "Unable to create the instance of video saved dialog.", exception:err});
         }
 
     },
@@ -542,7 +542,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             this.messageDialog.show();
         } catch (err) {
             this.debug('from: showVideoSavedDialog of WatchlrVideoBorder. \nReason:' + err);
-            // $kat.trackError({from: "showVideoSavedDialog of WatchlrVideoBorder", msg: "Unable to show the video saved dialog.", exception:err});
+            $cws.Tracker.trackError({from: "showVideoSavedDialog of WatchlrVideoBorder", msg: "Unable to show the video saved dialog.", exception:err});
         }
     },
 
@@ -554,7 +554,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             this.messageDialog.hide();
         } catch (err) {
             this.debug('from: hideVideoSavedDialog of WatchlrVideoBorder. \nReason:' + err);
-            // $kat.trackError({from: "hideVideoSavedDialog of WatchlrVideoBorder", msg: "Unable to hide the video saved dialog.", exception:err});
+            $cws.Tracker.trackError({from: "hideVideoSavedDialog of WatchlrVideoBorder", msg: "Unable to hide the video saved dialog.", exception:err});
         }
     },
 
@@ -568,7 +568,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             this.messageDialog.create(this.optionsButton, document);
         } catch (err) {
             this.debug('from: createVideoLikedDialog of WatchlrVideoBorder. \nReason:' + err);
-            // $kat.trackError({from: "createVideoLikedDialog of WatchlrVideoBorder", msg: "Unable to create the instance of video liked dialog.", exception:err});
+            $cws.Tracker.trackError({from: "createVideoLikedDialog of WatchlrVideoBorder", msg: "Unable to create the instance of video liked dialog.", exception:err});
         }
 
     },
@@ -582,7 +582,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             this.messageDialog.show();
         } catch (err) {
             this.debug('from: showVideoLikedDialog of WatchlrVideoBorder. \nReason:' + err);
-            // $kat.trackError({from: "showVideoLikedDialog of WatchlrVideoBorder", msg: "Unable to show the video liked dialog.", exception:err});
+            $cws.Tracker.trackError({from: "showVideoLikedDialog of WatchlrVideoBorder", msg: "Unable to show the video liked dialog.", exception:err});
         }
     },
 
@@ -594,7 +594,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             this.messageDialog.hide();
         } catch (err) {
             this.debug('from: hideVideoLikedDialog of WatchlrVideoBorder. \nReason:' + err);
-            // $kat.trackError({from: "hideVideoLikedDialog of WatchlrVideoBorder", msg: "Unable to hide the video liked dialog.", exception:err});
+            $cws.Tracker.trackError({from: "hideVideoLikedDialog of WatchlrVideoBorder", msg: "Unable to hide the video liked dialog.", exception:err});
         }
     },
 
@@ -612,7 +612,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             this.trigger($cwui.WatchlrVideoBorder.WatchlrVideoBorderEvents.ON_OPTIONS_BUTTON_MOUSE_ENTER);
         } catch (err) {
             this.debug('from: _onOptionsButtonMouseEnter of WatchlrVideoBorder. \nReason:' + err);
-            // $kat.trackError({from: "_onOptionsButtonMouseEnter of WatchlrVideoBorder", exception:err});
+            $cws.Tracker.trackError({from: "_onOptionsButtonMouseEnter of WatchlrVideoBorder", exception:err});
         }
     },
 
@@ -626,7 +626,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             this.trigger($cwui.WatchlrVideoBorder.WatchlrVideoBorderEvents.ON_OPTIONS_BUTTON_MOUSE_LEAVE);
         } catch (err) {
             this.debug('from: _onOptionsButtonMouseLeave of WatchlrVideoBorder. \nReason:' + err);
-            // $kat.trackError({from: "_onOptionsButtonMouseLeave of WatchlrVideoBorder", exception:err});
+            $cws.Tracker.trackError({from: "_onOptionsButtonMouseLeave of WatchlrVideoBorder", exception:err});
         }
     },
 
@@ -642,7 +642,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             $(this.watchlrLogo).addClass('watchlr-image watchlr-logo-hover-image');
         } catch (err) {
             this.debug('from: _onWatclrLogoMouseEnter of WatchlrVideoBorder. \nReason:' + err);
-            // $kat.trackError({from: "_onWatclrLogoMouseEnter of WatchlrVideoBorder", exception:err});
+            $cws.Tracker.trackError({from: "_onWatclrLogoMouseEnter of WatchlrVideoBorder", exception:err});
         }
     },
 
@@ -658,7 +658,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             $(this.watchlrLogo).addClass('watchlr-image watchlr-logo-image');
         } catch (err) {
             this.debug('from: _onWatclrLogoMouseLeave of WatchlrVideoBorder. \nReason:' + err);
-            // $kat.trackError({from: "_onWatclrLogoMouseLeave of WatchlrVideoBorder", exception:err});
+            $cws.Tracker.trackError({from: "_onWatclrLogoMouseLeave of WatchlrVideoBorder", exception:err});
         }
     },
 
@@ -682,7 +682,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             }
         } catch (err) {
             this.debug('from: _onSaveButtonMouseEnter of WatchlrVideoBorder. \nReason:' + err);
-            // $kat.trackError({from: "_onSaveButtonMouseEnter of WatchlrVideoBorder", exception:err});
+            $cws.Tracker.trackError({from: "_onSaveButtonMouseEnter of WatchlrVideoBorder", exception:err});
         }
     },
 
@@ -702,7 +702,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             }
         } catch (err) {
             this.debug('from: _onSaveButtonMouseLeave of WatchlrVideoBorder. \nReason:' + err);
-            // $kat.trackError({from: "_onSaveButtonMouseLeave of WatchlrVideoBorder", exception:err});
+            $cws.Tracker.trackError({from: "_onSaveButtonMouseLeave of WatchlrVideoBorder", exception:err});
         }
     },
 
@@ -722,7 +722,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             }
         } catch (err) {
             this.debug('from: _onLikeButtonMouseEnter of WatchlrVideoBorder. \nReason:' + err);
-            // $kat.trackError({from: "_onLikeButtonMouseEnter of WatchlrVideoBorder", exception:err});
+            $cws.Tracker.trackError({from: "_onLikeButtonMouseEnter of WatchlrVideoBorder", exception:err});
         }
     },
 
@@ -742,7 +742,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             }
         } catch (err) {
             this.debug('from: _onLikeButtonMouseLeave of WatchlrVideoBorder. \nReason:' + err);
-            // $kat.trackError({from: "_onLikeButtonMouseLeave of WatchlrVideoBorder", exception:err});
+            $cws.Tracker.trackError({from: "_onLikeButtonMouseLeave of WatchlrVideoBorder", exception:err});
         }
     },
 
@@ -758,7 +758,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             this.trigger($cwui.WatchlrVideoBorder.WatchlrVideoBorderEvents.ON_SAVE_BUTTON_CLICKED);
         } catch (err) {
             this.debug('from: _onSaveButtonClicked of WatchlrVideoBorder. \nReason:' + err);
-            // $kat.trackError({from: "_onSaveButtonClicked of WatchlrVideoBorder", exception:err});
+            $cws.Tracker.trackError({from: "_onSaveButtonClicked of WatchlrVideoBorder", exception:err});
         }
     },
 
@@ -774,7 +774,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             this.trigger($cwui.WatchlrVideoBorder.WatchlrVideoBorderEvents.ON_LIKE_BUTTON_CLICKED);
         } catch (err) {
             this.debug('from: _onLikeButtonClicked of WatchlrVideoBorder. \nReason:' + err);
-            // $kat.trackError({from: "_onLikeButtonClicked of WatchlrVideoBorder", exception:err});
+            $cws.Tracker.trackError({from: "_onLikeButtonClicked of WatchlrVideoBorder", exception:err});
         }
     }
 });

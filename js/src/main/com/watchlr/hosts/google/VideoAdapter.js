@@ -67,7 +67,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
             }
         } catch (e) {
             this.debug("From: on page scroll on google reader. \nReason: " + e);
-            // $kat.trackError({from: 'on page scroll on google reader', msg: '', exception: e});
+            $cws.Tracker.trackError({from: 'on page scroll on google reader', msg: '', exception: e});
         }
     },
 
@@ -197,7 +197,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
             this._onVideoElementMouseEnter(target, watchlrVideoId);
         } catch (err) {
             this.debug("From: _onVideoThumbnailMouseOver of google's search VideoAdapter.\nReason: " + err);
-            // $kat.trackError({from: "_onVideoThumbnailMouseOver of google's search VideoAdapter", exception:err});
+            $cws.Tracker.trackError({from: "_onVideoThumbnailMouseOver of google's search VideoAdapter", exception:err});
         }
     },
 
@@ -216,7 +216,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
             this._onVideoElementMouseLeave(target, watchlrVideoId);
         } catch (err) {
             this.debug("From: _onVideoThumbnailMouseOut of google's search VideoAdapter.\nReason: " + err);
-            // $kat.trackError({from: "_onVideoThumbnailMouseOut of google's search VideoAdapter", exception:err});
+            $cws.Tracker.trackError({from: "_onVideoThumbnailMouseOut of google's search VideoAdapter", exception:err});
         }
     },
 
@@ -238,7 +238,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
 
         } catch (err) {
             this.debug("From: _onVideoThumbnailClick of google's search VideoAdapter.\nReason: " + err);
-            // $kat.trackError({from: "_onVideoThumbnailClick of google's search VideoAdapter", exception:err});
+            $cws.Tracker.trackError({from: "_onVideoThumbnailClick of google's search VideoAdapter", exception:err});
         }
     },
 
@@ -248,7 +248,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
             this._onVideoElementMouseEnter(this.inSituVideoPanel);
         } catch (err) {
             this.debug("From: _onInSituVideElementMouseOver of google's search VideoAdapter.\nReason: " + err);
-            // $kat.trackError({from: "_onInSituVideElementMouseOver of google's search VideoAdapter", exception:err});
+            $cws.Tracker.trackError({from: "_onInSituVideElementMouseOver of google's search VideoAdapter", exception:err});
         }
     },
 
@@ -258,7 +258,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
             this._onVideoElementMouseLeave(this.inSituVideoPanel);
         } catch (err) {
             this.debug("From: _onInSituVideElementMouseOut of google's search VideoAdapter.\nReason: " + err);
-            // $kat.trackError({from: "_onInSituVideElementMouseOut of google's search VideoAdapter", exception:err});
+            $cws.Tracker.trackError({from: "_onInSituVideElementMouseOut of google's search VideoAdapter", exception:err});
         }
     },
 
@@ -269,7 +269,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
             this.isInSituVideoPanelOpen = false;
         } catch (err) {
             this.debug("From: _onInSituVideElementMouseOut of google's search VideoAdapter.\nReason: " + err);
-            // $kat.trackError({from: "_onInSituVideElementMouseOut of google's search VideoAdapter", exception:err});
+            $cws.Tracker.trackError({from: "_onInSituVideElementMouseOut of google's search VideoAdapter", exception:err});
         }
     }
 });

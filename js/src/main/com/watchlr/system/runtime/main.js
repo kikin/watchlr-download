@@ -92,6 +92,8 @@ if (!com.watchlr.modalwin) {
     com.watchlr.modalwin = {};
 }
 
+com.watchlr.version = '__W_VERSION__'
+
 var $cws    = com.watchlr.system,
    //  $cwsr   = $cws.runtime,
     $cwc    = com.watchlr.config,
@@ -106,4 +108,4 @@ var $cws    = com.watchlr.system,
     // these below are defined in the Bootstraps
     $cwss   = undefined, // $ks.services
     // these are defined in their declarations
-    $cwat   = undefined;
+    $cwst   = com.watchlr.system.Tracker;

@@ -10,7 +10,7 @@ $cwh.adapters.SiteAdapter.extend("com.watchlr.hosts.espn.adapters.SiteAdapter", 
             if (kva) kva.attach();
         } catch(e) {
             // alert("From: espn_site_adapter. \nReason:" + e);
-            //$kat.trackError({ from: 'espn_site_adapter', exception: e, msg: 'unable to create video adapter'});
+            $cws.Tracker.trackError({ from: 'espn_site_adapter', exception: e, msg: 'unable to create video adapter'});
         }
 	}
 });

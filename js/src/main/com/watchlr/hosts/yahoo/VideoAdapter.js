@@ -80,7 +80,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.yahoo.adapters.VideoAdapter
             }
         } catch (err) {
             this.debug("From: getVideoUrl of yahoo's search VideoAdapter.\nReason: " + err);
-            // $kat.trackError({from: "getVideoUrl of yahoo's search VideoAdapter", exception:err});
+            $cws.Tracker.trackError({from: "getVideoUrl of yahoo's search VideoAdapter", exception:err});
         }
         // alert(link);
         return null;
@@ -94,7 +94,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.yahoo.adapters.VideoAdapter
             this._onVideoElementMouseEnter(target);
         } catch (err) {
             this.debug("From: _onVideoThumbnailMouseOver of yahoo's search VideoAdapter.\nReason: " + err);
-            // $kat.trackError({from: "_onVideoThumbnailMouseOver of yahoo's search VideoAdapter", exception:err});
+            $cws.Tracker.trackError({from: "_onVideoThumbnailMouseOver of yahoo's search VideoAdapter", exception:err});
         }
     },
 
@@ -104,7 +104,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.yahoo.adapters.VideoAdapter
             this._onVideoElementMouseLeave(target);
         } catch (err) {
             // this.debug("From: _onVideoThumbnailMouseOut of yahoo's search VideoAdapter.\nReason: " + err);
-            // $kat.trackError({from: "_onVideoThumbnailMouseOut of yahoo's search VideoAdapter", exception:err});
+            $cws.Tracker.trackError({from: "_onVideoThumbnailMouseOut of yahoo's search VideoAdapter", exception:err});
         }
     }
 });

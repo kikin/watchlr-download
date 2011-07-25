@@ -15,13 +15,13 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.yahoo.adapters.InSitu
             $('ul.c-thumb.video li').each($.proxy(this._addVideoPlayback, this));
 
             // track unsupported domains
-            /*if (this._stats.unsupportedDomains.length > 0) {
-                $kat.track('InSituAdapterEvt','Unsupported', {campaign: this._stats.unsupportedDomains.join(',')});
-            } */
+            if (this._stats.unsupportedDomains.length > 0) {
+                $cws.Tracker.track('VideoAdapterEvt','UnsupportedInSitu', this._stats.unsupportedDomains.join(','));
+            }
 
         } catch (err) {
             console.log("From: attach of Yahoo search InSituVideoAdapter. \nReason: " + err);
-            // $kat.trackError({from: 'attach of Google search InSituVideoAdapter', msg: '', exception: err});
+            $cws.Tracker.trackError({from: 'attach of Google search InSituVideoAdapter', msg: '', exception: err});
         }
 	},
 
@@ -94,7 +94,7 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.yahoo.adapters.InSitu
 
         } catch (err) {
             console.log("From: _addVideoPlayback of Yahoo search InSituVideoAdapter. \nReason: " + err);
-            // $kat.trackError({from: '_addVideoPlayback of Google search InSituVideoAdapter', msg: '', exception: err});
+            $cws.Tracker.trackError({from: '_addVideoPlayback of Google search InSituVideoAdapter', msg: '', exception: err});
         }
 	},
 
@@ -112,7 +112,7 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.yahoo.adapters.InSitu
             }
         } catch (err) {
             console.log("From: getVideoUrl of yahoo's search InSituVideoAdapter.\nReason: " + err);
-            // $kat.trackError({from: "getVideoUrl of yahoo's search InSituVideoAdapter", exception:err});
+            $cws.Tracker.trackError({from: "getVideoUrl of yahoo's search InSituVideoAdapter", exception:err});
         }
         // alert(link);
         return null;
@@ -167,7 +167,7 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.yahoo.adapters.InSitu
             this.videoPanel.open();
         } catch (err) {
             console.log("From: onClickVideoThumbnail of Yahoo search InSituVideoAdapter. \nReason: " + err);
-            // $kat.trackError({from: 'onClickVideoThumbnail of Google search InSituVideoAdapter', msg: '', exception: err});
+            $cws.Tracker.trackError({from: 'onClickVideoThumbnail of Google search InSituVideoAdapter', msg: '', exception: err});
         }
 	}
 

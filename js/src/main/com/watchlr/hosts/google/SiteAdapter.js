@@ -14,7 +14,7 @@ $cwh.adapters.SiteAdapter.extend("com.watchlr.hosts.google.adapters.SiteAdapter"
             if (kva) kva.attach();
         } catch(e) {
             // alert("From: google_site_adapter. \nReason: " + e);
-            // $kat.trackError({ from: 'google_site_adapter', exception: e, msg: 'unable to create video adapter'});
+            $cws.Tracker.trackError({ from: 'google_site_adapter', exception: e, msg: 'unable to create video adapter'});
         }
 	},
 	
@@ -68,7 +68,7 @@ $cwh.adapters.SiteAdapter.extend("com.watchlr.hosts.google.adapters.SiteAdapter"
             if (kva) kva.attach();
         } catch(err) {
             console.log("From: google_site_adapter. \nReason: " + err);
-            //$kat.trackError({ from: 'google_site_adapter', exception: err, msg: 'unable to create video adapter'});
+            $cws.Tracker.trackError({ from: 'google_site_adapter', exception: err, msg: 'unable to create video adapter'});
         }
 
         this._delayedInject = null;

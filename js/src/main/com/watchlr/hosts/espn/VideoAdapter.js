@@ -17,12 +17,12 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.espn.adapters.VideoAdapter"
                     }
                 } catch (e) {
                     // alert("From: attach of espn's VideoAdapter. \nReason:" + e);
-                    // $kat.trackError({from:"attach of espn's VideoAdapter", msg: "Unable to call espn's original espn.video.play function", exception:e});
+                    $cws.Tracker.trackError({from:"attach of espn's VideoAdapter", msg: "Unable to call espn's original espn.video.play function", exception:e});
                 }
             }, this);
         } catch (err) {
             // alert("From: attach of espn's VideoAdapter. \nReason:" + err);
-            // $kat.trackError({from:"attach of espn's VideoAdapter", msg: "Unable to wrap espn.video.play function", exception:err});
+            $cws.Tracker.trackError({from:"attach of espn's VideoAdapter", msg: "Unable to wrap espn.video.play function", exception:err});
         }
 
         this._super();
@@ -37,9 +37,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.espn.adapters.VideoAdapter"
                 this.videos[0].tracked = false;
 
                 this._videosFound = this.videos.length;
-                /*$kat.track('VideoAdapterEvt', 'SupportedVideoFound', {
-                    campaign: $win.location.host
-                });*/
+                $cws.Tracker.track('VideoAdapterEvt', 'SupportedVideoFound', this.videos[0].url);
 
                 new $cws.WatchlrRequests.sendVideosInfoRequest($.proxy(this._onVideosInfoReceived, this), this.videos);
 
@@ -58,7 +56,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.espn.adapters.VideoAdapter"
             }
         } catch (err) {
             // alert("From: _onVideoUrlChange of espn's VideoAdapter. \nReason:" + err);
-            // $kat.trackError({from:"_onVideoUrlChange of espn's VideoAdapter", msg: "Unable to change video URL on video change", exception:err});
+            $cws.Tracker.trackError({from:"_onVideoUrlChange of espn's VideoAdapter", msg: "Unable to change video URL on video change", exception:err});
         }
     }
 });

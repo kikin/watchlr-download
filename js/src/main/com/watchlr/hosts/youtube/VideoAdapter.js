@@ -46,7 +46,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.youtube.adapters.VideoAdapt
             return videoUrl;
         } catch (err) {
             this.debug("From: _findVideoUrl of youtube's VideoAdapter.\nReason: " + err);
-            // $kat.trackError({from: "_findVideoUrl of youtube's VideoAdapter.", msg:"Error while finding video url for video tag.", exception:err});
+            $cws.Tracker.trackError({from: "_findVideoUrl of youtube's VideoAdapter.", msg:"Error while finding video url for video tag.", exception:err});
         }
 
         return null;
@@ -118,7 +118,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.youtube.adapters.VideoAdapt
             }
         } catch (err) {
             this.debug("From: _addPotentialVideo of youtube's VideoAdapter.\nReason: " + err);
-            // $kat.trackError({from: "_addPotentialVideo of youtube's VideoAdapter.", msg:"", exception:err});
+            $cws.Tracker.trackError({from: "_addPotentialVideo of youtube's VideoAdapter.", msg:"", exception:err});
         }
     },
 
@@ -162,7 +162,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.youtube.adapters.VideoAdapt
 
         } catch (err) {
             this.debug("From: _onHtml5VideoMouseOver of youtube's VideoAdapter.\nReason: " + err);
-            // $kat.trackError({from: "_onHtml5VideoMouseOver of youtube's VideoAdapter.", msg:"", exception:err});
+            $cws.Tracker.trackError({from: "_onHtml5VideoMouseOver of youtube's VideoAdapter.", msg:"", exception:err});
         }
     },
 
@@ -181,7 +181,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.youtube.adapters.VideoAdapt
 
         } catch (err) {
             this.debug("From: _onHtml5VideoMouseOut of youtube's VideoAdapter.\nReason: " + err);
-            // $kat.trackError({from: "_onHtml5VideoMouseOut of youtube's VideoAdapter.", msg:"", exception:err});
+            $cws.Tracker.trackError({from: "_onHtml5VideoMouseOut of youtube's VideoAdapter.", msg:"", exception:err});
         }
     },
 
@@ -219,7 +219,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.youtube.adapters.VideoAdapt
 
         } catch (err) {
             this.debug("From: _onThumbnailMouseOver of youtube's VideoAdapter.\nReason: " + err);
-            // $kat.trackError({from: "_onThumbnailMouseOver of youtube's VideoAdapter.", msg:"", exception:err});
+            $cws.Tracker.trackError({from: "_onThumbnailMouseOver of youtube's VideoAdapter.", msg:"", exception:err});
         }
     },
 
@@ -257,7 +257,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.youtube.adapters.VideoAdapt
 
         } catch (err) {
             this.debug("From: _onThumbnailMouseLeave of youtube's VideoAdapter.\nReason: " + err);
-            // $kat.trackError({from: "_onThumbnailMouseLeave of youtube's VideoAdapter.", msg:"", exception:err});
+            $cws.Tracker.trackError({from: "_onThumbnailMouseLeave of youtube's VideoAdapter.", msg:"", exception:err});
         }
     },
 
@@ -300,7 +300,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.youtube.adapters.VideoAdapt
 
         } catch (err) {
             this.debug("From: _onVideoThumbnailClick of youtube VideoAdapter.\nReason: " + err);
-            // $kat.trackError({from: "_onVideoThumbnailClick of youtube VideoAdapter", exception:err});
+            $cws.Tracker.trackError({from: "_onVideoThumbnailClick of youtube VideoAdapter", exception:err});
         }
     },
 
@@ -310,7 +310,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.youtube.adapters.VideoAdapt
             this._onVideoElementMouseEnter(this.inSituVideoPanel);
         } catch (err) {
             this.debug("From: _onInSituVideElementMouseOver of google's search VideoAdapter.\nReason: " + err);
-            // $kat.trackError({from: "_onInSituVideElementMouseOver of google's search VideoAdapter", exception:err});
+            $cws.Tracker.trackError({from: "_onInSituVideElementMouseOver of google's search VideoAdapter", exception:err});
         }
     },
 
@@ -320,7 +320,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.youtube.adapters.VideoAdapt
             this._onVideoElementMouseLeave(this.inSituVideoPanel);
         } catch (err) {
             this.debug("From: _onInSituVideElementMouseOut of google's search VideoAdapter.\nReason: " + err);
-            // $kat.trackError({from: "_onInSituVideElementMouseOut of google's search VideoAdapter", exception:err});
+            $cws.Tracker.trackError({from: "_onInSituVideElementMouseOut of google's search VideoAdapter", exception:err});
         }
     },
 
@@ -331,7 +331,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.youtube.adapters.VideoAdapt
             this.isInSituVideoPanelOpen = false;
         } catch (err) {
             this.debug("From: _onInSituVideElementMouseOut of google's search VideoAdapter.\nReason: " + err);
-            // $kat.trackError({from: "_onInSituVideElementMouseOut of google's search VideoAdapter", exception:err});
+            $cws.Tracker.trackError({from: "_onInSituVideElementMouseOut of google's search VideoAdapter", exception:err});
         }
     }
 });

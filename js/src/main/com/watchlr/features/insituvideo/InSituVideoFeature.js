@@ -77,7 +77,7 @@ $.Class.extend("com.watchlr.features.insituvideo.InSituVideoFeature", {
             };
         } catch (err) {
             console.log("From: getSwiffData of InSituVideoFeature. \nReason: " + err);
-            // $kat.trackError({from: 'getSwiffData of InSituVideoFeature.', msg: '', exception: err});
+            $cws.Tracker.trackError({from: 'getSwiffData of InSituVideoFeature.', msg: '', exception: err});
         }
 
         return null;

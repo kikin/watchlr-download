@@ -18,14 +18,14 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.foxsports.adapters.VideoAda
                         }
                     } catch (e) {
                         // alert("From: attach of fox sports VideoAdapter. \nReason: " + e);
-                        // $kat.trackError({from:"attach of fox sports VideoAdapter", msg: "Unable to call fox sports original Player.OnVideoTitle function", exception:e});
+                        $cws.Tracker.trackError({from:"attach of fox sports VideoAdapter", msg: "Unable to call fox sports original Player.OnVideoTitle function", exception:e});
                     }
                 }, this);
             }
 
         } catch (err) {
             // alert("From: attach of fox sports VideoAdapter. \nReason: " + err);
-            //$kat.trackError({from:"attach of fox sports VideoAdapter", msg: "Unable to wrap Player.OnVideoTitle function", exception:err});
+            $cws.Tracker.trackError({from:"attach of fox sports VideoAdapter", msg: "Unable to wrap Player.OnVideoTitle function", exception:err});
         }
 
         this.parent();
@@ -67,16 +67,14 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.foxsports.adapters.VideoAda
                     this.videos[0].tracked = false;
 
                     this._videosFound = this.videos.length;
-                    /*$kat.track('VideoAdapterEvt', 'SupportedVideoFound', {
-                        campaign: window.location.host
-                    });*/
+                    $cws.Tracker.track('VideoAdapterEvt', 'SupportedVideoFound', this.videos[0].url);
 
                     new $cws.WatchlrRequests.sendVideosInfoRequest($.proxy(this._onVideosInfoReceived, this), this.videos);
                 }
             }
         } catch (err) {
             // alert("From: _onVideoUrlChange of fox sports VideoAdapter. \nReason:" + err);
-            //$kat.trackError({from:"_onVideoUrlChange of fox sports VideoAdapter", msg: "Unable to change video URL on video change", exception:err});
+            $cws.Tracker.trackError({from:"_onVideoUrlChange of fox sports VideoAdapter", msg: "Unable to change video URL on video change", exception:err});
         }
     }
 });

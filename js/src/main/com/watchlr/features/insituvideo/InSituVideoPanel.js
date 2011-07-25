@@ -22,7 +22,7 @@ $.Class.extend("com.watchlr.features.insituvideo.InSituVideoPanel", {
             this.setContainerEvents();
         } catch (err) {
             console.log("From: init of InSituVideoPanel. \nReason: " + err);
-            // $kat.trackError({from: 'init of InSituVideoPanel', msg: '', exception: err});
+            $cws.Tracker.trackError({from: 'init of InSituVideoPanel', msg: '', exception: err});
         }
 	},
 	
@@ -48,7 +48,7 @@ $.Class.extend("com.watchlr.features.insituvideo.InSituVideoPanel", {
             $($(this._element).find('.watchlrIsvfsrcRef')).click($.proxy(this.onClickGoToWebsite, this));
         } catch (err) {
             console.log("From: setContainerEvents of InSituVideoPanel. \nReason: " + err);
-            // $kat.trackError({from: 'setContainerEvents of InSituVideoPanel', msg: '', exception: err});
+            $cws.Tracker.trackError({from: 'setContainerEvents of InSituVideoPanel', msg: '', exception: err});
         }
 	},
 	
@@ -58,7 +58,7 @@ $.Class.extend("com.watchlr.features.insituvideo.InSituVideoPanel", {
             this.close();
         } catch (err) {
             console.log("From: onClickClose of InSituVideoPanel. \nReason: " + err);
-            // $kat.trackError({from: 'onClickClose of InSituVideoPanel', msg: '', exception: err});
+            $cws.Tracker.trackError({from: 'onClickClose of InSituVideoPanel', msg: '', exception: err});
         }
 	},
 	
@@ -76,7 +76,7 @@ $.Class.extend("com.watchlr.features.insituvideo.InSituVideoPanel", {
 
         } catch (err) {
             console.log("From: onClickGoToWebsite of InSituVideoPanel. \nReason: " + err);
-            // $kat.trackError({from: 'onClickGoToWebsite of InSituVideoPanel', msg: '', exception: err});
+            $cws.Tracker.trackError({from: 'onClickGoToWebsite of InSituVideoPanel', msg: '', exception: err});
         }
 
 	},

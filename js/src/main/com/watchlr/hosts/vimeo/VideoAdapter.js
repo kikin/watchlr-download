@@ -28,6 +28,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.vimeo.adapters.VideoAdapter
                             $(div).mouseleave($.proxy(this._onVideoThumbnailMouseOut, this));
                             var videoUrl = 'http://www.vimeo.com/' + videoId;
                             this._addVideo(div, videoUrl);
+                            $cws.Tracker.track('VideoAdapterEvt', 'SupportedVideoFound', videoUrl);
                         }
                     }
                 }
@@ -35,16 +36,11 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.vimeo.adapters.VideoAdapter
 
             if (this.videos.length > this._videosFound) {
                 this._videosFound = this.videos.length;
-                /*$kat.track('VideoAdapterEvt', 'SupportedVideoFound', {
-                    campaign: $win.location.host
-                });*/
-
                 new $ks.WatchlrtRequests.sendVideosInfoRequest($.proxy(this._onVideosInfoReceived, this), this.videos);
-
             }
         } catch (err) {
             this.debug("From: _findVideos of vimeo's VideoAdapter..\nReqason: " + err);
-            // $kat.trackError({from: "_findVideos of vimeo's VideoAdapter.", exception:err});
+            $cws.Tracker.trackError({from: "_findVideos of vimeo's VideoAdapter.", exception:err});
         }
     },
 
@@ -72,7 +68,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.vimeo.adapters.VideoAdapter
             this._onVideoElementMouseEnter(target);
         } catch (err) {
             this.debug("From: _onVideoThumbnailMouseOver of vimeo's VideoAdapter.\nReason:" + err);
-            // $kat.trackError({from: "_onVideoThumbnailMouseOver of vimeo's VideoAdapter.", exception:err});
+            $cws.Tracker.trackError({from: "_onVideoThumbnailMouseOver of vimeo's VideoAdapter.", exception:err});
         }
     },
 
@@ -86,7 +82,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.vimeo.adapters.VideoAdapter
             this._onVideoElementMouseLeave(target);
         } catch (err) {
             this.debug("From: _onVideoThumbnailMouseOut of vimeo's VideoAdapter.\nReason:" + err);
-            // $kat.trackError({from: "_onVideoThumbnailMouseOut of vimeo's VideoAdapter.", exception:err});
+            $cws.Tracker.trackError({from: "_onVideoThumbnailMouseOut of vimeo's VideoAdapter.", exception:err});
         }
     }
 });

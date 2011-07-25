@@ -72,15 +72,12 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.facebook.adapters.VideoAdap
                 if (videoUrl) {
                     this._addVideo(elem, videoUrl);
                     this._listenThumbnailEvents(elem);
+                    $cws.Tracker.track('VideoAdapterEvt', 'SupportedVideoFound', videoUrl);
                 }
             }, this));
 
             if (this.videos.length > this._videosFound) {
                     this._videosFound = this.videos.length;
-                    /*$kat.track('VideoAdapterEvt', 'SupportedVideoFound', {
-                        campaign: $win.location.host
-                    });*/
-
                     new $cws.WatchlrRequests.sendVideosInfoRequest($.proxy(this._onVideosInfoReceived, this), this.videos);
                 }
 
@@ -88,7 +85,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.facebook.adapters.VideoAdap
 
         } catch (err) {
             this.debug("From: findFlashVideoCandidates of facebook's VideoAdapater. \nReason:" + err);
-            // $kat.trackError({from: "findFlashVideoCandidates of facebook's VideoAdapater.", msg: "Unable to find flash videos on facebook page.", exception:err});
+            $cws.Tracker.trackError({from: "findFlashVideoCandidates of facebook's VideoAdapater.", msg: "Unable to find flash videos on facebook page.", exception:err});
         }
     },
 
@@ -130,7 +127,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.facebook.adapters.VideoAdap
 
         } catch (err) {
             this.debug("From: findFlashVideoCandidates of facebook's VideoAdapater. \nReason:" + err);
-            // $kat.trackError({from: "findFlashVideoCandidates of facebook's VideoAdapater.", msg: "Unable to find flash videos on facebook page.", exception:err});
+            $cws.Tracker.trackError({from: "findFlashVideoCandidates of facebook's VideoAdapater.", msg: "Unable to find flash videos on facebook page.", exception:err});
         }
 
     },
@@ -158,7 +155,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.facebook.adapters.VideoAdap
             }
         } catch (err) {
             this.debug("From: onVideoImageClicked of facebook's VideoAdapater. \nReason:" + err);
-            // $kat.trackError({from: "onVideoImageClicked of facebook's VideoAdapater.", exception:err});
+            $cws.Tracker.trackError({from: "onVideoImageClicked of facebook's VideoAdapater.", exception:err});
         }
     },
 
@@ -172,7 +169,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.facebook.adapters.VideoAdap
             }
         } catch (err) {
             this.debug("From: fireOnVideoElementInserted of facebook's VideoAdapater. \nReason:" + err);
-            // $kat.trackError({from: "fireOnVideoElementInserted of facebook's VideoAdapater.", msg: "Unable to fire the event.", exception:err});
+            $cws.Tracker.trackError({from: "fireOnVideoElementInserted of facebook's VideoAdapater.", msg: "Unable to fire the event.", exception:err});
         }
     },
 
@@ -217,7 +214,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.facebook.adapters.VideoAdap
             }
         } catch (err) {
             this.debug("From: onEmbedTagCreated of facebook's VideoAdapater. \nReason:" + err);
-            // $kat.trackError({from: "onEmbedTagCreated of facebook's VideoAdapater.", exception:err});
+            $cws.Tracker.trackError({from: "onEmbedTagCreated of facebook's VideoAdapater.", exception:err});
         }
     },
 
@@ -270,7 +267,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.facebook.adapters.VideoAdap
             return coordinates;
         } catch (err) {
             this.debug("From: getVideoCoordinates of facebook's VideoAdapater. \nReason:" + err);
-            //$kat.trackError({from: "getVideoCoordinates of facebook's VideoAdapater.", exception:err});
+            $cws.Tracker.trackError({from: "getVideoCoordinates of facebook's VideoAdapater.", exception:err});
         }
 
         return null
@@ -292,7 +289,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.facebook.adapters.VideoAdap
             }
         } catch (err) {
             this.debug("From: _onVideoThumbnailMouseOver of facebook's VideoAdapter. \nReason:" + err);
-            // $kat.trackError({from: "_onVideoThumbnailMouseOver of facebook's VideoAdapter", exception:err});
+            $cws.Tracker.trackError({from: "_onVideoThumbnailMouseOver of facebook's VideoAdapter", exception:err});
         }
     },
 
@@ -311,7 +308,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.facebook.adapters.VideoAdap
             }
         } catch (err) {
             this.debug("From: _onVideoThumbnailMouseOut of facebook's VideoAdapter. \nReason:" + err);
-            //$kat.trackError({from: "_onVideoThumbnailMouseOut of facebook's VideoAdapter", exception:err});
+            $cws.Tracker.trackError({from: "_onVideoThumbnailMouseOut of facebook's VideoAdapter", exception:err});
         }
     }
 });

@@ -21,7 +21,7 @@ $cwh.adapters.SiteAdapter.extend("com.watchlr.hosts.orkut.adapters.SiteAdapter",
             if (kva) kva.attach();
         } catch(e) {
             // alert("From: orkut_site_adapter.\nReason: " + e);
-            // $kat.trackError({ from: 'orkut_site_adapter', exception: e, msg: 'unable to create video adapter'});
+            $cws.Tracker.trackError({ from: 'orkut_site_adapter', exception: e, msg: 'unable to create video adapter'});
         }
 	}
 			

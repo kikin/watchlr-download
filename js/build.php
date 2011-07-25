@@ -42,6 +42,7 @@ function jsPrioritiesCmp($a, $b) {
         'src/main/com/watchlr/system/Service.js' => 79,
         'src/main/com/watchlr/system/ServiceDaemon.js' => 78,
         'src/main/com/watchlr/system/WatchlrRequests.js' => 77,
+        'src/main/com/watchlr/system/Tracker.js' => 76,
 
         'src/main/com/watchlr/ui/FacebookConnectDialog.js' => 70,
         'src/main/com/watchlr/ui/VideoSavedDialog.js' => 69,
@@ -162,7 +163,7 @@ function getJavascriptTreeString($files) {
 }
 
 if (!isset($_GET['rebuild']) || $_GET['rebuild'] == 'true') {
-  $servers = array("dev" => "http://dev.watchlr.com/", "prod" => "http://www.watchlr.com/", "local" => "http://dev.watchlr.com/");
+  $servers = array("dev" => "http://dev.watchlr.com/", "prod" => "http://www.watchlr.com/", "local" => "http://local.watchlr.com:8000/");
     if ($argc < 2) {
         echo "Version number is not specified.\n";
         exit(1);
@@ -234,6 +235,9 @@ if (!isset($_GET['rebuild']) || $_GET['rebuild'] == 'true') {
       $static_path = $server . "static/images/";
       $result = str_replace("http://local.watchlr.com/watchlr/img/", $static_path, $result);
     }
+
+    // Add JS library version
+    $result = str_replace('__W_VERSION__', $version, $result);
 
     $result = "(function() {" . $result . "})();";
     file_put_contents('watchlr-' . $version . '.min.js', $result);
