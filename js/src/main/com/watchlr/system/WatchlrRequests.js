@@ -111,6 +111,7 @@ $.Class.extend("com.watchlr.system.WatchlrRequests", {
 
       $.ajax({
           url: reqUrl,
+          dataType: 'json',
           data: obj
       });
   },
@@ -123,6 +124,7 @@ $.Class.extend("com.watchlr.system.WatchlrRequests", {
 
       $.ajax({
           url: reqUrl,
+          dataType: 'json',
           data: obj
       });
   },
@@ -135,6 +137,7 @@ $.Class.extend("com.watchlr.system.WatchlrRequests", {
 
       $.ajax({
           url: reqUrl,
+          dataType: 'json',
           data: obj
       });
   }
