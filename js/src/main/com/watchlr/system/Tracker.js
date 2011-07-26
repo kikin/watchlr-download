@@ -9,7 +9,7 @@ $.Class.extend("com.watchlr.system.Tracker", {
     },
 
     trackError: function(errorObj) {
-        errRequest = {location: errorObj['from'], message: errorObj['msg'], exception: errorObj['exception']};
+        errRequest = {location: errorObj['from'], message: errorObj['msg'], exception: JSON.stringify(errorObj['exception'])};
         $cws.WatchlrRequests.sendErrorTrackingRequest(errRequest);
     }
 }, {});
