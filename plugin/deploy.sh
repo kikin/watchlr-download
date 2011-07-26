@@ -10,4 +10,5 @@ watchlr_plugin_version=$major.$minor.$build
 echo Using version string $watchlr_plugin_version
 
 output=Builds/watchlr_installer_$watchlr_plugin_version.*
-scp $output download.watchlr.com:/opt/download_env/static/plugin
+ssh download.watchlr.com mkdir -p /opt/download_env/static/plugin/$watchlr_plugin_version
+scp $output download.watchlr.com:/opt/download_env/static/plugin/$watchlr_plugin_version

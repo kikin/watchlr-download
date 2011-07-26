@@ -232,8 +232,7 @@ if (!isset($_GET['rebuild']) || $_GET['rebuild'] == 'true') {
     $result .= "var bootstrap = new com.watchlr.system.runtime.Bootstrap(); bootstrap.run();";
     $result = str_replace("http://www.watchlr.com/", $server, $result);
     if ($environ != "local") {
-      $static_path = $server . "static/images/";
-      $result = str_replace("http://local.watchlr.com/watchlr/img/", $static_path, $result);
+      $result = str_replace("http://local.watchlr.com/watchlr/img/", "http://download.watchlr.com/img/", $result);
     }
 
     // Add JS library version
