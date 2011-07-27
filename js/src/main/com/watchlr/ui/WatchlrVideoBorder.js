@@ -30,7 +30,8 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
         ON_OPTIONS_BUTTON_MOUSE_ENTER : 'optionsbuttonmouseenter',
         ON_OPTIONS_BUTTON_MOUSE_LEAVE : 'optionsbuttonmouseleave',
         ON_LIKE_BUTTON_CLICKED : 'likebuttonclicked',
-        ON_SAVE_BUTTON_CLICKED : 'savebuttonclicked'
+        ON_SAVE_BUTTON_CLICKED : 'savebuttonclicked',
+        ON_WATCHLR_LOGO_CLICKED: 'watchlrlogoclicked'
     },
 
     BORDER_WIDTH : 5
@@ -172,6 +173,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             this.saveButtonText = $(this.watchlrVideoBorder).find('#watchlr-watch-later-btn-text');
 
             $(this.likeButtonText).html(this._localize('like'));
+            $(this.watchlrLogo).click($.proxy(this._onWatchlrLogoClicked, this));
             $(this.saveButtonImage).click($.proxy(this._onSaveButtonClicked, this));
             $(this.saveButtonText).click($.proxy(this._onSaveButtonClicked, this));
             $(this.likeButtonImage).click($.proxy(this._onLikeButtonClicked, this));
@@ -743,6 +745,21 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
         } catch (err) {
             this.debug('from: _onLikeButtonMouseLeave of WatchlrVideoBorder. \nReason:' + err);
             $cws.Tracker.trackError({from: "_onLikeButtonMouseLeave of WatchlrVideoBorder", exception:err});
+        }
+    },
+
+    /**
+     * when user clicks the watchlr logo
+     *
+     * @param e
+     */
+    _onWatchlrLogoClicked: function(e) {
+        try {
+            if (e) e.stopPropagation();
+            this.trigger($cwui.WatchlrVideoBorder.WatchlrVideoBorderEvents.ON_WATCHLR_LOGO_CLICKED);
+        } catch (err) {
+            this.debug('from: _onWatchlrLogoClicked of WatchlrVideoBorder. \nReason:' + err);
+            $cws.Tracker.trackError({from: "_onWatchlrLogoClicked of WatchlrVideoBorder", exception:err});
         }
     },
 

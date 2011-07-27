@@ -67,7 +67,7 @@ $.Class.extend("com.watchlr.ui.VideoLikedDialog", {
         this._videoLikedDialog = $(this._watchlrVideoBorderOptionsButton).find('#watchlr-video-liked-dialog').get(0);
 
         $($(this._videoLikedDialog).find('a.watchlr-ok-button')).click($.proxy(this._onOkButtonClicked, this));
-        $($(this._videoLikedDialog).find('#watchlr-video-page')).click($.proxy(this._onHomePageLinkClicked, this));
+        $($(this._videoLikedDialog).find('#watchlr-user-profile')).click($.proxy(this._onHomePageLinkClicked, this));
         $($(this._videoLikedDialog).find('#watchlr-fb-push-message')).click($.proxy(this._onFacebookPushMessageClicked, this));
     },
 

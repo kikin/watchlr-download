@@ -418,6 +418,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             this.watchlrVideoBorder.bind($cwui.WatchlrVideoBorder.WatchlrVideoBorderEvents.ON_OPTIONS_BUTTON_MOUSE_LEAVE, $.proxy(this._onOptionsButtonMouseLeave, this));
             this.watchlrVideoBorder.bind($cwui.WatchlrVideoBorder.WatchlrVideoBorderEvents.ON_SAVE_BUTTON_CLICKED, $.proxy(this._onSaveButtonClicked, this));
             this.watchlrVideoBorder.bind($cwui.WatchlrVideoBorder.WatchlrVideoBorderEvents.ON_LIKE_BUTTON_CLICKED, $.proxy(this._onLikeButtonClicked, this));
+            this.watchlrVideoBorder.bind($cwui.WatchlrVideoBorder.WatchlrVideoBorderEvents.ON_WATCHLR_LOGO_CLICKED, $.proxy(this._handleVisitingVideoPageRequested, this));
 
         } catch (e) {
             this.debug("from: _createWatchlrVideoBorder of base VideoAdapter. \nReason:" + e);

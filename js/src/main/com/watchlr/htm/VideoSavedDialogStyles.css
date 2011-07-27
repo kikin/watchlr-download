@@ -41,6 +41,13 @@ a:hover {
     padding: 10px;
 }
 
+#watchlr-video-saved-dialog .watchlr-message {
+    font-family: 'PT Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-variant: normal;
+}
+
 #watchlr-video-saved-dialog .watchlr-message-separator {
     border-bottom: 1px solid #DDDDDD;
     margin: 10px 20px;
@@ -72,7 +79,7 @@ a:hover {
     position:relative;
     top:-5px;
     margin-left:3px;
-    margin-right: 2px;
+    margin-right: 5px;
 }
 
 #watchlr-video-saved-dialog .watchlr-show-message-label {

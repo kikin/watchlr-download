@@ -5,6 +5,10 @@ a {
 
 div {
     border:  none;
+    min-width: 0px;
+    min-height: 0px;
+    margin: 0px;
+    padding: 0px;
 }
 
 span {
