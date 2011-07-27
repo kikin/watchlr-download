@@ -241,7 +241,27 @@ if (!isset($_GET['rebuild']) || $_GET['rebuild'] == 'true') {
     $result = str_replace('__W_ENV__', $environ, $result);
 
     $result = "(function() {" . $result . "})();";
-    file_put_contents('watchlr-' . $version . '.min.js', $result);
+
+    if ($environ == "local") {
+        file_put_contents('watchlr-' . $version . '.min.js', $result);
+    } else {
+
+        // compress the file using YUI compressor
+        $path = 'watchlr-' . $version . '.min.js';
+        file_put_contents($path . '.tmp', $result);
+
+        $code = 0;
+        $cmd = 'java -jar yuicompressor-2.4.2.jar --type js -o ' . $path . ' ' . $path . '.tmp';
+        echo $path . "\n";
+        system($cmd, $code);
+
+        if ($code != 0) {
+            exit($code);
+        }
+
+        system('rm ' . $path . '.tmp');
+    }
+
 }
 
 ?>

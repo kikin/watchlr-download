@@ -36,7 +36,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.vimeo.adapters.VideoAdapter
 
             if (this.videos.length > this._videosFound) {
                 this._videosFound = this.videos.length;
-                new $ks.WatchlrtRequests.sendVideosInfoRequest($.proxy(this._onVideosInfoReceived, this), this.videos);
+                new $cws.WatchlrtRequests.sendVideosInfoRequest($.proxy(this._onVideosInfoReceived, this), this.videos);
             }
         } catch (err) {
             $cws.Tracker.trackError({from: "_findVideos of vimeo's VideoAdapter.", exception:err});

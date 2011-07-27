@@ -111,6 +111,8 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.youtube.adapters.InSi
                 return;
             }
 
+            $cws.Tracker.track('VideoAdapterEvt','PlayedInSitu', videoUrl);
+
             // $cwutil.Logger.debug('Video URL: ' + videoUrl);
             // $cwutil.Logger.debug('Video Title: ' + videoTitle);
             // $cwutil.Logger.debug('Video Title: ' + videoTitle);
