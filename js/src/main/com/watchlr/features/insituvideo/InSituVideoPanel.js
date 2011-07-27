@@ -66,11 +66,7 @@ $.Class.extend("com.watchlr.features.insituvideo.InSituVideoPanel", {
 		try {
             e.stopPropagation();
 
-            /*$ka.Tracker.track('Video', 'ClickThroughVideoPlayer', {
-                    kpi: $ks.View.getCurrentKpi(),
-                    sync: true,
-                    feature: this.infos.url
-                });*/
+            $cws.Tracker.track('VideoAdapterEvt', 'ClickThroughVideoPlayer', this.infos.url);
 
             window.open(this.infos.url, '_balnk');
 
