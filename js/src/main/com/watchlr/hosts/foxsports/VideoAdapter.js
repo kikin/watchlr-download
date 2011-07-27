@@ -5,7 +5,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.foxsports.adapters.VideoAda
 
 	/* @override */
 	attach: function() {
-        // this.debug("Hooking into msn.foxsports.com video api");
+        // $cwutil.Logger.debug("Hooking into msn.foxsports.com video api");
         try {
             if (window.Player && window.Player.OnVideoTitle) {
                 var original = window.Player.OnVideoTitle;
@@ -17,14 +17,12 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.foxsports.adapters.VideoAda
                             original.apply(this, arguments);
                         }
                     } catch (e) {
-                        // alert("From: attach of fox sports VideoAdapter. \nReason: " + e);
                         $cws.Tracker.trackError({from:"attach of fox sports VideoAdapter", msg: "Unable to call fox sports original Player.OnVideoTitle function", exception:e});
                     }
                 }, this);
             }
 
         } catch (err) {
-            // alert("From: attach of fox sports VideoAdapter. \nReason: " + err);
             $cws.Tracker.trackError({from:"attach of fox sports VideoAdapter", msg: "Unable to wrap Player.OnVideoTitle function", exception:err});
         }
 
@@ -41,7 +39,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.foxsports.adapters.VideoAda
         }
 
         var videoUrl = "";
-        // this.debug("Source is:" + src);
+        // $cwutil.Logger.debug("Source is:" + src);
         if (src && (src.indexOf('video.s-msn.com') != -1) && embed.vidGetId) {
             videoUrl = "http://msn.foxsports.com/video/?vid=" + embed.vidGetId();
         }
@@ -51,7 +49,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.foxsports.adapters.VideoAda
 
     _onVideoUrlChange : function(videoId) {
         try {
-            // this.debug("Video Id found:" + videoId);
+            // $cwutil.Logger.debug("Video Id found:" + videoId);
             if (this.videos && (this.videos.length == 1)) {
                 var embed = $('Player1').get(0);
                 var vid = null;
@@ -73,7 +71,6 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.foxsports.adapters.VideoAda
                 }
             }
         } catch (err) {
-            // alert("From: _onVideoUrlChange of fox sports VideoAdapter. \nReason:" + err);
             $cws.Tracker.trackError({from:"_onVideoUrlChange of fox sports VideoAdapter", msg: "Unable to change video URL on video change", exception:err});
         }
     }

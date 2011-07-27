@@ -20,7 +20,6 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.yahoo.adapters.InSitu
             }
 
         } catch (err) {
-            console.log("From: attach of Yahoo search InSituVideoAdapter. \nReason: " + err);
             $cws.Tracker.trackError({from: 'attach of Google search InSituVideoAdapter', msg: '', exception: err});
         }
 	},
@@ -35,9 +34,9 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.yahoo.adapters.InSitu
                 supportedHosts = $cwc.FeaturesConfig.plugins.InSituVideoFeature.config.supportedHosts,
                 hostConfig = videoUrl ? supportedHosts[$cwutil.Url.getHostName(videoUrl)] : null;
 
-            // console.log('videoUrl: ' + videoUrl);
-            // console.log('supportedHosts: ' + supportedHosts);
-            // console.log('hostConfig: ' + hostConfig);
+            // $cwutil.Logger.debug('videoUrl: ' + videoUrl);
+            // $cwutil.Logger.debug('supportedHosts: ' + supportedHosts);
+            // $cwutil.Logger.debug('hostConfig: ' + hostConfig);
 
             if (!hostConfig) {
                 this._stats.notSupported++;
@@ -47,7 +46,7 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.yahoo.adapters.InSitu
 
             // create our little beautiful icon
             var name = hostConfig.name; // .toString();
-            // console.log('name: ' + name);
+            // $cwutil.Logger.debug('name: ' + name);
 
             var imgLink = $(videoDiv).find('.thm').get(0);
 
@@ -93,7 +92,6 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.yahoo.adapters.InSitu
             this._stats.supported++;
 
         } catch (err) {
-            console.log("From: _addVideoPlayback of Yahoo search InSituVideoAdapter. \nReason: " + err);
             $cws.Tracker.trackError({from: '_addVideoPlayback of Google search InSituVideoAdapter', msg: '', exception: err});
         }
 	},
@@ -102,7 +100,7 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.yahoo.adapters.InSitu
         // try to get the link
         try {
             var link = $(videoDiv).find('a');
-            // this.debug('Link: ' + link);
+            // $cwutil.Logger.debug('Link: ' + link);
             if(link) {
                 // get rurl parameter
                 var href = decodeURIComponent($(link).attr('href')),
@@ -111,7 +109,6 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.yahoo.adapters.InSitu
                 return url;
             }
         } catch (err) {
-            console.log("From: getVideoUrl of yahoo's search InSituVideoAdapter.\nReason: " + err);
             $cws.Tracker.trackError({from: "getVideoUrl of yahoo's search InSituVideoAdapter", exception:err});
         }
         // alert(link);
@@ -157,8 +154,8 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.yahoo.adapters.InSitu
 
             var imgHeight = $(imgLink).height() || 90;
             /*var relElement = $('#watchlr_top') || $('#center_col') || $(document.body);
-            console.log("relElement:" + relElement);
-            console.log("$(relElement).offset():" + relElement.position(document.body));*/
+            $cwutil.Logger.debug("relElement:" + relElement);
+            $cwutil.Logger.debug("$(relElement).offset():" + relElement.position(document.body));*/
 
             this.videoPanel.css('left', $(imgLink).offset().left);
             this.videoPanel.css('top', $(imgLink).offset().top + imgHeight);
@@ -166,7 +163,6 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.yahoo.adapters.InSitu
             // show the panel and start playing
             this.videoPanel.open();
         } catch (err) {
-            console.log("From: onClickVideoThumbnail of Yahoo search InSituVideoAdapter. \nReason: " + err);
             $cws.Tracker.trackError({from: 'onClickVideoThumbnail of Google search InSituVideoAdapter', msg: '', exception: err});
         }
 	}

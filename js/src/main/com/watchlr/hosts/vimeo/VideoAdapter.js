@@ -13,15 +13,15 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.vimeo.adapters.VideoAdapter
             this._super(embeds);
             if (this.videos && (this.videos.length == 0)) {
                 var div = $('.a').get(0);
-                // this.debug('Found div for video:' + div);
+                // $cwutil.Logger.debug('Found div for video:' + div);
                 if (div) {
                     var divParent = $(div.parentNode);
-                    // this.debug('Found video div parent:' + divParent + " with id:" + divParent.id)
+                    // $cwutil.Logger.debug('Found video div parent:' + divParent + " with id:" + divParent.id)
                     if (divParent && divParent.id) {
                         var videoId = /player_([0-9]+)_[0-9]+/i.exec(divParent.id);
                         if (videoId && videoId.length > 1)
                             videoId = videoId[1];
-                        // this.debug('Found video ID:' + videoId);
+                        // $cwutil.Logger.debug('Found video ID:' + videoId);
                         if (videoId) {
                             div.watchlrVideoId = (this.videos.length + 1);
                             $(div).mouseenter($.proxy(this._onVideoThumbnailMouseOver, this));
@@ -39,7 +39,6 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.vimeo.adapters.VideoAdapter
                 new $ks.WatchlrtRequests.sendVideosInfoRequest($.proxy(this._onVideosInfoReceived, this), this.videos);
             }
         } catch (err) {
-            this.debug("From: _findVideos of vimeo's VideoAdapter..\nReqason: " + err);
             $cws.Tracker.trackError({from: "_findVideos of vimeo's VideoAdapter.", exception:err});
         }
     },
@@ -49,7 +48,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.vimeo.adapters.VideoAdapter
         if (classnames) {
             var classnamesarray = classnames.split();
             for (var i = 0; i < classnamesarray.length; i++) {
-                // this.debug('class names found:' + classnamesarray);
+                // $cwutil.Logger.debug('class names found:' + classnamesarray);
                 if (classname == classnamesarray[i].toLowerCase())
                     return true;
             }
@@ -67,7 +66,6 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.vimeo.adapters.VideoAdapter
 
             this._onVideoElementMouseEnter(target);
         } catch (err) {
-            this.debug("From: _onVideoThumbnailMouseOver of vimeo's VideoAdapter.\nReason:" + err);
             $cws.Tracker.trackError({from: "_onVideoThumbnailMouseOver of vimeo's VideoAdapter.", exception:err});
         }
     },
@@ -81,7 +79,6 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.vimeo.adapters.VideoAdapter
 
             this._onVideoElementMouseLeave(target);
         } catch (err) {
-            this.debug("From: _onVideoThumbnailMouseOut of vimeo's VideoAdapter.\nReason:" + err);
             $cws.Tracker.trackError({from: "_onVideoThumbnailMouseOut of vimeo's VideoAdapter.", exception:err});
         }
     }

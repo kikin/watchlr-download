@@ -6,7 +6,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.cbsnews.adapters.VideoAdapt
 
 	/* @override */
 	attach: function() {
-        // this.debug("Hooking into CBS news video api");
+        // $cwutil.Logger.debug("Hooking into CBS news video api");
         this._super();
 	},
 
@@ -27,13 +27,13 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.cbsnews.adapters.VideoAdapt
                         var re = /&contentValue=([0-9,]+)&/;
                         var videoId = re.exec(videoFlashVars)[1];
 
-                        // this.debug('Video Id found:' + videoId);
+                        // $cwutil.Logger.debug('Video Id found:' + videoId);
                         if (!videoId || videoId.indexOf(',') != -1) {
                             videoId = window.CBSVideo.activeId;
                         }
 
                         // var embed = window.CBSVideo.playerId ? $('#' + window.CBSVideo.playerId) : null;
-                        // this.debug('Embed tag found:' + videoElement);
+                        // $cwutil.Logger.debug('Embed tag found:' + videoElement);
 
                         if (videoId) {
                             var url = "http://www.cbsnews.com/video/watch/?video_id=" + videoId;
@@ -41,7 +41,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.cbsnews.adapters.VideoAdapt
                             $cws.Tracker.track('VideoAdapterEvt', 'SupportedVideoFound', url);
                         }
                     } catch (err) {
-                        // this.debug("From: _findVideoCandidates of CBS news. \nReason:" + err);
+                        // $cwutil.Logger.debug("From: _findVideoCandidates of CBS news. \nReason:" + err);
                         $cws.Tracker.trackError({from:"_findVideoCandidates of CBS news", msg: "Unable to get falshvars using CBS JS API.", exception:err})
                     }
                 }
@@ -58,7 +58,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.cbsnews.adapters.VideoAdapt
             }
 
         } catch (outerErr) {
-            // this.debug('From: _findVideoCandidates of CBS news. \nReason:' + outerErr);
+            // $cwutil.Logger.debug('From: _findVideoCandidates of CBS news. \nReason:' + outerErr);
             $cws.Tracker.trackError({from:"_findVideoCandidates of CBS news", msg: "Unable to find CBS video element.", exception:outerErr})
         }
 
@@ -134,7 +134,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.cbsnews.adapters.VideoAdapt
      */
     _onVideoUrlChange : function(videoId) {
         try {
-            // this.debug("Video Id found:" + videoId);
+            // $cwutil.Logger.debug("Video Id found:" + videoId);
             if (this.videos && (this.videos.length == 1)) {
                 var lastSavedUrl = this.videos[0].url;
                 this.videos[0].url = "http://www.cbsnews.com/video/watch/?video_id=" + videoId;

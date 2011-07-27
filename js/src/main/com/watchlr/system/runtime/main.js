@@ -92,7 +92,8 @@ if (!com.watchlr.modalwin) {
     com.watchlr.modalwin = {};
 }
 
-com.watchlr.version = '__W_VERSION__'
+com.watchlr.version = '__W_VERSION__';
+com.watchlr.environment = '__W_ENV__';
 
 var $cws    = com.watchlr.system,
    //  $cwsr   = $cws.runtime,

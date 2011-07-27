@@ -11,7 +11,6 @@ $cwh.adapters.SiteAdapter.extend("com.watchlr.hosts.yahoo.adapters.SiteAdapter",
             var kva = $cwh.adapters.VideoAdapter.getInstance();
             if (kva) kva.attach();
         } catch(e) {
-            this.debug("From: yahoo_site_adapter.\nReason: " + e);
             $cws.Tracker.trackError({ from: 'yahoo_site_adapter', exception: e, msg: 'unable to create video adapter'});
         }
 	}

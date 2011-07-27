@@ -6,7 +6,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.espn.adapters.VideoAdapter"
 
 	/* @override */
 	attach: function() {
-        // this.debug("Hooking into espn.go.com video api");
+        // $cwutil.Logger.debug("Hooking into espn.go.com video api");
         try {
             var original = window.espn.video.play;
             window.espn.video.play = $.proxy(function() {
@@ -16,12 +16,10 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.espn.adapters.VideoAdapter"
                         original.apply(this, arguments);
                     }
                 } catch (e) {
-                    // alert("From: attach of espn's VideoAdapter. \nReason:" + e);
                     $cws.Tracker.trackError({from:"attach of espn's VideoAdapter", msg: "Unable to call espn's original espn.video.play function", exception:e});
                 }
             }, this);
         } catch (err) {
-            // alert("From: attach of espn's VideoAdapter. \nReason:" + err);
             $cws.Tracker.trackError({from:"attach of espn's VideoAdapter", msg: "Unable to wrap espn.video.play function", exception:err});
         }
 
@@ -30,7 +28,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.espn.adapters.VideoAdapter"
 
     _onVideoUrlChange : function(videoId) {
         try {
-            // this.debug("Video Id found:" + videoId);
+            // $cwutil.Logger.debug("Video Id found:" + videoId);
             if (this.videos && (this.videos.length == 1)) {
                 this.videos[0].url = "http://espn.go.com/video/clip?id=" + videoId;
                 this.videos[0].saved = false;
@@ -55,7 +53,6 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.espn.adapters.VideoAdapter"
                 }, this), 1000);
             }
         } catch (err) {
-            // alert("From: _onVideoUrlChange of espn's VideoAdapter. \nReason:" + err);
             $cws.Tracker.trackError({from:"_onVideoUrlChange of espn's VideoAdapter", msg: "Unable to change video URL on video change", exception:err});
         }
     }

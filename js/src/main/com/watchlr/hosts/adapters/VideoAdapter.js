@@ -85,16 +85,6 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
     },
 
     /**
-     * used for logging debug strings
-     * @param str
-     */
-    debug : function(str) {
-        try {
-            console.log(str);
-        } catch (e) {}
-    },
-
-    /**
     * find all the elements on the page that can be video.
     */
     _findVideoCandidates: function() {
@@ -102,13 +92,13 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             var videoCandidates = [];
 
             var embed_tags = $('embed');
-            // this.debug('Found ' + embed_tags.length + ' embeds');
+            // $cwutil.Logger.debug('Found ' + embed_tags.length + ' embeds');
             for (var i = 0; i < embed_tags.length; i++) {
                 videoCandidates.push(embed_tags[i]);
             }
 
             var objects = $('object');
-            // this.debug('Found ' + objects.length + ' objects');
+            // $cwutil.Logger.debug('Found ' + objects.length + ' objects');
             for (var i = 0; i < objects.length; i++) {
                 if (!/<embed/i.test(objects[i].innerHTML) || (!/<object/i.test(objects[i].innerHTML))) {
                     videoCandidates.push(objects[i]);
@@ -116,20 +106,19 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             }
 
             var iframes = $('iframe');
-            // this.debug('Found ' + iframes.length + ' iframes');
+            // $cwutil.Logger.debug('Found ' + iframes.length + ' iframes');
             for (var i = 0; i < iframes.length; i++) {
                 videoCandidates.push(iframes[i]);
             }
 
             var videos = $('video');
-            // this.debug('Found ' + videos.length + ' videos');
+            // $cwutil.Logger.debug('Found ' + videos.length + ' videos');
             for (var i = 0; i < videos.length; i++) {
                 videoCandidates.push(videos[i]);
             }
 
             return videoCandidates;
         } catch (err) {
-            this.debug("from: _findVideoCandidates of base VideoAdapter. \n Reason:" + err);
             $cws.Tracker.trackError({from:"_findVideoCandidates of base VideoAdapter.", exception:err});
         }
 
@@ -142,7 +131,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
      */
     _findVideos: function(videoCandidates) {
         try {
-            // this.debug('Searching through ' + videoCandidates.length + ' candidates');
+            // $cwutil.Logger.debug('Searching through ' + videoCandidates.length + ' candidates');
             for (var i = 0; i < videoCandidates.length; i++) {
                 var videoElement = $(videoCandidates[i]);
                 if (videoElement.watchlrVideoId != null) {
@@ -150,7 +139,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 }
 
                 var videoUrl = this._findVideoUrl(videoCandidates[i]);
-                this.debug("Adding video for video element:" + videoCandidates[i] + " and url: " + videoUrl);
+                // $cwutil.Logger.debug("Adding video for video element:" + videoCandidates[i] + " and url: " + videoUrl);
                 if (videoUrl) {
                     this._addVideo(videoCandidates[i], videoUrl);
                     $cws.Tracker.track('VideoAdapterEvt', 'SupportedVideoFound', videoUrl);
@@ -162,9 +151,8 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 $cws.WatchlrRequests.sendVideosInfoRequest($.proxy(this._onVideosInfoReceived, this), this.videos);
             }
 
-            // this.debug("Number of videos found:" + this.videos.length);
+            // $cwutil.Logger.debug("Number of videos found:" + this.videos.length);
         } catch (err) {
-            this.debug("from: _findVideos of base VideoAdapter. \nReason:" + err);
             $cws.Tracker.trackError({from: "_findVideos of base VideoAdapter.", exception:err});
         }
     },
@@ -184,8 +172,8 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             src = this._qualifyURL('/' + src);
         }
 
-        // this.debug('Flashvars:' + flashvars);
-        // this.debug('src:' + src);
+        // $cwutil.Logger.debug('Flashvars:' + flashvars);
+        // $cwutil.Logger.debug('src:' + src);
 
         for (var j = 0; j < this.services.length; j++) {
             if (src && this._isSupportedDomain(src, this.services[j].domains)) {
@@ -197,25 +185,25 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 }
 
                 if (!match.passed && !match.video_id) {
-                    // this.debug('oService.source_regex: ' + oService.source_regex);
+                    // $cwutil.Logger.debug('oService.source_regex: ' + oService.source_regex);
                     this._extractId(src, oService.source_regex, match);
                 }
 
                 if (match.passed) {
                     if (oService.use_location != undefined) {
                         if (oService.use_location && oService.location_regex.test(window.location.href)) {
-                            // this.debug('Using location: ' + window.location.href);
+                            // $cwutil.Logger.debug('Using location: ' + window.location.href);
                             return window.location.href;
                         }
                     } else if (match.video_id) {
-                        // this.debug('Found video with id: ' + match.video_id);
+                        // $cwutil.Logger.debug('Found video with id: ' + match.video_id);
                         if (typeof(oService.url) == 'function') {
-                            // this.debug('Using URL:' + oService.url(match.video_id));
+                            // $cwutil.Logger.debug('Using URL:' + oService.url(match.video_id));
                             return oService.url(match.video_id);
                         } else {
-                            // this.debug("Video ids:" + match.video_id);
-                            // this.debug("Video id:" + match.video_id[1]);
-                            // this.debug('Using URL:' + (oService.url + match.video_id[1]));
+                            // $cwutil.Logger.debug("Video ids:" + match.video_id);
+                            // $cwutil.Logger.debug("Video id:" + match.video_id[1]);
+                            // $cwutil.Logger.debug('Using URL:' + (oService.url + match.video_id[1]));
                             return oService.url + match.video_id[1];
                         }
                     }
@@ -263,7 +251,6 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
 
             return video;
         } catch (err) {
-            this.debug("from: _addVideo of base VideoAdapter. \n Reason:" + err);
             $cws.Tracker.trackError({from: "_addVideo of base VideoAdapter.", msg:"Error while adding video.", exception:err});
         }
     },
@@ -287,9 +274,9 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
         try {
             videoElement.onmouseover = _onVideoMouseOver;
             videoElement.onmouseout = _onVideoMouseOut;
-            // this.debug('Added mouse events successfully for video element:' + videoElement);
+            // $cwutil.Logger.debug('Added mouse events successfully for video element:' + videoElement);
         } catch (e) {
-            this.debug("From: _addMouse events. \n Reason:" + e);
+            // $cwutil.Logger.debug("From: _addMouse events. \n Reason:" + e);
         }
 
         // If attachEvent is supported listen mouse events using attachEvent
@@ -297,9 +284,9 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             try {
                 videoElement.attachEvent('onmouseover', _onVideoMouseOver);
                 videoElement.attachEvent('onmouseout', _onVideoMouseOut);
-                // this.debug('Attached mouse events successfully for video element:' + videoElement);
+                // $cwutil.Logger.debug('Attached mouse events successfully for video element:' + videoElement);
             } catch (e) {
-                this.debug("From: _addMouse events. \n Reason:" + e);
+                // $cwutil.Logger.debug("From: _addMouse events. \n Reason:" + e);
             }
         }
 
@@ -308,9 +295,9 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             try {
                 videoElement.addEventListener('mouseover', _onVideoMouseOver, false);
                 videoElement.addEventListener('mouseoout', _onVideoMouseOut, false);
-                // this.debug('Added events listeners for mouse events successfully for video element:' + videoElement);
+                // $cwutil.Logger.debug('Added events listeners for mouse events successfully for video element:' + videoElement);
             } catch (e) {
-                this.debug("From: _addMouse events. \n Reason:" + e);
+                // $cwutil.Logger.debug("From: _addMouse events. \n Reason:" + e);
             }
         }
     },
@@ -355,9 +342,9 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
      */
     _isSupportedDomain: function(src, domains) {
         for (var i = 0; i < domains.length; i++) {
-            // this.debug('Testing against domain: ' + domains[i] + ' with src: ' + src);
+            // $cwutil.Logger.debug('Testing against domain: ' + domains[i] + ' with src: ' + src);
             if (src.indexOf(domains[i]) != -1) {
-                // this.debug('Matched domain ' + domains[i]);
+                // $cwutil.Logger.debug('Matched domain ' + domains[i]);
                 return true;
             }
         }
@@ -373,10 +360,10 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
      */
     _extractId: function(str, patterns, match) {
         for (var i = 0; i < patterns.length; i++) {
-            // this.debug('Matching: ' + patterns[i] + ' against ' + str);
+            // $cwutil.Logger.debug('Matching: ' + patterns[i] + ' against ' + str);
             var videoId = patterns[i].exec(str);
             if (videoId) {
-                // this.debug('Matched: ' + str + " \tfor pattern:" + patterns[i]);
+                // $cwutil.Logger.debug('Matched: ' + str + " \tfor pattern:" + patterns[i]);
                 match.passed = true;
                 match.video_id = videoId;
                 return;
@@ -421,7 +408,6 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             this.watchlrVideoBorder.bind($cwui.WatchlrVideoBorder.WatchlrVideoBorderEvents.ON_WATCHLR_LOGO_CLICKED, $.proxy(this._handleVisitingVideoPageRequested, this));
 
         } catch (e) {
-            this.debug("from: _createWatchlrVideoBorder of base VideoAdapter. \nReason:" + e);
             $cws.Tracker.trackError({from:"_createWatchlrVideoBorder of base VideoAdapter", msg: "Unable to create the border around video.", exception:e});
         }
     },
@@ -433,33 +419,33 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
      */
     _getVideoCoordinates: function(videoElement) {
         try {
-            // this.debug("Get called in base class getVideoCoordinates");
+            // $cwutil.Logger.debug("Get called in base class getVideoCoordinates");
             var videoWidth = videoElement.clientWidth || videoElement.width;
             if (!videoWidth) {
                 videoWidth = this._getNodeValue(videoElement, 'width');
             }
 
-            // this.debug('Video width:' + videoWidth);
+            // $cwutil.Logger.debug('Video width:' + videoWidth);
 
             var videoHeight = videoElement.clientHeight || videoElement.height;
             if (!videoHeight) {
                 videoHeight = this._getNodeValue(videoElement, 'height');
             }
 
-            // this.debug('Video height:' + videoHeight);
+            // $cwutil.Logger.debug('Video height:' + videoHeight);
 
             var parent = videoElement;
             var offsetLeft = 0;
             var offsetTop = 0;
 
-            // this.debug('Embed element: ' + parent);
+            // $cwutil.Logger.debug('Embed element: ' + parent);
             // Calculate the absolute position of the video
             while (parent && (parent != document.body)) {
                 offsetLeft += parent.offsetLeft;
                 offsetTop += parent.offsetTop;
                 var oldParent = parent;
                 parent = parent.offsetParent;
-                // this.debug('Offset parent element: ' + parent);
+                // $cwutil.Logger.debug('Offset parent element: ' + parent);
 
                 // if the element has set the scroll property,
                 // then calculate the relative position of video in the view port.
@@ -468,28 +454,28 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 // offsetTop = element.scrollTop - (absolute position of video in the element)
                 var parentElement = oldParent;
                 while (parentElement && (parentElement != parent) && (parentElement != document.body)) {
-                    // this.debug('Parent element: ' + parentElement);
+                    // $cwutil.Logger.debug('Parent element: ' + parentElement);
                     var overFlow = $(parentElement).css('overflow');
                     if (overFlow && (overFlow == "scroll" || overFlow == "auto")) {
                         if (parentElement.scrollLeft) {
-                            // this.debug('Left scroll is:' + parentElement.scrollLeft);
+                            // $cwutil.Logger.debug('Left scroll is:' + parentElement.scrollLeft);
                             offsetLeft -= parentElement.scrollLeft;
                         }
                         if (parentElement.scrollTop) {
-                            // this.debug('Top scroll is:' + parentElement.scrollTop);
+                            // $cwutil.Logger.debug('Top scroll is:' + parentElement.scrollTop);
                             offsetTop -= parentElement.scrollTop;
                         }
 
                     } else {
                         var overFlowX = $(parentElement).css('overflow-x');
                         if (overFlowX && (overFlowX == "scroll" || overFlowX == "auto")  && parentElement.scrollLeft) {
-                            // this.debug("scroll left position is: " + parentElement.scrollLeft);
+                            // $cwutil.Logger.debug("scroll left position is: " + parentElement.scrollLeft);
                             offsetLeft -= parentElement.scrollLeft;
                         }
 
                         var overFlowY = $(parentElement).css('overflow-y');
                         if (overFlowY && (overFlowY == "scroll" || overFlowY == "auto") && parentElement.scrollTop) {
-                            // this.debug("scroll top position is: " + parentElement.scrollTop);
+                            // $cwutil.Logger.debug("scroll top position is: " + parentElement.scrollTop);
                             offsetTop -= parseInt(parentElement.scrollTop);
                         }
                     }
@@ -497,7 +483,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                     parentElement = parentElement.parentNode; //  $(parentElement).parent().get(0);
                 }
 
-                // this.debug("Offset Left:" + offsetLeft + " \t Offset Top: " + offsetTop);
+                // $cwutil.Logger.debug("Offset Left:" + offsetLeft + " \t Offset Top: " + offsetTop);
             }
 
             var coordinates = {
@@ -509,7 +495,6 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
 
             return coordinates;
         } catch (e) {
-            this.debug('from: getVideoCoordinates of base VideoAdapter. \nReason:' + e);
             $cws.Tracker.trackError({from: "getVideoCoordinates of base VideoAdapter", msg: "Unable to calculate the coordinates for video.", exception:e});
         }
 
@@ -528,8 +513,8 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
      */
     _onVideoElementMouseEnter: function(target, watchlrVideoId, differentElement) {
         try {
-            // this.debug(target);
-            // this.debug(target.watchlrVideoId);
+            // $cwutil.Logger.debug(target);
+            // $cwutil.Logger.debug(target.watchlrVideoId);
             if (!target) return;
             if (!watchlrVideoId) watchlrVideoId = target.watchlrVideoId;
             if (!watchlrVideoId) return;
@@ -560,14 +545,14 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 this._createWatchlrVideoBorder();
             }
 
-            // this.debug("Is watchlr border hidden:" + this.watchlrVideoBorder.isHidden());
+            // $cwutil.Logger.debug("Is watchlr border hidden:" + this.watchlrVideoBorder.isHidden());
             if (this.watchlrVideoBorder.isHidden() || differentElement) {
                 // calculate the coordinates for video
                 selectedVideo.coordinates = this._getVideoCoordinates(target);
 
-                // this.debug("Do we have valid coordinates:" + selectedVideo.coordinates);
+                // $cwutil.Logger.debug("Do we have valid coordinates:" + selectedVideo.coordinates);
                 if (selectedVideo.coordinates) {
-                    /*this.debug("Coordinates for video:" + selectedVideo.coordinates.left + ", " +
+                    /*$cwutil.Logger.debug("Coordinates for video:" + selectedVideo.coordinates.left + ", " +
                         selectedVideo.coordinates.top + ", " +
                         selectedVideo.coordinates.width + ", " +
                         selectedVideo.coordinates.height);  */
@@ -585,6 +570,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             }
 
             selectedVideo.videoSelected = true;
+            selectedVideo.saveButtonSelected = false;
 
             try {
                 // call the original mouseover event
@@ -593,7 +579,6 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 }
             } catch (e) {}
         } catch (err) {
-            this.debug('from: _onVideoElementMouseOver of base VideoAdapter. \nReason:' + e);
             $cws.Tracker.trackError({from: "_onVideoElementMouseOver of base VideoAdapter", msg: "Unable to show watchlr video border.", exception:e});
         }
     },
@@ -624,12 +609,12 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
 
                 // if mouse is not over the video or share button of the video
                 // hide the video
-                this.debug('selected video: ' + selectedVideo +
+                /*$cwutil.Logger.debug('selected video: ' + selectedVideo +
                     '\nShare Button Selected: ' + selectedVideo.saveButtonSelected +
                     '\nVideo selected: ' + selectedVideo.videoSelected +
                     '\nSaving video: ' + selectedVideo.savingVideo +
                     '\nLiking video: ' + selectedVideo.likingVideo
-                );
+                );*/
                 if (selectedVideo &&
                     !selectedVideo.saveButtonSelected &&
                     !selectedVideo.videoSelected &&
@@ -647,7 +632,6 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 }
             }  catch (e) {}
         } catch (err) {
-            this.debug('from: _onVideoElementMouseLeave of base VideoAdapter. \nReason:' + e);
             $cws.Tracker.trackError({from: "_onVideoElementMouseLeave of base VideoAdapter", msg: "Unable to hide watchlr video border.", exception:e});
         }
     },
@@ -658,7 +642,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
      */
     _onVideoMouseOver: function(e) {
         try {
-            this.debug("Video mouse over");
+            // $cwutil.Logger.debug("Video mouse over");
 
             var evt = e;
             if (!evt)
@@ -673,7 +657,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             if (!target)
                 target = evt.srcElement;
 
-            this.debug("Video mouse over for target:" + (target ? target.nodeName : "not found"));
+            // $cwutil.Logger.debug("Video mouse over for target:" + (target ? target.nodeName : "not found"));
 
             if (target) {
                 if (target.nodeType == 3) {
@@ -689,12 +673,11 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                     }
                 }
 
-                this.debug("Video id associated with target:" + watchlrVideoId);
+                // $cwutil.Logger.debug("Video id associated with target:" + watchlrVideoId);
 
                 this._onVideoElementMouseEnter(target, watchlrVideoId);
             }
         } catch (err) {
-            this.debug('from: onVideoMouseOver of base VideoAdapter. \nReason:' + err);
             $cws.Tracker.trackError({from: "onVideoMouseOver of base VideoAdapter", exception:err});
         }
     },
@@ -719,7 +702,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             if (!target)
                 target = evt.srcElement;
 
-            // this.debug("Video mouse out for target:" + (target ? target.nodeName : "not found"));
+            // $cwutil.Logger.debug("Video mouse out for target:" + (target ? target.nodeName : "not found"));
 
             if (target) {
                 if (target.nodeType == 3) {
@@ -735,12 +718,11 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                     }
                 }
 
-                // this.debug("Video id associated with target:" + watchlrVideoId);
+                // $cwutil.Logger.debug("Video id associated with target:" + watchlrVideoId);
 
                 this._onVideoElementMouseLeave(target, watchlrVideoId);
             }
         } catch (err) {
-            this.debug('from: onVideoMouseOut of base VideoAdapter. \nReason:' + err);
             $cws.Tracker.trackError({from: "onVideoMouseOut of base VideoAdapter", exception:err});
         }
     },
@@ -751,12 +733,12 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
      */
     _onOptionsButtonMouseEnter: function(e) {
         try {
-            // this.debug("On button mouse over");
+            // $cwutil.Logger.debug("On button mouse over");
             if (e) e.stopPropagation();
 
             this.selectedVideo.saveButtonSelected = true;
+            this.selectedVideo.videoSelected = false;
         } catch (err) {
-            this.debug('from: onSaveButtonMouseOver of base VideoAdapter. \nReason:' + err);
             $cws.Tracker.trackError({from: "onSaveButtonMouseOver of base VideoAdapter", exception:err});
         }
     },
@@ -769,7 +751,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
         try {
             if (e) e.stopPropagation();
 
-            // this.debug("On button mouse out");
+            // $cwutil.Logger.debug("On button mouse out");
 
             this.selectedVideo.saveButtonSelected = false;
 
@@ -779,12 +761,12 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
 
                 // if mouse is not over share button or video,
                 // hide the border
-                this.debug('selected video: ' + selectedVideo +
+                /*$cwutil.Logger.debug('selected video: ' + selectedVideo +
                     '\nShare Button Selected: ' + selectedVideo.saveButtonSelected +
                     '\nVideo selected: ' + selectedVideo.videoSelected +
                     '\nSaving video: ' + selectedVideo.savingVideo +
                     '\nLiking video: ' + selectedVideo.likingVideo
-                );
+                );*/
                 if (selectedVideo &&
                     !selectedVideo.saveButtonSelected &&
                     !selectedVideo.videoSelected &&
@@ -795,7 +777,6 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 }
             }, this), this.frameBorderTimeout);
         } catch (err) {
-            this.debug('from: onSaveButtonMouseOut of base VideoAdapter. \nReason:' + err);
             $cws.Tracker.trackError({from: "onSaveButtonMouseOut of base VideoAdapter", exception:err});
         }
     },
@@ -809,7 +790,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
     _onSaveButtonClicked: function(e) {
         try {
             if (e) e.stopPropagation();
-            // this.debug("Is video saved:" + this.selectedVideo.saved);
+            // $cwutil.Logger.debug("Is video saved:" + this.selectedVideo.saved);
             if (!this.selectedVideo.saved) {
                 this.watchlrVideoBorder.setSaveButtonState($cwui.WatchlrVideoBorder.SaveButtonState.SAVING);
                 this.selectedVideo.savingVideo = true;
@@ -820,7 +801,6 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 $cws.Tracker.track('VideoAdapterEvt', 'WatchSavedVideo', selectedVideo.url);
             }
         } catch (err) {
-            this.debug('from: onSaveButtonClicked of base VideoAdapter. \nReason:' + err);
             $cws.Tracker.trackError({from: "onSaveButtonClicked of base VideoAdapter", exception:err});
         }
     },
@@ -855,7 +835,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 $cws.Tracker.track('VideoAdapterEvt', 'WatchLikedVideo', selectedVideo.url);
             }
         } catch (err) {
-            this.debug('from: onLikeButtonClicked of base VideoAdapter. \nReason:' + err);
+            $cws.Tracker.trackError({from: "onLikeButtonClicked of base VideoAdapter", exception:err});
         }
     },
 
@@ -864,14 +844,13 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
      * when popup window closes call the _commonCallback method.
 	 */
 	_monitorPopup: function() {
-        // this.debug("Window is created:" + (this._connectionPopup==null));
-        // this.debug("Window is closed:" + (this._connectionPopup.closed));
+        // $cwutil.Logger.debug("Window is created:" + (this._connectionPopup==null));
+        // $cwutil.Logger.debug("Window is closed:" + (this._connectionPopup.closed));
 		if(this._connectionPopup==null || this._connectionPopup.closed){
 			this._popupMonitor = false;
 			this._commonCallback();
 		} else if(this._popupMonitor){
-            // console.log("Checking again");
-			setTimeout($.proxy(this._monitorPopup, this), 600);
+            setTimeout($.proxy(this._monitorPopup, this), 600);
 		}
 	},
 
@@ -881,11 +860,11 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
      */
     _commonCallback: function() {
         this.watchlrVideoBorder.hideLoginDialog();
-        // this.debug('get called in common callback');
+        // $cwutil.Logger.debug('get called in common callback');
         if (this.selectedVideo.savingVideo) {
             $cws.WatchlrRequests.sendSaveVideoRequest($.proxy(this._updateButtonState, this), this.selectedVideo.url);
         } else if (this.selectedVideo.likingVideo) {
-            // this.debug('making the request for fetching user info');
+            // $cwutil.Logger.debug('making the request for fetching user info');
             $cws.WatchlrRequests.sendUserProfileRequest($.proxy(this._onUserPreferencesReceived, this));
         }
     },
@@ -897,7 +876,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
      */
     _handleFacebookConnectionCancelled: function() {
         this.watchlrVideoBorder.hideLoginDialog();
-        this.debug("Liking video:" + this.selectedVideo.likingVideo);
+        // $cwutil.Logger.debug("Liking video:" + this.selectedVideo.likingVideo);
         if (this.selectedVideo.savingVideo) {
             this.selectedVideo.savingVideo = false;
 
@@ -938,7 +917,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
     /** When video is saved. */
     _updateButtonState: function(data) {
         try {
-            // this.debug("Data received from server:" + data);
+            // $cwutil.Logger.debug("Data received from server:" + data);
             if(this.selectedVideo){
                 var buttonText = "";
                 var res = null;
@@ -963,7 +942,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
 
                             case 401: {
                                 // user is not logged in
-                                // this.debug("Session sent was an invalid session");
+                                // $cwutil.Logger.debug("Session sent was an invalid session");
                                 this.watchlrVideoBorder.createLoginDialog();
                                 this.watchlrVideoBorder.bind($cwui.FacebookConnectDialog.FacebookConnectDialogEvents.ON_CLOSE_BUTTON_CLICKED, $.proxy(this._handleFacebookConnectionCancelled, this));
                                 this.watchlrVideoBorder.bind($cwui.FacebookConnectDialog.FacebookConnectDialogEvents.ON_FACEBOOK_CONNECT_CLICKED, $.proxy(this._handleFacebookConnectionRequested, this));
@@ -1013,12 +992,12 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
 
                     // if mouse is not over share button or video,
                     // hide the border
-                    this.debug('selected video: ' + selectedVideo +
+                    /*$cwutil.Logger.debug('selected video: ' + selectedVideo +
                         '\nShare Button Selected: ' + selectedVideo.saveButtonSelected +
                         '\nVideo selected: ' + selectedVideo.videoSelected +
                         '\nSaving video: ' + selectedVideo.savingVideo +
                         '\nLiking video: ' + selectedVideo.likingVideo
-                    );
+                    );*/
                     if (selectedVideo &&
                         !selectedVideo.saveButtonSelected &&
                         !selectedVideo.videoSelected &&
@@ -1030,7 +1009,6 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 }, this), this.frameBorderTimeout);
             }
         } catch (err) {
-            this.debug('from: updateButtonState of base VideoAdapter. \nReason:' + err);
             $cws.Tracker.trackError({from: "updateButtonState of base VideoAdapter", exception:err});
         }
 	},
@@ -1038,7 +1016,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
     /** When video is liked. */
     _onVideoLiked: function(data) {
         try {
-            // this.debug("Data received from server:" + data);
+            // $cwutil.Logger.debug("Data received from server:" + data);
             if(this.selectedVideo){
 
                 var res = null;
@@ -1048,7 +1026,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                     res = JSON.decode(data);
                 }
 
-                // this.debug("On video liked:" + JSON.encode(res));
+                // $cwutil.Logger.debug("On video liked:" + JSON.encode(res));
 
                 var videoLikedSuccessfully = false;
                 if (res && res.success) {
@@ -1106,12 +1084,12 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
 
                     // if mouse is not over share button or video,
                     // hide the border
-                    this.debug('selected video: ' + selectedVideo +
+                    /*$cwutil.Logger.debug('selected video: ' + selectedVideo +
                         '\nShare Button Selected: ' + selectedVideo.saveButtonSelected +
                         '\nVideo selected: ' + selectedVideo.videoSelected +
                         '\nSaving video: ' + selectedVideo.savingVideo +
                         '\nLiking video: ' + selectedVideo.likingVideo
-                    );
+                    );*/
                     if (selectedVideo &&
                         !selectedVideo.saveButtonSelected &&
                         !selectedVideo.videoSelected &&
@@ -1123,7 +1101,6 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 }, this), this.frameBorderTimeout);
             }
         } catch (err) {
-            this.debug("From: _onVideoLiked of base VideoAdapter. \nReason:" + err);
             $cws.Tracker.trackError({from: "_onVideoLiked of base VideoAdapter", exception:err});
         }
 	},
@@ -1142,7 +1119,6 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                  $cws.WatchlrRequests.sendUpdateUserProfileRequest($.proxy(this._onUserPreferencesUpdated, this));
             }
         } catch (err) {
-            this.debug("From: _onSavedVideoDialogDismissed of base VideoAdapter. \nReason:" + err);
             $cws.Tracker.trackError({from: "_onSavedVideoDialogDismissed of base VideoAdapter", exception:err});
         }
     },
@@ -1168,7 +1144,6 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 $cws.Tracker.track('Video', 'unlike', this.selectedVideo.url);
             }
         } catch (err) {
-            this.debug("From: _onPushToFacebookDialogDismissed of base VideoAdapter. \nReason:" + err);
             $cws.Tracker.trackError({from: "_onPushToFacebookDialogDismissed of base VideoAdapter", exception:err});
         }
     },
@@ -1183,7 +1158,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
         for (var i in data) {
             str += i + ": " + data[i] + "\r\n";
         } */
-        // this.debug(str);
+        // $cwutil.Logger.debug(str);
     },
 
     /**
@@ -1192,7 +1167,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
      * @param data
      */
 	_onUserPreferencesReceived: function(data) {
-        // this.debug("User profile info received.");
+        // $cwutil.Logger.debug("User profile info received.");
         var res = null;
         if (typeof data == 'object') {
             res = data;
@@ -1240,7 +1215,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             res = JSON.decode(data);
         }
 
-        // this.debug("Received video info:" + str);
+        // $cwutil.Logger.debug("Received video info:" + str);
 
         if (res && res.success && res.result) {
             if (res.result.videos && res.result.videos.length > 0) {

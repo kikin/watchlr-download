@@ -21,7 +21,6 @@ $.Class.extend("com.watchlr.features.insituvideo.InSituVideoPanel", {
             $(this._element).hide();
             this.setContainerEvents();
         } catch (err) {
-            console.log("From: init of InSituVideoPanel. \nReason: " + err);
             $cws.Tracker.trackError({from: 'init of InSituVideoPanel', msg: '', exception: err});
         }
 	},
@@ -47,7 +46,6 @@ $.Class.extend("com.watchlr.features.insituvideo.InSituVideoPanel", {
             // add the action on the "watch on youtube"
             $($(this._element).find('.watchlrIsvfsrcRef')).click($.proxy(this.onClickGoToWebsite, this));
         } catch (err) {
-            console.log("From: setContainerEvents of InSituVideoPanel. \nReason: " + err);
             $cws.Tracker.trackError({from: 'setContainerEvents of InSituVideoPanel', msg: '', exception: err});
         }
 	},
@@ -57,7 +55,6 @@ $.Class.extend("com.watchlr.features.insituvideo.InSituVideoPanel", {
             e.stopPropagation();
             this.close();
         } catch (err) {
-            console.log("From: onClickClose of InSituVideoPanel. \nReason: " + err);
             $cws.Tracker.trackError({from: 'onClickClose of InSituVideoPanel', msg: '', exception: err});
         }
 	},
@@ -71,7 +68,6 @@ $.Class.extend("com.watchlr.features.insituvideo.InSituVideoPanel", {
             window.open(this.infos.url, '_balnk');
 
         } catch (err) {
-            console.log("From: onClickGoToWebsite of InSituVideoPanel. \nReason: " + err);
             $cws.Tracker.trackError({from: 'onClickGoToWebsite of InSituVideoPanel', msg: '', exception: err});
         }
 

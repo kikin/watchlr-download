@@ -60,16 +60,6 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
     // ---------------------------------------------------------------------------
 
     /**
-     * Utility for debugging
-     * @param msg
-     */
-    debug: function(msg) {
-        try {
-            // console.log(msg);
-        } catch (err) {}
-    },
-
-    /**
      * Utility for binding events to this class.
      * @param eventName
      * @param _callback
@@ -78,7 +68,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
         switch (eventName) {
             case $cwui.VideoSavedDialog.VideoSavedDialogEvents.ON_CLOSE:
             case $cwui.VideoSavedDialog.VideoSavedDialogEvents.ON_HOME_PAGE_LINK_CLICKED: {
-                this.debug("Message dialog is an instance of video saved dialog:" + (this.messageDialog instanceof $cwui.VideoSavedDialog));
+                // $cwutil.Logger.debug("Message dialog is an instance of video saved dialog:" + (this.messageDialog instanceof $cwui.VideoSavedDialog));
                 if (this.messageDialog && (this.messageDialog instanceof $cwui.VideoSavedDialog)) {
                     this.messageDialog.bind(eventName, _callback);
                 }
@@ -87,7 +77,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
 
             case $cwui.VideoLikedDialog.VideoLikedDialogEvents.ON_CLOSE:
             case $cwui.VideoLikedDialog.VideoLikedDialogEvents.ON_HOME_PAGE_LINK_CLICKED: {
-                this.debug("Message dialog is an instance of video saved dialog:" + (this.messageDialog instanceof $cwui.VideoLikedDialog));
+                // $cwutil.Logger.debug("Message dialog is an instance of video saved dialog:" + (this.messageDialog instanceof $cwui.VideoLikedDialog));
                 if (this.messageDialog && (this.messageDialog instanceof $cwui.VideoLikedDialog)) {
                     this.messageDialog.bind(eventName, _callback);
                 }
@@ -96,7 +86,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
 
             case $cwui.FacebookConnectDialog.FacebookConnectDialogEvents.ON_CLOSE_BUTTON_CLICKED:
             case $cwui.FacebookConnectDialog.FacebookConnectDialogEvents.ON_FACEBOOK_CONNECT_CLICKED: {
-                this.debug("Message dialog is an instance of login dialog:" + (this.messageDialog instanceof $cwui.FacebookConnectDialog));
+                // $cwutil.Logger.debug("Message dialog is an instance of login dialog:" + (this.messageDialog instanceof $cwui.FacebookConnectDialog));
                 if (this.messageDialog && (this.messageDialog instanceof $cwui.FacebookConnectDialog)) {
                     this.messageDialog.bind(eventName, _callback);
                 }
@@ -104,7 +94,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             }
 
             default: {
-                this.debug('Binding default event.');
+                // $cwutil.Logger.debug('Binding default event.');
                 $(this.watchlrVideoBorder).bind(eventName, _callback);
             }
         }
@@ -195,7 +185,6 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             $(this.likeButtonText).mouseleave($.proxy(this._onLikeButtonMouseLeave, this));
 
         } catch (e) {
-            this.debug("from: create of WatchlrVideoBorder. \nReason:" + e);
             $cws.Tracker.trackError({from:"create of WatchlrVideoBorder", msg: "Unable to create the border around video.", exception:e});
         }
     },
@@ -226,7 +215,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
                     'height' : '' + height + 'px'
                 };
                 $(this.leftBorder).css(leftBorderStyle);
-                /* this.debug("Left border is created with dimensions:" +
+                /* $cwutil.Logger.debug("Left border is created with dimensions:" +
                               leftBorderStyle.left + "," +
                               leftBorderStyle.top + ", " +
                               leftBorderStyle.width + ", " +
@@ -240,7 +229,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
                     'height' : '' + height + 'px'
                 };
                 $(this.rightBorder).css(rightBorderStyle);
-                /* this.debug("right border is created with dimensions:" +
+                /* $cwutil.Logger.debug("right border is created with dimensions:" +
                               rightBorderStyle.left + "," +
                               rightBorderStyle.top + ", " +
                               rightBorderStyle.width + ", " +
@@ -254,7 +243,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
                     'height' : '' + $cwui.WatchlrVideoBorder.BORDER_WIDTH + 'px'
                 };
                 $(this.topBorder).css(topBorderStyle);
-                /* this.debug("top border is created with dimensions:" +
+                /* $cwutil.Logger.debug("top border is created with dimensions:" +
                               topBorderStyle.left + "," +
                               topBorderStyle.top + ", " +
                               topBorderStyle.width + ", " +
@@ -268,7 +257,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
                     'height' : '' + $cwui.WatchlrVideoBorder.BORDER_WIDTH + 'px'
                 };
                 $(this.bottomBorder).css(bottomBorderStyle);
-                /* this.debug("bottom border is created with dimensions:" +
+                /* $cwutil.Logger.debug("bottom border is created with dimensions:" +
                               bottomBorderStyle.left + "," +
                               bottomBorderStyle.top + ", " +
                               bottomBorderStyle.width + ", " +
@@ -304,7 +293,6 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
 
 
             } catch (e) {
-                this.debug('from: show of WatchlrVideoBorder. \nReason:' + e);
                 $cws.Tracker.trackError({from: "show of WatchlrVideoBorder", msg: "Unable to reposition border around video.", exception:e});
             }
         }
@@ -394,12 +382,11 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
                 }
 
                 default: {
-                    this.debug('from: setLikeButtonState of WatchlrVideoBorder. \nReason: Invalid state is sent to the function');
+                    // $cwutil.Logger.debug('from: setLikeButtonState of WatchlrVideoBorder. \nReason: Invalid state is sent to the function');
                     $cws.Tracker.trackError({from: "setLikeButtonState of WatchlrVideoBorder", msg: "Invalid state is sent to the function."});
                 }
             }
         } catch (err) {
-            this.debug('from: setLikeButtonState of WatchlrVideoBorder. \nReason:' + err);
             $cws.Tracker.trackError({from: "setLikeButtonState of WatchlrVideoBorder", msg: "Unable to change the state of like button.", exception:err});
         }
     },
@@ -470,12 +457,11 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
                 }
 
                 default: {
-                    this.debug('from: setSaveButtonState of WatchlrVideoBorder. \nReason: Invalid state is sent to the function');
+                    // $cwutil.Logger.debug('from: setSaveButtonState of WatchlrVideoBorder. \nReason: Invalid state is sent to the function');
                     $cws.Tracker.trackError({from: "setSaveButtonState of WatchlrVideoBorder", msg: "Invalid state is sent to the function."});
                 }
             }
         } catch (err) {
-            this.debug('from: setSaveButtonState of WatchlrVideoBorder. \nReason:' + err);
             $cws.Tracker.trackError({from: "setSaveButtonState of WatchlrVideoBorder", msg: "Unable to change the state of like button.", exception:err});
         }
     },
@@ -489,7 +475,6 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             this.messageDialog = new $cwui.FacebookConnectDialog();
             this.messageDialog.create(this.optionsButton, document);
         } catch (err) {
-            this.debug('from: createLoginDialog of WatchlrVideoBorder. \nReason:' + err);
             $cws.Tracker.trackError({from: "createLoginDialog of WatchlrVideoBorder", msg: "Unable to create the instance of login dialog.", exception:err});
         }
 
@@ -503,7 +488,6 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
         try {
             this.messageDialog.show();
         } catch (err) {
-            this.debug('from: showLoginDialog of WatchlrVideoBorder. \nReason:' + err);
             $cws.Tracker.trackError({from: "showLoginDialog of WatchlrVideoBorder", msg: "Unable to show the login dialog.", exception:err});
         }
     },
@@ -515,7 +499,6 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
         try {
             this.messageDialog.hide();
         } catch (err) {
-            this.debug('from: hideLoginDialog of WatchlrVideoBorder. \nReason:' + err);
             $cws.Tracker.trackError({from: "hideLoginDialog of WatchlrVideoBorder", msg: "Unable to hide the login dialog.", exception:err});
         }
     },
@@ -529,7 +512,6 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             this.messageDialog = new $cwui.VideoSavedDialog();
             this.messageDialog.create(this.optionsButton, document);
         } catch (err) {
-            this.debug('from: createVideoSavedDialog of WatchlrVideoBorder. \nReason:' + err);
             $cws.Tracker.trackError({from: "createVideoSavedDialog of WatchlrVideoBorder", msg: "Unable to create the instance of video saved dialog.", exception:err});
         }
 
@@ -543,7 +525,6 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
         try {
             this.messageDialog.show();
         } catch (err) {
-            this.debug('from: showVideoSavedDialog of WatchlrVideoBorder. \nReason:' + err);
             $cws.Tracker.trackError({from: "showVideoSavedDialog of WatchlrVideoBorder", msg: "Unable to show the video saved dialog.", exception:err});
         }
     },
@@ -555,7 +536,6 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
         try {
             this.messageDialog.hide();
         } catch (err) {
-            this.debug('from: hideVideoSavedDialog of WatchlrVideoBorder. \nReason:' + err);
             $cws.Tracker.trackError({from: "hideVideoSavedDialog of WatchlrVideoBorder", msg: "Unable to hide the video saved dialog.", exception:err});
         }
     },
@@ -569,7 +549,6 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             this.messageDialog = new $cwui.VideoLikedDialog();
             this.messageDialog.create(this.optionsButton, document);
         } catch (err) {
-            this.debug('from: createVideoLikedDialog of WatchlrVideoBorder. \nReason:' + err);
             $cws.Tracker.trackError({from: "createVideoLikedDialog of WatchlrVideoBorder", msg: "Unable to create the instance of video liked dialog.", exception:err});
         }
 
@@ -583,7 +562,6 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
         try {
             this.messageDialog.show();
         } catch (err) {
-            this.debug('from: showVideoLikedDialog of WatchlrVideoBorder. \nReason:' + err);
             $cws.Tracker.trackError({from: "showVideoLikedDialog of WatchlrVideoBorder", msg: "Unable to show the video liked dialog.", exception:err});
         }
     },
@@ -595,7 +573,6 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
         try {
             this.messageDialog.hide();
         } catch (err) {
-            this.debug('from: hideVideoLikedDialog of WatchlrVideoBorder. \nReason:' + err);
             $cws.Tracker.trackError({from: "hideVideoLikedDialog of WatchlrVideoBorder", msg: "Unable to hide the video liked dialog.", exception:err});
         }
     },
@@ -613,7 +590,6 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             if (e) e.stopPropagation();
             this.trigger($cwui.WatchlrVideoBorder.WatchlrVideoBorderEvents.ON_OPTIONS_BUTTON_MOUSE_ENTER);
         } catch (err) {
-            this.debug('from: _onOptionsButtonMouseEnter of WatchlrVideoBorder. \nReason:' + err);
             $cws.Tracker.trackError({from: "_onOptionsButtonMouseEnter of WatchlrVideoBorder", exception:err});
         }
     },
@@ -627,7 +603,6 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             if (e) e.stopPropagation();
             this.trigger($cwui.WatchlrVideoBorder.WatchlrVideoBorderEvents.ON_OPTIONS_BUTTON_MOUSE_LEAVE);
         } catch (err) {
-            this.debug('from: _onOptionsButtonMouseLeave of WatchlrVideoBorder. \nReason:' + err);
             $cws.Tracker.trackError({from: "_onOptionsButtonMouseLeave of WatchlrVideoBorder", exception:err});
         }
     },
@@ -643,7 +618,6 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             $(this.watchlrLogo).removeClass();
             $(this.watchlrLogo).addClass('watchlr-image watchlr-logo-hover-image');
         } catch (err) {
-            this.debug('from: _onWatclrLogoMouseEnter of WatchlrVideoBorder. \nReason:' + err);
             $cws.Tracker.trackError({from: "_onWatclrLogoMouseEnter of WatchlrVideoBorder", exception:err});
         }
     },
@@ -659,7 +633,6 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             $(this.watchlrLogo).removeClass();
             $(this.watchlrLogo).addClass('watchlr-image watchlr-logo-image');
         } catch (err) {
-            this.debug('from: _onWatclrLogoMouseLeave of WatchlrVideoBorder. \nReason:' + err);
             $cws.Tracker.trackError({from: "_onWatclrLogoMouseLeave of WatchlrVideoBorder", exception:err});
         }
     },
@@ -683,7 +656,6 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
                 }
             }
         } catch (err) {
-            this.debug('from: _onSaveButtonMouseEnter of WatchlrVideoBorder. \nReason:' + err);
             $cws.Tracker.trackError({from: "_onSaveButtonMouseEnter of WatchlrVideoBorder", exception:err});
         }
     },
@@ -703,7 +675,6 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
                 }
             }
         } catch (err) {
-            this.debug('from: _onSaveButtonMouseLeave of WatchlrVideoBorder. \nReason:' + err);
             $cws.Tracker.trackError({from: "_onSaveButtonMouseLeave of WatchlrVideoBorder", exception:err});
         }
     },
@@ -723,7 +694,6 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
                 }
             }
         } catch (err) {
-            this.debug('from: _onLikeButtonMouseEnter of WatchlrVideoBorder. \nReason:' + err);
             $cws.Tracker.trackError({from: "_onLikeButtonMouseEnter of WatchlrVideoBorder", exception:err});
         }
     },
@@ -743,7 +713,6 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
                 }
             }
         } catch (err) {
-            this.debug('from: _onLikeButtonMouseLeave of WatchlrVideoBorder. \nReason:' + err);
             $cws.Tracker.trackError({from: "_onLikeButtonMouseLeave of WatchlrVideoBorder", exception:err});
         }
     },
@@ -758,7 +727,6 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             if (e) e.stopPropagation();
             this.trigger($cwui.WatchlrVideoBorder.WatchlrVideoBorderEvents.ON_WATCHLR_LOGO_CLICKED);
         } catch (err) {
-            this.debug('from: _onWatchlrLogoClicked of WatchlrVideoBorder. \nReason:' + err);
             $cws.Tracker.trackError({from: "_onWatchlrLogoClicked of WatchlrVideoBorder", exception:err});
         }
     },
@@ -774,7 +742,6 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             if (e) e.stopPropagation();
             this.trigger($cwui.WatchlrVideoBorder.WatchlrVideoBorderEvents.ON_SAVE_BUTTON_CLICKED);
         } catch (err) {
-            this.debug('from: _onSaveButtonClicked of WatchlrVideoBorder. \nReason:' + err);
             $cws.Tracker.trackError({from: "_onSaveButtonClicked of WatchlrVideoBorder", exception:err});
         }
     },
@@ -790,7 +757,6 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             if (e) e.stopPropagation();
             this.trigger($cwui.WatchlrVideoBorder.WatchlrVideoBorderEvents.ON_LIKE_BUTTON_CLICKED);
         } catch (err) {
-            this.debug('from: _onLikeButtonClicked of WatchlrVideoBorder. \nReason:' + err);
             $cws.Tracker.trackError({from: "_onLikeButtonClicked of WatchlrVideoBorder", exception:err});
         }
     }

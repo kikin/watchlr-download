@@ -4,7 +4,7 @@
 $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.youtube.adapters.InSituVideoAdapter", {}, {
 	attach: function() {
         try {
-            console.log("Get called in youtube insitu video adapter");
+            // $cwutil.Logger.debug("Get called in youtube insitu video adapter");
 
             // add needed styles
             $cwutil.Styles.insert('InSituVideoStyles', document);
@@ -16,21 +16,20 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.youtube.adapters.InSi
             $('a.video-list-item-link').each($.proxy(this._addVideoPlayback, this));
 
         } catch (err) {
-            console.log("From: attach of Youtube search InSituVideoAdapter. \nReason: " + err);
             $cws.Tracker.trackError({from: 'attach of Youtube search InSituVideoAdapter', msg: '', exception: err});
         }
 	},
 
 	_addVideoPlayback: function(pos, link) {
     	try {
-            // console.log('link.href: ' + link.href);
+            // $cwutil.Logger.debug('link.href: ' + link.href);
             // is this link useful?
         	var match = link.href.match(/watch\?(.*)/);
             if (!match || match.length == 0) return;
 
         	// is there a action menu?
         	var actions = $(link).find('.video-actions').get(0);
-            // console.log('actions: ' + actions);
+            // $cwutil.Logger.debug('actions: ' + actions);
         	if (!actions) return;
 
             var handler = $.proxy(this.onClickVideoThumbnail, this);
@@ -60,7 +59,6 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.youtube.adapters.InSi
             }
 
         } catch (err) {
-            console.log("From: _addVideoPlayback of Youtube search InSituVideoAdapter. \nReason: " + err);
             $cws.Tracker.trackError({from: '_addVideoPlayback of Youtube search InSituVideoAdapter', msg: '', exception: err});
         }
 	},
@@ -83,7 +81,7 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.youtube.adapters.InSi
                 videoTitle = null,
                 target = e.target;
 
-            // console.log('target: ' + target);
+            // $cwutil.Logger.debug('target: ' + target);
 
             // case1: result page videos
             if (elContainer = $(target).parents('.result-item').get(0)) {
@@ -113,9 +111,9 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.youtube.adapters.InSi
                 return;
             }
 
-            // console.log('Video URL: ' + videoUrl);
-            // console.log('Video Title: ' + videoTitle);
-            // console.log('Video Title: ' + videoTitle);
+            // $cwutil.Logger.debug('Video URL: ' + videoUrl);
+            // $cwutil.Logger.debug('Video Title: ' + videoTitle);
+            // $cwutil.Logger.debug('Video Title: ' + videoTitle);
 
             // set infos in the right panel
             this.videoPanel.setInfos({
@@ -156,7 +154,6 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.youtube.adapters.InSi
 
             return false;
         } catch (err) {
-            console.log("From: onClickVideoThumbnail of Youtube search InSituVideoAdapter. \nReason: " + err);
             $cws.Tracker.trackError({from: 'onClickVideoThumbnail of Youtube search InSituVideoAdapter', msg: '', exception: err});
         }
 	}

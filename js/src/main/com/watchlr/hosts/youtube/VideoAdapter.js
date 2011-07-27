@@ -45,7 +45,6 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.youtube.adapters.VideoAdapt
 
             return videoUrl;
         } catch (err) {
-            this.debug("From: _findVideoUrl of youtube's VideoAdapter.\nReason: " + err);
             $cws.Tracker.trackError({from: "_findVideoUrl of youtube's VideoAdapter.", msg:"Error while finding video url for video tag.", exception:err});
         }
 
@@ -64,12 +63,12 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.youtube.adapters.VideoAdapt
 
             // is there a action menu?
             var actions = $(link).find('.video-actions').get(0);
-            // console.log('actions: ' + actions);
+            // $cwutil.Logger.debug('actions: ' + actions);
             if (!actions) return;
 
             var playButtonClickHandler = $.proxy(this._onVideoThumbnailClick, this);
             var overlayButton = $(actions).find('.watchlrIsvYoutubeOverlay').get(0);
-            // console.log('overlayButton: ' + overlayButton);
+            // $cwutil.Logger.debug('overlayButton: ' + overlayButton);
 
             var elContainer = null,
                 elVideoImg = null,
@@ -97,7 +96,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.youtube.adapters.VideoAdapt
                 url = $(elVideoLink).attr('href');
             }
 
-            // console.log('url:' + url);
+            // $cwutil.Logger.debug('url:' + url);
 
             if (url) {
                 url = this._qualifyURL(url);
@@ -117,7 +116,6 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.youtube.adapters.VideoAdapt
                 }
             }
         } catch (err) {
-            this.debug("From: _addPotentialVideo of youtube's VideoAdapter.\nReason: " + err);
             $cws.Tracker.trackError({from: "_addPotentialVideo of youtube's VideoAdapter.", msg:"", exception:err});
         }
     },
@@ -161,7 +159,6 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.youtube.adapters.VideoAdapt
             }
 
         } catch (err) {
-            this.debug("From: _onHtml5VideoMouseOver of youtube's VideoAdapter.\nReason: " + err);
             $cws.Tracker.trackError({from: "_onHtml5VideoMouseOver of youtube's VideoAdapter.", msg:"", exception:err});
         }
     },
@@ -180,7 +177,6 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.youtube.adapters.VideoAdapt
             }
 
         } catch (err) {
-            this.debug("From: _onHtml5VideoMouseOut of youtube's VideoAdapter.\nReason: " + err);
             $cws.Tracker.trackError({from: "_onHtml5VideoMouseOut of youtube's VideoAdapter.", msg:"", exception:err});
         }
     },
@@ -213,12 +209,11 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.youtube.adapters.VideoAdapt
                     target = this.inSituVideoPanel;
                 }
 
-                // this.debug("Mouseover target watchlr video id:" + watchlrVideoId);
+                // $cwutil.Logger.debug("Mouseover target watchlr video id:" + watchlrVideoId);
                 this._onVideoElementMouseEnter(target, watchlrVideoId);
             }
 
         } catch (err) {
-            this.debug("From: _onThumbnailMouseOver of youtube's VideoAdapter.\nReason: " + err);
             $cws.Tracker.trackError({from: "_onThumbnailMouseOver of youtube's VideoAdapter.", msg:"", exception:err});
         }
     },
@@ -251,12 +246,11 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.youtube.adapters.VideoAdapt
                     target = this.inSituVideoPanel;
                 }
 
-                // this.debug("Mouseover target watchlr video id:" + watchlrVideoId);
+                // $cwutil.Logger.debug("Mouseover target watchlr video id:" + watchlrVideoId);
                 this._onVideoElementMouseLeave(target, watchlrVideoId);
             }
 
         } catch (err) {
-            this.debug("From: _onThumbnailMouseLeave of youtube's VideoAdapter.\nReason: " + err);
             $cws.Tracker.trackError({from: "_onThumbnailMouseLeave of youtube's VideoAdapter.", msg:"", exception:err});
         }
     },
@@ -299,38 +293,34 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.youtube.adapters.VideoAdapt
             this.isInSituVideoPanelOpen = true;
 
         } catch (err) {
-            this.debug("From: _onVideoThumbnailClick of youtube VideoAdapter.\nReason: " + err);
             $cws.Tracker.trackError({from: "_onVideoThumbnailClick of youtube VideoAdapter", exception:err});
         }
     },
 
     _onInSituVideElementMouseOver: function(e) {
         try {
-            this.debug('On insitu video element mouse enter');
+            // $cwutil.Logger.debug('On insitu video element mouse enter');
             this._onVideoElementMouseEnter(this.inSituVideoPanel);
         } catch (err) {
-            this.debug("From: _onInSituVideElementMouseOver of google's search VideoAdapter.\nReason: " + err);
             $cws.Tracker.trackError({from: "_onInSituVideElementMouseOver of google's search VideoAdapter", exception:err});
         }
     },
 
     _onInSituVideElementMouseOut: function(e) {
         try {
-            this.debug('On insitu video element mouse leave');
+            // $cwutil.Logger.debug('On insitu video element mouse leave');
             this._onVideoElementMouseLeave(this.inSituVideoPanel);
         } catch (err) {
-            this.debug("From: _onInSituVideElementMouseOut of google's search VideoAdapter.\nReason: " + err);
             $cws.Tracker.trackError({from: "_onInSituVideElementMouseOut of google's search VideoAdapter", exception:err});
         }
     },
 
     _onInSituVideElementClosed: function(e) {
         try {
-            this.debug('On insitu video element close');
+            // $cwutil.Logger.debug('On insitu video element close');
             this._onVideoElementMouseLeave(this.inSituVideoPanel);
             this.isInSituVideoPanelOpen = false;
         } catch (err) {
-            this.debug("From: _onInSituVideElementMouseOut of google's search VideoAdapter.\nReason: " + err);
             $cws.Tracker.trackError({from: "_onInSituVideElementMouseOut of google's search VideoAdapter", exception:err});
         }
     }

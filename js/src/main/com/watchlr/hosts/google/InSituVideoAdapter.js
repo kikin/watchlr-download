@@ -21,7 +21,6 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.google.adapters.InSit
                 $cws.Tracker.track('VideoAdapterEvt','UnsupportedInSitu', this._stats.unsupportedDomains.join(','));
             }
         } catch (err) {
-            console.log("From: attach of Google search InSituVideoAdapter. \nReason: " + err);
             $cws.Tracker.trackError({from: 'attach of Google search InSituVideoAdapter', msg: '', exception: err});
         }
 	},
@@ -36,9 +35,9 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.google.adapters.InSit
                 supportedHosts = $cwc.FeaturesConfig.plugins.InSituVideoFeature.config.supportedHosts,
                 hostConfig = videoUrl ? supportedHosts[$cwutil.Url.getHostName(videoUrl)] : null;
 
-            // console.log('videoUrl: ' + videoUrl);
-            // console.log('supportedHosts: ' + supportedHosts);
-            // console.log('hostConfig: ' + hostConfig);
+            // $cwutil.Logger.debug('videoUrl: ' + videoUrl);
+            // $cwutil.Logger.debug('supportedHosts: ' + supportedHosts);
+            // $cwutil.Logger.debug('hostConfig: ' + hostConfig);
 
             if (!hostConfig) {
                 this._stats.notSupported++;
@@ -48,7 +47,7 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.google.adapters.InSit
 
             // create our little beautiful icon
             var name = hostConfig.name; // .toString();
-            // console.log('name: ' + name);
+            // $cwutil.Logger.debug('name: ' + name);
 
             // Create button overlay
             var overlay = $('<div class="watchlrIsvOverlay watchlrIsvGoogleOverlay"></div>').insertBefore($(img).parents('a'));
@@ -98,22 +97,21 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.google.adapters.InSit
 
             this._stats.supported++;
         } catch (err) {
-            console.log("From: _addVideoPlayback of Google search InSituVideoAdapter. \nReason: " + err);
             $cws.Tracker.trackError({from: '_addVideoPlayback of Google search InSituVideoAdapter', msg: '', exception: err});
         }
 	},
 
 	getVideoUrl: function(img) {
-        // console.log('Image element received:' + img);
+        // $cwutil.Logger.debug('Image element received:' + img);
 		var imgParentTable = $(img).parents('a').get(0);
 
-        // console.log('Image element parent: ' + imgParentTable);
+        // $cwutil.Logger.debug('Image element parent: ' + imgParentTable);
 		if(imgParentTable) {
             var url = imgParentTable.href,
                 videoUrl = /url\?url=(.*)&rct=/i.exec(url);
 
-            // console.log('Anchor element URL:' + url);
-            // console.log('Video url:' + videoUrl);
+            // $cwutil.Logger.debug('Anchor element URL:' + url);
+            // $cwutil.Logger.debug('Video url:' + videoUrl);
             if (videoUrl && videoUrl.length > 1) {
                 return decodeURIComponent(videoUrl[1]);
             }
@@ -163,8 +161,8 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.google.adapters.InSit
 
             var imgHeight = $(elVideoImg).height() || 66;
             /*var relElement = $('#watchlr_top') || $('#center_col') || $(document.body);
-            console.log("relElement:" + relElement);
-            console.log("$(relElement).offset():" + relElement.position(document.body));*/
+            $cwutil.Logger.debug("relElement:" + relElement);
+            $cwutil.Logger.debug("$(relElement).offset():" + relElement.position(document.body));*/
 
             this.videoPanel.css('left', $(elVideoImg).offset().left);
             this.videoPanel.css('top', $(elVideoImg).offset().top + imgHeight);
@@ -172,7 +170,6 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.google.adapters.InSit
             // show the panel and start playing
             this.videoPanel.open();
         } catch (err) {
-            console.log("From: onClickVideoThumbnail of Google search InSituVideoAdapter. \nReason: " + err);
             $cws.Tracker.trackError({from: 'onClickVideoThumbnail of Google search InSituVideoAdapter', msg: '', exception: err});
         }
 	}

@@ -28,15 +28,16 @@ function jsPrioritiesCmp($a, $b) {
 
         'src/main/com/watchlr/system/runtime/main.js' => 97,
 
-        'src/main/com/watchlr/util/Error.js' => 90,
-        'src/main/com/watchlr/util/Styles.js' => 89,
-        'src/main/com/watchlr/util/String.js' => 88,
-        'src/main/com/watchlr/util/Url.js' => 87,
+        'src/main/com/watchlr/util/Logger.js' => 90,
+        'src/main/com/watchlr/util/Error.js' => 89,
+        'src/main/com/watchlr/util/Styles.js' => 88,
+        'src/main/com/watchlr/util/String.js' => 87,
+        'src/main/com/watchlr/util/Url.js' => 86,
 
-        'src/main/com/watchlr/config/FeaturesConfig.js' => 86,
-        'src/main/com/watchlr/config/HostsConfig.js' => 85,
-        'src/main/com/watchlr/config/Locale.js' => 84,
-        'src/main/com/watchlr/config/VideoProvidersConfig.js' => 83,
+        'src/main/com/watchlr/config/FeaturesConfig.js' => 85,
+        'src/main/com/watchlr/config/HostsConfig.js' => 84,
+        'src/main/com/watchlr/config/Locale.js' => 83,
+        'src/main/com/watchlr/config/VideoProvidersConfig.js' => 82,
 
         'src/main/com/watchlr/system/Config.js' => 80,
         'src/main/com/watchlr/system/Service.js' => 79,
@@ -237,6 +238,7 @@ if (!isset($_GET['rebuild']) || $_GET['rebuild'] == 'true') {
 
     // Add JS library version
     $result = str_replace('__W_VERSION__', $version, $result);
+    $result = str_replace('__W_ENV__', $environ, $result);
 
     $result = "(function() {" . $result . "})();";
     file_put_contents('watchlr-' . $version . '.min.js', $result);

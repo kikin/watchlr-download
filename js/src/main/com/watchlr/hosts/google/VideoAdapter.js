@@ -12,7 +12,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
 	/* @override */
 	attach: function() {
         if (window.location.href.match(/^http:\/\/www\.google\.com\/reader\/.*/)) {
-            // this.debug("Called in google reader implementation.");
+            // $cwutil.Logger.debug("Called in google reader implementation.");
             this.viewerPageContainer = $("#viewer-page-container");
             if (this.viewerPageContainer) {
                 this._applyPageModifyEvent(this.viewerPageContainer);
@@ -44,9 +44,9 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
 
     _firePageModifiedEvent: function() {
         try {
-            // this.debug("google reader page modified event fired.");
+            // $cwutil.Logger.debug("google reader page modified event fired.");
             var target = null;
-            // this.debug("ViewerPageContainer display style:" + $(this.viewerPageContainer).getStyle('display'));
+            // $cwutil.Logger.debug("ViewerPageContainer display style:" + $(this.viewerPageContainer).getStyle('display'));
             if (this.viewerPageContainer && $(this.viewerPageContainer).css('display') != "none") {
                 target = $(this.viewerPageContainer);
             } else if (this.sameDirContainer) {
@@ -54,7 +54,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
             }
 
             if (target) {
-                // this.debug("Tagrget in _firePageModifiedEvent:" + target);
+                // $cwutil.Logger.debug("Tagrget in _firePageModifiedEvent:" + target);
                 var flashVideoCandidatesLength = $(target).find("iframe").length +
                                                  $(target).find("object").length +
                                                  $(target).find("embed").length;
@@ -66,7 +66,6 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
                 }
             }
         } catch (e) {
-            this.debug("From: on page scroll on google reader. \nReason: " + e);
             $cws.Tracker.trackError({from: 'on page scroll on google reader', msg: '', exception: e});
         }
     },
@@ -77,7 +76,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
     _findVideoCandidates: function() {
         var embeds = [];
         if (window.location.href.match(/^http:\/\/www\.google\.com\/reader\/.*/)) {
-            // this.debug("Finding flash video candidates in google reader implementation.");
+            // $cwutil.Logger.debug("Finding flash video candidates in google reader implementation.");
             var target = null;
             if (this.viewerPageContainer && $(this.viewerPageContainer).css('display') != "none") {
                 target =  $(this.viewerPageContainer);
@@ -87,13 +86,13 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
 
             if (target) {
                 var embed_tags = $(target).find('embed');
-                // this.debug('Found ' + embed_tags.length + ' embeds');
+                // $cwutil.Logger.debug('Found ' + embed_tags.length + ' embeds');
                 for (var i = 0; i < embed_tags.length; i++) {
                     embeds.push(embed_tags[i]);
                 }
 
                 var objects = $(target).find('object');
-                // this.debug('Found ' + objects.length + ' objects');
+                // $cwutil.Logger.debug('Found ' + objects.length + ' objects');
                 for (var i = 0; i < objects.length; i++) {
                     if (!/<embed/i.test(objects[i].innerHTML) || (!/<object/i.test(objects[i].innerHTML))) {
                         embeds.push(objects[i]);
@@ -101,7 +100,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
                 }
 
                 var iframes = $(target).find('iframe');
-                // this.debug('Found ' + iframes.length + ' iframes');
+                // $cwutil.Logger.debug('Found ' + iframes.length + ' iframes');
                 for (var i = 0; i < iframes.length; i++) {
                     embeds.push(iframes[i]);
                 }
@@ -122,9 +121,9 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
 
     _addWatchlrVideoBorder: function(pos, img) {
         try {
-            // this.debug("Creating watchlr video border for img:" + img);
+            // $cwutil.Logger.debug("Creating watchlr video border for img:" + img);
             var videoUrl = this.getVideoUrl(img);
-            // this.debug("URL for image element:" + videoUrl);
+            // $cwutil.Logger.debug("URL for image element:" + videoUrl);
             if (videoUrl) {
                 for (var i = 0; i < this.services.length; i++) {
                     if (!this.services[i].url_regex)
@@ -148,7 +147,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
                 }
             }
         } catch (err) {
-            this.debug("From: _addWatchlrVideoBorder of Google Video adapter. \nReason: " + err);
+            $cws.Tracker.trackError({from: '_addWatchlrVideoBorder of Google Video adapter', exception: err});
         }
     },
 
@@ -167,13 +166,13 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
     getVideoUrl: function(img) {
         var imgParentTable = $(img).parents('a').get(0);
 
-        // this.debug('Image element parent: ' + imgParentTable);
+        // $cwutil.Logger.debug('Image element parent: ' + imgParentTable);
 		if(imgParentTable) {
             var url = imgParentTable.href,
                 videoUrl = /url\?url=(.*)&rct=/i.exec(url);
 
-            // this.debug('Anchor element URL:' + url);
-            // this.debug('Video url:' + videoUrl);
+            // $cwutil.Logger.debug('Anchor element URL:' + url);
+            // $cwutil.Logger.debug('Video url:' + videoUrl);
             if (videoUrl && videoUrl.length > 1) {
                 return decodeURIComponent(videoUrl[1]);
             }
@@ -193,10 +192,9 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
             if (this.inSituVideoPanel && this.isInSituVideoPanelOpen && (this.inSituVideoPanel.watchlrVideoId == watchlrVideoId)) {
                 target = this.inSituVideoPanel;
             }
-            // this.debug("Mouseover target watchlr video id:" + watchlrVideoId);
+            // $cwutil.Logger.debug("Mouseover target watchlr video id:" + watchlrVideoId);
             this._onVideoElementMouseEnter(target, watchlrVideoId);
         } catch (err) {
-            this.debug("From: _onVideoThumbnailMouseOver of google's search VideoAdapter.\nReason: " + err);
             $cws.Tracker.trackError({from: "_onVideoThumbnailMouseOver of google's search VideoAdapter", exception:err});
         }
     },
@@ -212,10 +210,9 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
             if (this.inSituVideoPanel && this.isInSituVideoPanelOpen && (this.inSituVideoPanel.watchlrVideoId == watchlrVideoId)) {
                 target = this.inSituVideoPanel;
             }
-            // this.debug("Mouseover target watchlr video id:" + watchlrVideoId);
+            // $cwutil.Logger.debug("Mouseover target watchlr video id:" + watchlrVideoId);
             this._onVideoElementMouseLeave(target, watchlrVideoId);
         } catch (err) {
-            this.debug("From: _onVideoThumbnailMouseOut of google's search VideoAdapter.\nReason: " + err);
             $cws.Tracker.trackError({from: "_onVideoThumbnailMouseOut of google's search VideoAdapter", exception:err});
         }
     },
@@ -237,38 +234,34 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.google.adapters.VideoAdapte
             this.isInSituVideoPanelOpen = true;
 
         } catch (err) {
-            this.debug("From: _onVideoThumbnailClick of google's search VideoAdapter.\nReason: " + err);
             $cws.Tracker.trackError({from: "_onVideoThumbnailClick of google's search VideoAdapter", exception:err});
         }
     },
 
     _onInSituVideElementMouseOver: function(e) {
         try {
-            this.debug('On insitu video element mouse enter');
+            // $cwutil.Logger.debug('On insitu video element mouse enter');
             this._onVideoElementMouseEnter(this.inSituVideoPanel);
         } catch (err) {
-            this.debug("From: _onInSituVideElementMouseOver of google's search VideoAdapter.\nReason: " + err);
             $cws.Tracker.trackError({from: "_onInSituVideElementMouseOver of google's search VideoAdapter", exception:err});
         }
     },
 
     _onInSituVideElementMouseOut: function(e) {
         try {
-            this.debug('On insitu video element mouse leave');
+            // $cwutil.Logger.debug('On insitu video element mouse leave');
             this._onVideoElementMouseLeave(this.inSituVideoPanel);
         } catch (err) {
-            this.debug("From: _onInSituVideElementMouseOut of google's search VideoAdapter.\nReason: " + err);
             $cws.Tracker.trackError({from: "_onInSituVideElementMouseOut of google's search VideoAdapter", exception:err});
         }
     },
 
     _onInSituVideElementClosed: function(e) {
         try {
-            this.debug('On insitu video element close');
+            // $cwutil.Logger.debug('On insitu video element close');
             this._onVideoElementMouseLeave(this.inSituVideoPanel);
             this.isInSituVideoPanelOpen = false;
         } catch (err) {
-            this.debug("From: _onInSituVideElementMouseOut of google's search VideoAdapter.\nReason: " + err);
             $cws.Tracker.trackError({from: "_onInSituVideElementMouseOut of google's search VideoAdapter", exception:err});
         }
     }

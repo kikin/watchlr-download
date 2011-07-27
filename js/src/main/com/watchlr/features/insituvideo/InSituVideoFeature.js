@@ -76,7 +76,6 @@ $.Class.extend("com.watchlr.features.insituvideo.InSituVideoFeature", {
                 vars: flashvars
             };
         } catch (err) {
-            console.log("From: getSwiffData of InSituVideoFeature. \nReason: " + err);
             $cws.Tracker.trackError({from: 'getSwiffData of InSituVideoFeature.', msg: '', exception: err});
         }
 
