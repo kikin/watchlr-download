@@ -106,7 +106,10 @@ $.Class.extend("com.watchlr.system.WatchlrRequests", {
   sendActionTrackingRequest: function(obj) {
       var reqUrl = $cws.WatchlrRequests._WATCHLR_API_URL + 'track/action?callback=?';
 
-      obj['agent'] = 'plugin';
+      if ($('#watchlr_dummy_element_for_plugin_detection'))
+          obj['agent'] = 'plugin';
+      else
+          obj['agent'] = 'bookmarklet';
       obj['version'] = com.watchlr.version;
 
       $.ajax({
@@ -119,7 +122,10 @@ $.Class.extend("com.watchlr.system.WatchlrRequests", {
   sendEventTrackingRequest: function(obj) {
       var reqUrl = $cws.WatchlrRequests._WATCHLR_API_URL + 'track/event?callback=?';
 
-      obj['agent'] = 'plugin';
+      if ($('#watchlr_dummy_element_for_plugin_detection'))
+          obj['agent'] = 'plugin';
+      else
+          obj['agent'] = 'bookmarklet';
       obj['version'] = com.watchlr.version;
 
       $.ajax({
@@ -132,7 +138,10 @@ $.Class.extend("com.watchlr.system.WatchlrRequests", {
   sendErrorTrackingRequest: function(obj) {
       var reqUrl = $cws.WatchlrRequests._WATCHLR_API_URL + 'track/error?callback=?';
 
-      obj['agent'] = 'plugin';
+      if ($('#watchlr_dummy_element_for_plugin_detection'))
+          obj['agent'] = 'plugin';
+      else
+          obj['agent'] = 'bookmarklet';
       obj['version'] = com.watchlr.version;
 
       $.ajax({
