@@ -106,7 +106,8 @@ $.Class.extend("com.watchlr.system.WatchlrRequests", {
   sendActionTrackingRequest: function(obj) {
       var reqUrl = $cws.WatchlrRequests._WATCHLR_API_URL + 'track/action?callback=?';
 
-      if ($('#watchlr_dummy_element_for_plugin_detection'))
+      var plugin_installed = $('#watchlr_dummy_element_for_plugin_detection');
+      if (plugin_installed && plugin_installed.length > 0)
           obj['agent'] = 'plugin';
       else
           obj['agent'] = 'bookmarklet';
@@ -122,7 +123,8 @@ $.Class.extend("com.watchlr.system.WatchlrRequests", {
   sendEventTrackingRequest: function(obj) {
       var reqUrl = $cws.WatchlrRequests._WATCHLR_API_URL + 'track/event?callback=?';
 
-      if ($('#watchlr_dummy_element_for_plugin_detection'))
+      var plugin_installed = $('#watchlr_dummy_element_for_plugin_detection');
+      if (plugin_installed && plugin_installed.length > 0)
           obj['agent'] = 'plugin';
       else
           obj['agent'] = 'bookmarklet';
@@ -138,7 +140,8 @@ $.Class.extend("com.watchlr.system.WatchlrRequests", {
   sendErrorTrackingRequest: function(obj) {
       var reqUrl = $cws.WatchlrRequests._WATCHLR_API_URL + 'track/error?callback=?';
 
-      if ($('#watchlr_dummy_element_for_plugin_detection'))
+      var plugin_installed = $('#watchlr_dummy_element_for_plugin_detection');
+      if (plugin_installed && plugin_installed.length > 0)
           obj['agent'] = 'plugin';
       else
           obj['agent'] = 'bookmarklet';
