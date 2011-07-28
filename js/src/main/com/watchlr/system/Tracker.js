@@ -1,9 +1,10 @@
 $.Class.extend("com.watchlr.system.Tracker", {
     track: function(evtCategory, evtName, evtValue) {
-        var obj = { 'name': evtName, 'value': evtValue };
         if (evtCategory == 'VideoAdapterEvt') {
+            var obj = { 'name': evtName, 'value': evtValue };
             $cws.WatchlrRequests.sendEventTrackingRequest(obj);
         } else if (evtCategory == 'Video') {
+            var obj = { 'action': evtName, 'id': evtValue };
             $cws.WatchlrRequests.sendActionTrackingRequest(obj);
         }
     },
