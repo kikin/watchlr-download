@@ -795,10 +795,10 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 this.watchlrVideoBorder.setSaveButtonState($cwui.WatchlrVideoBorder.SaveButtonState.SAVING);
                 this.selectedVideo.savingVideo = true;
                 $cws.WatchlrRequests.sendSaveVideoRequest($.proxy(this._updateButtonState, this), this.selectedVideo.url);
-                $cws.Tracker.track('Video', 'save', selectedVideo.url);
+                $cws.Tracker.track('Video', 'save', this.selectedVideo.url);
             } else {
                 window.open($cwh.adapters.VideoAdapter.WATCHLR_COM);
-                $cws.Tracker.track('VideoAdapterEvt', 'WatchSavedVideo', selectedVideo.url);
+                $cws.Tracker.track('VideoAdapterEvt', 'WatchSavedVideo', this.selectedVideo.url);
             }
         } catch (err) {
             $cws.Tracker.trackError({from: "onSaveButtonClicked of base VideoAdapter", exception:err});
@@ -825,14 +825,14 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                     this.watchlrVideoBorder.bind($cwui.VideoLikedDialog.VideoLikedDialogEvents.ON_CLOSE,  $.proxy(this._onPushToFacebookDialogDismissed, this));
                     this.watchlrVideoBorder.bind($cwui.VideoLikedDialog.VideoLikedDialogEvents.ON_HOME_PAGE_LINK_CLICKED,  $.proxy(this._handleVisitingVideoPageRequested, this));
                     this.watchlrVideoBorder.showVideoSavedDialog();
-                    $cws.Tracker.track('VideoAdapterEvt', 'FirstLike', selectedVideo.url);
+                    $cws.Tracker.track('VideoAdapterEvt', 'FirstLike', this.selectedVideo.url);
                 } else {
                     $cws.WatchlrRequests.sendVideoLikedRequest($.proxy(this._onVideoLiked, this), this.selectedVideo.url);
                 }
-                $cws.Tracker.track('Video', 'like', selectedVideo.url);
+                $cws.Tracker.track('Video', 'like', this.selectedVideo.url);
             } else {
                 window.open($cwh.adapters.VideoAdapter.WATCHLR_COM + '#!/liked_queue');
-                $cws.Tracker.track('VideoAdapterEvt', 'WatchLikedVideo', selectedVideo.url);
+                $cws.Tracker.track('VideoAdapterEvt', 'WatchLikedVideo', this.selectedVideo.url);
             }
         } catch (err) {
             $cws.Tracker.trackError({from: "onLikeButtonClicked of base VideoAdapter", exception:err});
