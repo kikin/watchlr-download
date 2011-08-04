@@ -164,7 +164,7 @@ function getJavascriptTreeString($files) {
 }
 
 if (!isset($_GET['rebuild']) || $_GET['rebuild'] == 'true') {
-  $servers = array("dev" => "http://dev.watchlr.com/", "prod" => "http://www.watchlr.com/", "local" => "http://dev.watchlr.com/");
+  $servers = array("dev" => "http://dev.watchlr.com/", "prod" => "http://www.watchlr.com/", "local" => "http://local.watchlr.com:8000/");
     if ($argc < 2) {
         echo "Version number is not specified.\n";
         exit(1);
