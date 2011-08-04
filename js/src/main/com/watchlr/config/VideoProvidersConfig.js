@@ -86,7 +86,7 @@ $.Class.extend("com.watchlr.config.VideoProvidersConfig", {
             url_regex: [/collegehumor\.com\/video:([0-9]+)/i],
             url: 'http://www.collegehumor.com/video/'
         },
-        */
+
         {
             domains: ['twitvid.com'],
             source_regex: [/twitvid.com\/player\/([A-Z0-9]+)/],
@@ -94,7 +94,7 @@ $.Class.extend("com.watchlr.config.VideoProvidersConfig", {
             url_regex: [/twitvid\.com\/([A-Z0-9]+)/],
             url: 'http://www.twitvid.com/'
         },
-        /*
+
         {
             domains: ['break.com'],
             source_regex: [],
@@ -280,7 +280,7 @@ $.Class.extend("com.watchlr.config.VideoProvidersConfig", {
             url_regex: [/socialcam\.com\/v\/([a-zA-Z0-9]+)/i],
             url: 'http://socialcam.com/v/'
         },
-        */
+
         {
             domains: ['dipdive.com'],
             source_regex: [/&itemID=([0-9]+)/i, /play\.dipdive\.com\/i\/([0-9]+)/],
@@ -288,7 +288,7 @@ $.Class.extend("com.watchlr.config.VideoProvidersConfig", {
             url_regex: [/dipdive\.com\/media\/([0-9]+)/i],
             url: 'http://dipdive.com/media/'
         },
-        /*
+
         {
             domains: ['snotr.com'],
             source_regex: [/snotr\.com\/embed\/([0-9]+)/],

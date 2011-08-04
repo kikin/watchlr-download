@@ -16,9 +16,14 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.cnn.adapters.VideoAdapter",
                             try {
                                 // alert(args[0]);
                                 if (args[0] == 'onContentBegin') {
+                                    var cnnVid = args[2];
                                     // alert('Video changed for video element: ' + id + ' and video id: ' + args[2]);
                                     // alert(this);
-                                    this._onVideoUrlChange(id, args[2]);
+                                    if (!cnnVid) {
+                                        alert(args[1]);
+                                        // cnnVid = args[1];
+                                    }
+                                    this._onVideoUrlChange(id, cnnVid);
                                     // alert('Called on _onVideoUrlChange.');
                                 }
                                 return original(id, args);
