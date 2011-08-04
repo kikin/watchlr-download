@@ -20,7 +20,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.cnn.adapters.VideoAdapter",
                                     // alert('Video changed for video element: ' + id + ' and video id: ' + args[2]);
                                     // alert(this);
                                     if (!cnnVid) {
-                                        alert(args[1]);
+                                        // alert(args[1]);
                                         // cnnVid = args[1];
                                     }
                                     this._onVideoUrlChange(id, cnnVid);
