@@ -318,7 +318,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.youtube.adapters.VideoAdapt
     _onInSituVideElementClosed: function(e) {
         try {
             // $cwutil.Logger.debug('On insitu video element close');
-            this._onVideoElementMouseLeave(this.inSituVideoPanel);
+            this._onVideoElementMouseLeave(this.inSituVideoPanel, null, 100);
             this.isInSituVideoPanelOpen = false;
         } catch (err) {
             $cws.Tracker.trackError({from: "_onInSituVideElementMouseOut of google's search VideoAdapter", exception:err});

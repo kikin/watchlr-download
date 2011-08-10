@@ -593,7 +593,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
      * @param target
      * @param watchlrVideoId
      */
-    _onVideoElementMouseLeave: function(target, watchlrVideoId) {
+    _onVideoElementMouseLeave: function(target, watchlrVideoId, _frameBorderTimeout) {
         try {
             if (!target) return;
             if (!watchlrVideoId) watchlrVideoId = target.watchlrVideoId;
@@ -623,7 +623,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 {
                     this.watchlrVideoBorder.hide();
                 }
-            }, this), this.frameBorderTimeout);
+            }, this), (_frameBorderTimeout ? _frameBorderTimeout : this.frameBorderTimeout));
 
 
             try {
