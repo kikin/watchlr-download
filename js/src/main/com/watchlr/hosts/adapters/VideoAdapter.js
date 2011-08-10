@@ -795,7 +795,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 this.watchlrVideoBorder.setSaveButtonState($cwui.WatchlrVideoBorder.SaveButtonState.SAVING);
                 this.selectedVideo.savingVideo = true;
                 $cws.WatchlrRequests.sendSaveVideoRequest($.proxy(this._updateButtonState, this), this.selectedVideo.url);
-                $cws.Tracker.track('Video', 'save', this.selectedVideo.url);
+                $cws.Tracker.track('VideoAdapterEvt', 'SavingVideo', this.selectedVideo.url);
             } else {
                 window.open($cwh.adapters.VideoAdapter.WATCHLR_COM);
                 $cws.Tracker.track('VideoAdapterEvt', 'WatchSavedVideo', this.selectedVideo.url);
@@ -829,7 +829,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 } else {
                     $cws.WatchlrRequests.sendVideoLikedRequest($.proxy(this._onVideoLiked, this), this.selectedVideo.url);
                 }
-                $cws.Tracker.track('Video', 'like', this.selectedVideo.url);
+                $cws.Tracker.track('VideoAdapterEvt', 'LikingVideo', this.selectedVideo.url);
             } else {
                 window.open($cwh.adapters.VideoAdapter.WATCHLR_COM + '#!/liked_queue');
                 $cws.Tracker.track('VideoAdapterEvt', 'WatchLikedVideo', this.selectedVideo.url);
@@ -969,9 +969,6 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                     // video Id can be 0;
                     if (res.result) {
                         var oResult = res.result;
-                        if (oResult.id != null && oResult.id != undefined)
-                            // save the video id.
-                            this.selectedVideo.videoId = oResult.id;
                         if(oResult.emptyq) {
                             // if user has not oped out for showing the message whenever user saves the
                             // video, show the video saved message.
@@ -979,6 +976,14 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                             this.watchlrVideoBorder.bind($cwui.VideoSavedDialog.VideoSavedDialogEvents.ON_CLOSE,  $.proxy(this._onSavedVideoDialogDismissed, this));
                             this.watchlrVideoBorder.bind($cwui.VideoSavedDialog.VideoSavedDialogEvents.ON_HOME_PAGE_LINK_CLICKED,  $.proxy(this._handleVisitingVideoPageRequested, this));
                             this.watchlrVideoBorder.showVideoSavedDialog();
+                        }
+
+                        if (oResult.id != null && oResult.id != undefined) {
+                            // save the video id.
+                            this.selectedVideo.videoId = oResult.id;
+                            $cws.Tracker.track('Video', 'save', oResult.id);
+                        } else {
+                            $cws.Tracker.track('Video', 'save', this.selectedVideo.url);
                         }
                     }
 
@@ -1073,6 +1078,14 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
 
                         if (typeof oResult.likes == 'number')
                             this.selectedVideo.likes = oResult.likes;
+
+                        if (oResult.id != null && oResult.id != undefined) {
+                            // save the video id.
+                            this.selectedVideo.videoId = oResult.id;
+                            $cws.Tracker.track('Video', 'like', oResult.id);
+                        } else {
+                            $cws.Tracker.track('Video', 'like', this.selectedVideo.url);
+                        }
                     }
                 } else {
                     this.watchlrVideoBorder.setLikeButtonState($cwui.WatchlrVideoBorder.LikeButtonState.UNLIKED);
@@ -1138,10 +1151,8 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
 
             if (!this.selectedVideo.liked) {
                 $cws.WatchlrRequests.sendVideoLikedRequest($.proxy(this._onVideoLiked, this), this.selectedVideo.url);
-                $cws.Tracker.track('Video', 'like', this.selectedVideo.url);
             } else {
                 $cws.WatchlrRequests.sendVideoUnlikedRequest($.proxy(this._onVideoLiked, this), this.selectedVideo.url);
-                $cws.Tracker.track('Video', 'unlike', this.selectedVideo.url);
             }
         } catch (err) {
             $cws.Tracker.trackError({from: "_onPushToFacebookDialogDismissed of base VideoAdapter", exception:err});
@@ -1193,10 +1204,8 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             } else {
                 if (!this.selectedVideo.liked) {
                     $cws.WatchlrRequests.sendVideoLikedRequest($.proxy(this._onVideoLiked, this), this.selectedVideo.url);
-                    $cws.Tracker.track('Video', 'like', this.selectedVideo.url);
                 } else {
                     $cws.WatchlrRequests.sendVideoUnlikedRequest($.proxy(this._onVideoLiked, this), this.selectedVideo.url);
-                    $cws.Tracker.track('Video', 'unlike', this.selectedVideo.url);
                 }
             }
         }

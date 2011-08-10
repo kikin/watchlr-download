@@ -37,7 +37,9 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.youtube.adapters.InSi
             $(actions).prepend(overlayButton);
             $(overlayButton).click(handler);
 
-            var elContainer = null,
+            // Enable this part if you want to open the
+            // watchlr player on the click on thumbnail.
+            /*var elContainer = null,
                 elVideoImg = null;
              // case1: result page videos
             if (elContainer = $(overlayButton).parents('.result-item').get(0)) {
@@ -56,7 +58,7 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.youtube.adapters.InSi
                 $(elVideoImg).unbind('click');
                 $(elVideoImg).parents('a').unbind('click');
                 $(elVideoImg).click(handler);
-            }
+            } */
 
         } catch (err) {
             $cws.Tracker.trackError({from: '_addVideoPlayback of Youtube search InSituVideoAdapter', msg: '', exception: err});
@@ -111,7 +113,7 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.youtube.adapters.InSi
                 return;
             }
 
-            $cws.Tracker.track('Video','instu-view', videoUrl);
+            $cws.Tracker.track('Video','insitu-view', videoUrl);
 
             // $cwutil.Logger.debug('Video URL: ' + videoUrl);
             // $cwutil.Logger.debug('Video Title: ' + videoTitle);

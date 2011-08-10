@@ -135,7 +135,7 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.yahoo.adapters.InSitu
             supportedHosts = $cwc.FeaturesConfig.plugins.InSituVideoFeature.config.supportedHosts,
 	        hostConfig = url ? supportedHosts[$cwutil.Url.getHostName(url)] : null;
 
-            $cws.Tracker.track('Video','instu-view', url);
+            $cws.Tracker.track('Video','insitu-view', url);
 
             // set infos in the right panel
             this.videoPanel.setInfos({
