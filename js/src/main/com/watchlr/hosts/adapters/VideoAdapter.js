@@ -797,7 +797,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                 $cws.WatchlrRequests.sendSaveVideoRequest($.proxy(this._updateButtonState, this), this.selectedVideo.url);
                 $cws.Tracker.track('VideoAdapterEvt', 'SavingVideo', this.selectedVideo.url);
             } else {
-                window.open($cwh.adapters.VideoAdapter.WATCHLR_COM);
+                window.open($cwh.adapters.VideoAdapter.WATCHLR_COM + '#!/saved_queue');
                 $cws.Tracker.track('VideoAdapterEvt', 'WatchSavedVideo', this.selectedVideo.url);
             }
         } catch (err) {
