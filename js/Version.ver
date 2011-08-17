@@ -1,4 +1,4 @@
 define(`__W_MAJOR_VERSION__', `1')dnl
 define(`__W_MINOR_VERSION__', `0')dnl
-define(`__W_BUILD_NUMBER__', `15')dnl
-define(`__W_BUILD_ENVIRONMENT__', `prod')dnl
+define(`__W_BUILD_NUMBER__', `16')dnl
+define(`__W_BUILD_ENVIRONMENT__', `dev')dnl
