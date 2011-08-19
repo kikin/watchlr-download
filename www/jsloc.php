@@ -15,9 +15,11 @@ $base = $selected->{'base'};
 if ($environ == 'local') {
     $location = $base . '/watchlr-' . $version . '.min.js';
 } else {
-    $location = $base . '/' . $version . '/watchlr-' . $version . '.min.js?v=' . time();
+    $location = $base . '/' . $version . '/watchlr-' . $version . '.min.js';
 }
 
+// Cache for 1 hour
+header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', time() + 3600));
 
 $callback = $_GET['callback'];
 if ($callback != '') {
