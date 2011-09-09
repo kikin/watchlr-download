@@ -899,7 +899,13 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
      * the facebook sign in.
      */
     _handleFacebookConnectionRequested: function() {
-        var url = $cwh.adapters.VideoAdapter.WATCHLR_COM + 'login/facebook?next=' + encodeURIComponent($cwh.adapters.VideoAdapter.WATCHLR_COM+'static/html/connectWindow.html?connected=true&code=200');
+        var plugin_installed = $('#watchlr_dummy_element_for_plugin_detection');
+
+        var agent = 'bookmarklet';
+        if (plugin_installed && plugin_installed.length > 0)
+            agent = 'plugin';
+
+        var url = $cwh.adapters.VideoAdapter.WATCHLR_COM + 'login/facebook?campaign=' + agent + '&next=' + encodeURIComponent($cwh.adapters.VideoAdapter.WATCHLR_COM+'static/html/connectWindow.html?connected=true&code=200');
         this._connectionPopup = window.open(url, '_blank', 'location=1, width=' + 800 + ',height=' + 600 + ',left=' + 200 + ',top=' + 200);
         this._popupMonitor = true;
         this._monitorPopup();
