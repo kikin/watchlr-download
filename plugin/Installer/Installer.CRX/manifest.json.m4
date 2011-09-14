@@ -13,7 +13,7 @@
          "run-at": [ "document_start" ]
       }
    ],
-   "description": "Watch, share, and play any video anywhere",
+   "description": "Discover, save and share video",
    "icons": {
       "24": "icon_24.PNG",
       "48": "icon.png"

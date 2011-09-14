@@ -35,7 +35,24 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.youtube.adapters.InSi
             var handler = $.proxy(this.onClickVideoThumbnail, this);
             var overlayButton = $($cws.html['YoutubeOverlayButton']);
             $(actions).prepend(overlayButton);
+//            alert('Adding buttons');
+            $(actions).unbind();
+//            $(actions).unbind('mouseenter');
+//            $(actions).unbind('mouseover');
+            if ($.browser.mozilla) {
+                $(actions).click(handler);
+            }
+
             $(overlayButton).click(handler);
+//            $(overlayButton).mouseenter($.proxy(function(e) {
+//                e.stopPropagation();
+//                try {
+//                alert('Focus');
+//                $(e.target).focus();
+//                } catch (errr) {
+//                    alert(errr);
+//                }
+//            }, this));
 
             // Enable this part if you want to open the
             // watchlr player on the click on thumbnail.
@@ -67,7 +84,26 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.youtube.adapters.InSi
 
 	onClickVideoThumbnail: function(e) {
 	    try {
-            // e.stopPropagation();
+            var button = $(e.target).children('button').get(0);
+            var processEvent = false;
+            if (button) {
+                var buttonCoordinates = $(button).offset();
+                var buttonHeight = $(button).height();
+                var buttonWidth= $(button).width();
+
+                if (e.pageX > buttonCoordinates.left &&
+                    e.pageX < (buttonCoordinates.left + buttonWidth) &&
+                    e.pageY > buttonCoordinates.top &&
+                    e.pageY < (buttonCoordinates.top + buttonHeight)) {
+                        processEvent = true;
+                }
+            } else {
+                processEvent = true;
+            }
+
+            if (!processEvent) {
+                return true;
+            }
 
             // create once the video panel that will show the videos
             if (!this.videoPanel) {
