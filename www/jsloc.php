@@ -30,4 +30,9 @@ if ($callback != '') {
     echo '{"js_url": "' . $location . '"}';
 }
 
+// Set experiment?
+if (isset($_GET['exp'])) {
+  setcookie('_WEXP', $_GET['exp'], time()+3600*24*30, '/', '.watchlr.com');
+}
+
 ?> 
