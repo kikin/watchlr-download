@@ -542,7 +542,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             this.selectedVideo = selectedVideo;
 
             if (!this.watchlrVideoBorder) {
-                this._createWatchlrVideoBorder();
+            	this._createWatchlrVideoBorder();
             }
 
             // $cwutil.Logger.debug("Is watchlr border hidden:" + this.watchlrVideoBorder.isHidden());
@@ -566,6 +566,9 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                                           selectedVideo.liked,
                                           selectedVideo.likes,
                                           document);
+                    
+                    this.watchlrVideoBorder.createPitchDialog();
+                    this.watchlrVideoBorder.showPitchDialog();
                 }
             }
 

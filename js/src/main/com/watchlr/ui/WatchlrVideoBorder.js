@@ -527,7 +527,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
         } catch (err) {
             $cws.Tracker.trackError({from: "showVideoSavedDialog of WatchlrVideoBorder", msg: "Unable to show the video saved dialog.", exception:err});
         }
-    },
+    }, 
 
     /**
      * hides the video saved dialog in the option button.
@@ -539,6 +539,42 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
             $cws.Tracker.trackError({from: "hideVideoSavedDialog of WatchlrVideoBorder", msg: "Unable to hide the video saved dialog.", exception:err});
         }
     },
+    
+    /**
+     * create the instance of pitch dialog
+     */
+    createPitchDialog: function() {
+        try {
+            this._hideExistingDialog();
+            this.messageDialog = new $cwui.WatchlrPitchDialog();
+            this.messageDialog.create(this.optionsButton, document);
+        } catch (err) {
+            $cws.Tracker.trackError({from: "createPitchDialog of WatchlrVideoBorder", msg: "Unable to create the instance of pitch dialog.", exception:err});
+        }
+
+    },       
+    
+    /**
+     * shows the pitch dialog
+     */
+    showPitchDialog: function() {
+        try {
+            this.messageDialog.show();
+        } catch (err) {
+            $cws.Tracker.trackError({from: "showPitchDialog of WatchlrVideoBorder", msg: "Unable to pitch user.", exception:err});
+        }
+    },
+
+    /**
+     * hides the pitch dialog in the option button.
+     */
+    hidePitchDialog: function() {
+        try {
+            this.messageDialog.hide();
+        } catch (err) {
+            $cws.Tracker.trackError({from: "hidePitchDialog of WatchlrVideoBorder", msg: "Unable to hide user pitch.", exception:err});
+        }
+    },    
 
     /**
      * create the instance of video liked dialog

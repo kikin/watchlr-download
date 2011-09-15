@@ -1,0 +1,62 @@
+a {
+	color: #2AACE1;
+	text-decoration: none;
+    cursor: pointer;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* #watchlr-pitch-dialog-container {
+    display: none;
+} */
+
+.watchlr-pitch-dialog {
+		background-color: white;
+		text-align: center;
+		height: 95px;
+		padding: 5px;
+		border-radius: 5px;
+		-moz-border-radius: 5px;
+		margin-top: 12px;
+		margin-bottom: 12px;
+}
+
+#watchlr-pitch-dialog-container .watchlr-close-button {
+    background:url('http://local.watchlr.com/watchlr/img/close.png') no-repeat scroll 0px 0px transparent;
+    width: 18px;
+    height: 19px;
+    display: block;
+    padding-top: 10px;
+    float: right;
+}
+
+#watchlr-pitch-dialog-container .watchlr-pitch-message {
+		position: relative;
+		top: 0px;
+		font-family: 'PT Sans';
+		font-size: 16px;
+		font-style: normal;
+		font-weight: 500;
+		font-variant: normal;
+		color: black;
+}
+
+#watchlr-pitch-dialog-container .activate-button {
+		display: block;
+		text-align: center;
+		width: 83px;
+		height: 28px;
+		background-color: #0C536F;
+		color: white;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		-moz-box-shadow: 0 0 3px #888888;
+		-webkit-box-shadow: 0 0 3px #888888;
+		font-size: 15px;
+		font-family: 'PT Sans';
+		padding-top: 6px;
+		margin-top: 5px;
+		margin-left: 127px;
+}
