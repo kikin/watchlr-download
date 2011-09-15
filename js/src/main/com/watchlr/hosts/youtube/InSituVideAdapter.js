@@ -35,24 +35,12 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.youtube.adapters.InSi
             var handler = $.proxy(this.onClickVideoThumbnail, this);
             var overlayButton = $($cws.html['YoutubeOverlayButton']);
             $(actions).prepend(overlayButton);
-//            alert('Adding buttons');
             $(actions).unbind();
-//            $(actions).unbind('mouseenter');
-//            $(actions).unbind('mouseover');
             if ($.browser.mozilla) {
-                $(actions).click(handler);
+                $(actions).click($.proxy(this.onClickActionsButton, this));
             }
 
             $(overlayButton).click(handler);
-//            $(overlayButton).mouseenter($.proxy(function(e) {
-//                e.stopPropagation();
-//                try {
-//                alert('Focus');
-//                $(e.target).focus();
-//                } catch (errr) {
-//                    alert(errr);
-//                }
-//            }, this));
 
             // Enable this part if you want to open the
             // watchlr player on the click on thumbnail.
@@ -82,28 +70,52 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.youtube.adapters.InSi
         }
 	},
 
-	onClickVideoThumbnail: function(e) {
-	    try {
-            var button = $(e.target).children('button').get(0);
-            var processEvent = false;
-            if (button) {
-                var buttonCoordinates = $(button).offset();
-                var buttonHeight = $(button).height();
-                var buttonWidth= $(button).width();
+    onClickActionsButton: function(e) {
+        try {
+            var watchlrOverlayButton = $(e.target).children('button.watchlrIsvYoutubeOverlay').get(0);
+            if (watchlrOverlayButton) {
+                var buttonCoordinates = $(watchlrOverlayButton).offset();
+                var buttonHeight = $(watchlrOverlayButton).height();
+                var buttonWidth= $(watchlrOverlayButton).width();
 
                 if (e.pageX > buttonCoordinates.left &&
                     e.pageX < (buttonCoordinates.left + buttonWidth) &&
                     e.pageY > buttonCoordinates.top &&
                     e.pageY < (buttonCoordinates.top + buttonHeight)) {
-                        processEvent = true;
+                        $(watchlrOverlayButton).click();
+                        return false;
                 }
-            } else {
-                processEvent = true;
             }
 
-            if (!processEvent) {
-                return true;
-            }
+            return true;
+
+        } catch (err) {
+            $cws.Tracker.trackError({from: 'onClickActionsButton of Youtube search InSituVideoAdapter', msg: '', exception: err});
+        }
+    },
+
+	onClickVideoThumbnail: function(e) {
+	    try {
+//            var button = $(e.target).children('button').get(0);
+//            var processEvent = false;
+//            if (button) {
+//                var buttonCoordinates = $(button).offset();
+//                var buttonHeight = $(button).height();
+//                var buttonWidth= $(button).width();
+//
+//                if (e.pageX > buttonCoordinates.left &&
+//                    e.pageX < (buttonCoordinates.left + buttonWidth) &&
+//                    e.pageY > buttonCoordinates.top &&
+//                    e.pageY < (buttonCoordinates.top + buttonHeight)) {
+//                        processEvent = true;
+//                }
+//            } else {
+//                processEvent = true;
+//            }
+//
+//            if (!processEvent) {
+//                return true;
+//            }
 
             // create once the video panel that will show the videos
             if (!this.videoPanel) {
