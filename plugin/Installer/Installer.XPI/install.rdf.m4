@@ -6,7 +6,7 @@
     <em:name>watchlr</em:name>
     <em:version>__K_MAJOR_VERSION__.__K_MINOR_VERSION__.__K_BUILD_NUMBER__</em:version>
     <em:creator>watchlr</em:creator>
-    <em:description>Watch, share, and play any video anywhere</em:description>
+    <em:description>Discover, save and share video</em:description>
     <em:homepageURL>http://www.watchlr.com</em:homepageURL>
     <em:iconURL>chrome://watchlr/content/icon.png</em:iconURL>
     <em:updateURL>https://download.watchlr.com/updates/update-watchlr.rdf</em:updateURL>

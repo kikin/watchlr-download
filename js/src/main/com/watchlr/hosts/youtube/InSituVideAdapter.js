@@ -35,6 +35,11 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.youtube.adapters.InSi
             var handler = $.proxy(this.onClickVideoThumbnail, this);
             var overlayButton = $($cws.html['YoutubeOverlayButton']);
             $(actions).prepend(overlayButton);
+            $(actions).unbind();
+            if ($.browser.mozilla) {
+                $(actions).click($.proxy(this.onClickActionsButton, this));
+            }
+
             $(overlayButton).click(handler);
 
             // Enable this part if you want to open the
@@ -65,9 +70,52 @@ $cwh.adapters.InSituVideoAdapter.extend("com.watchlr.hosts.youtube.adapters.InSi
         }
 	},
 
+    onClickActionsButton: function(e) {
+        try {
+            var watchlrOverlayButton = $(e.target).children('button.watchlrIsvYoutubeOverlay').get(0);
+            if (watchlrOverlayButton) {
+                var buttonCoordinates = $(watchlrOverlayButton).offset();
+                var buttonHeight = $(watchlrOverlayButton).height();
+                var buttonWidth= $(watchlrOverlayButton).width();
+
+                if (e.pageX > buttonCoordinates.left &&
+                    e.pageX < (buttonCoordinates.left + buttonWidth) &&
+                    e.pageY > buttonCoordinates.top &&
+                    e.pageY < (buttonCoordinates.top + buttonHeight)) {
+                        $(watchlrOverlayButton).click();
+                        return false;
+                }
+            }
+
+            return true;
+
+        } catch (err) {
+            $cws.Tracker.trackError({from: 'onClickActionsButton of Youtube search InSituVideoAdapter', msg: '', exception: err});
+        }
+    },
+
 	onClickVideoThumbnail: function(e) {
 	    try {
-            // e.stopPropagation();
+//            var button = $(e.target).children('button').get(0);
+//            var processEvent = false;
+//            if (button) {
+//                var buttonCoordinates = $(button).offset();
+//                var buttonHeight = $(button).height();
+//                var buttonWidth= $(button).width();
+//
+//                if (e.pageX > buttonCoordinates.left &&
+//                    e.pageX < (buttonCoordinates.left + buttonWidth) &&
+//                    e.pageY > buttonCoordinates.top &&
+//                    e.pageY < (buttonCoordinates.top + buttonHeight)) {
+//                        processEvent = true;
+//                }
+//            } else {
+//                processEvent = true;
+//            }
+//
+//            if (!processEvent) {
+//                return true;
+//            }
 
             // create once the video panel that will show the videos
             if (!this.videoPanel) {
