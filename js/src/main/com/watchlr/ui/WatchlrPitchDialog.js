@@ -79,14 +79,23 @@ $.Class.extend("com.watchlr.ui.WatchlrPitchDialog", {
      * shows the facebook connect dialog
      */
     show: function() {
-        $(this._watchlrVideoBorderOptionsButton).find('#watchlr-logo').get(0).hide();
-        $(this._watchlrVideoBorderOptionsButton).find('#watchlr-like-btn-img').get(0).hide();
-        $(this._watchlrVideoBorderOptionsButton).find('#watchlr-like-btn-text').get(0).hide();
-        $(this._watchlrVideoBorderOptionsButton).find('#watchlr-watch-later-btn-img').get(0).hide();
-        $(this._watchlrVideoBorderOptionsButton).find('#watchlr-watch-later-btn-text').get(0).hide();
-        $(this._watchlrVideoBorderOptionsButton).find('#watchlr-slash').each(function(elem) { $(elem).hide(); });
-        $(this._watchlrPitchDialog).show();
-        this._makeDialogVisibleInViewPort();
+        try {
+            $($(this._watchlrVideoBorderOptionsButton).find('#watchlr-logo').get(0)).hide();
+            $($(this._watchlrVideoBorderOptionsButton).find('#watchlr-like-btn-img').get(0)).hide();
+            $($(this._watchlrVideoBorderOptionsButton).find('#watchlr-like-btn-text').get(0)).hide();
+            $($(this._watchlrVideoBorderOptionsButton).find('#watchlr-watch-later-btn-img').get(0)).hide();
+            $($(this._watchlrVideoBorderOptionsButton).find('#watchlr-watch-later-btn-text').get(0)).hide();
+            $(this._watchlrVideoBorderOptionsButton).find('.watchlr-slash').each(function(pos, elem) { $(elem).hide(); });
+            var left = parseInt($(this._watchlrVideoBorderOptionsButton).css('left'));
+            var width = $(this._watchlrVideoBorderOptionsButton).width();
+            $(this._watchlrVideoBorderOptionsButton).css('left', '' + (left - (560 - width)) + 'px');
+            $(this._watchlrVideoBorderOptionsButton).width(560);
+            $(this._watchlrPitchDialog).show();
+            this._makeDialogVisibleInViewPort();
+        } catch (err) {
+            alert("from: show of WatchlrPitchDialog. \nReason:\n" + err);
+            $cws.Tracker.trackError({from:"show of WatchlrPitchDialog", msg: "Unable to show the pitch.", exception:e});
+        }
     },
 
     /**

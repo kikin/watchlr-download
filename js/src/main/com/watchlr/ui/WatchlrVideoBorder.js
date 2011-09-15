@@ -54,6 +54,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
     saveButtonState: null,
     likeButtonState: null,
     messageDialog: null,
+    watchlrPitchDialog: null,
 
     // ---------------------------------------------------------------------------
     //                              PRIVATE FUNCTIONS
@@ -124,6 +125,10 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
     _hideExistingDialog: function() {
         if (this.messageDialog && this.messageDialog.isVisible()) {
             this.messageDialog.hide();
+        }
+
+        if (this.watchlrPitchDialog && this.watchlrPitchDialog.isVisible()) {
+            this.watchlrPitchDialog.hide();
         }
     },
 
@@ -546,8 +551,8 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
     createPitchDialog: function() {
         try {
             this._hideExistingDialog();
-            this.messageDialog = new $cwui.WatchlrPitchDialog();
-            this.messageDialog.create(this.optionsButton, document);
+            this.watchlrPitchDialog = new $cwui.WatchlrPitchDialog();
+            this.watchlrPitchDialog.create(this.optionsButton, document);
         } catch (err) {
             $cws.Tracker.trackError({from: "createPitchDialog of WatchlrVideoBorder", msg: "Unable to create the instance of pitch dialog.", exception:err});
         }
@@ -559,7 +564,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
      */
     showPitchDialog: function() {
         try {
-            this.messageDialog.show();
+            this.watchlrPitchDialog.show();
         } catch (err) {
             $cws.Tracker.trackError({from: "showPitchDialog of WatchlrVideoBorder", msg: "Unable to pitch user.", exception:err});
         }
@@ -570,7 +575,7 @@ $.Class.extend("com.watchlr.ui.WatchlrVideoBorder", {
      */
     hidePitchDialog: function() {
         try {
-            this.messageDialog.hide();
+            this.watchlrPitchDialog.hide();
         } catch (err) {
             $cws.Tracker.trackError({from: "hidePitchDialog of WatchlrVideoBorder", msg: "Unable to hide user pitch.", exception:err});
         }

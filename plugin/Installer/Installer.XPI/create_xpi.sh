@@ -9,6 +9,8 @@
 # $3 is assumed to be the path where output is going to be copied.
 # $4 is assumed to be the path where firefox files are located
 # $5 is assumed to be the path where install.rdf.m4 are located
+# $6 is assumed to be the file name of install.rdf m4 file
+# $7 is assumed to be the file name of output file
 
 # Variables
 build_tools_dir=$1
@@ -27,14 +29,14 @@ echo Using version string $watchlr_plugin_version
 
 output_dir=$3
 echo Output will be located at $output_dir
-output_file=$output_dir/watchlr_installer_${watchlr_plugin_version}.xpi
+output_file=$output_dir/$7_${watchlr_plugin_version}.xpi
 
 firefox_files_dir=$4
 echo Generating XPI structure at $firefox_files_dir
 
 installer_files_dir=$5
 echo Using rdf from $installer_files_dir
-install_rdf_m4_file=$installer_files_dir/install.rdf.m4
+install_rdf_m4_file=$installer_files_dir/$6
 install_rdf_filename=install.rdf
 
 echo ...

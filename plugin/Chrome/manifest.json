@@ -13,13 +13,13 @@
          "run-at": [ "document_start" ]
       }
    ],
-   "description": "Watch, share, and play any video anywhere",
+   "description": "Discover, save and share video",
    "icons": {
       "24": "icon_24.PNG",
       "48": "icon.png"
    },
    "name": "Watchlr",
    "permissions": [ "tabs",  "http://*/*" , "https://*/*" ],
-   "version": "1.0.5",
+   "version": "1.0.6",
    "update_url": "http://download.watchlr.com/updates/update-watchlr.xml"
 }

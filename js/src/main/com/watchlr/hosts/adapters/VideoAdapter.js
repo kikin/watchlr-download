@@ -407,6 +407,8 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             this.watchlrVideoBorder.bind($cwui.WatchlrVideoBorder.WatchlrVideoBorderEvents.ON_LIKE_BUTTON_CLICKED, $.proxy(this._onLikeButtonClicked, this));
             this.watchlrVideoBorder.bind($cwui.WatchlrVideoBorder.WatchlrVideoBorderEvents.ON_WATCHLR_LOGO_CLICKED, $.proxy(this._handleVisitingVideoPageRequested, this));
 
+            this.watchlrVideoBorder.createPitchDialog();
+
         } catch (e) {
             $cws.Tracker.trackError({from:"_createWatchlrVideoBorder of base VideoAdapter", msg: "Unable to create the border around video.", exception:e});
         }
@@ -567,7 +569,6 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                                           selectedVideo.likes,
                                           document);
                     
-                    this.watchlrVideoBorder.createPitchDialog();
                     this.watchlrVideoBorder.showPitchDialog();
                 }
             }

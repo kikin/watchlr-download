@@ -50,7 +50,18 @@ popd > /dev/null
 # Build Firefox installer
 echo Building Firefox installer...
 pushd `dirname $firefox_installer_files_dir` > /dev/null
-if [ $($firefox_installer_build_tool $build_tools_dir $version_properties_file $output_dir $firefox_files_dir $firefox_installer_files_dir > /dev/null) ]
+if [ $($firefox_installer_build_tool $build_tools_dir $version_properties_file $output_dir $firefox_files_dir $firefox_installer_files_dir "install.rdf.m4" "watchlr_installer" > /dev/null) ]
+then
+    popd > /dev/null
+	echo Error creating Firefox installer. ERROR LEVEL = $?, aborting
+	exit 1
+fi
+popd > /dev/null
+
+# Build Firefox installer for mozilla gallery
+echo Building Firefox installer for mozilla gallery...
+pushd `dirname $firefox_installer_files_dir` > /dev/null
+if [ $($firefox_installer_build_tool $build_tools_dir $version_properties_file $output_dir $firefox_files_dir $firefox_installer_files_dir "install.rdf.mozilla.m4" "watchlr_installer_mozilla" > /dev/null) ]
 then
     popd > /dev/null
 	echo Error creating Firefox installer. ERROR LEVEL = $?, aborting
