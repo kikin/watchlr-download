@@ -88,8 +88,12 @@ $.Class.extend("com.watchlr.ui.WatchlrPitchDialog", {
             $(this._watchlrVideoBorderOptionsButton).find('.watchlr-slash').each(function(pos, elem) { $(elem).hide(); });
             var left = parseInt($(this._watchlrVideoBorderOptionsButton).css('left'));
             var width = $(this._watchlrVideoBorderOptionsButton).width();
-            $(this._watchlrVideoBorderOptionsButton).css('left', '' + (left - (560 - width)) + 'px');
-            $(this._watchlrVideoBorderOptionsButton).width(560);
+            $(this._watchlrVideoBorderOptionsButton).css({
+            	'left': '' + (left - (640 - (width + /*Take care of original padding.*/13))) + 'px',
+            	'padding-left': '5px',
+            	'padding-right': '5px'
+            	});
+            $(this._watchlrVideoBorderOptionsButton).width(640);
             $(this._watchlrPitchDialog).show();
             this._makeDialogVisibleInViewPort();
         } catch (err) {

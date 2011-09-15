@@ -15,20 +15,20 @@ a:hover {
 .watchlr-pitch-dialog {
 	background-color: #454545;
     text-align: left;
-    height: 95px;
+    height: 105px;
     padding: 5px;
+    padding-right: 0px;
     border-radius: 5px;
     -moz-border-radius: 5px;
-    margin-top: 8px;
-    margin-bottom: 8px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 #watchlr-pitch-dialog-container .watchlr-close-button {
-    background:url('http://local.watchlr.com/watchlr/img/close.png') no-repeat scroll 0px 0px transparent;
+    background:url('http://local.watchlr.com/watchlr/img/close2.png') no-repeat scroll 0px 0px transparent;
     width: 18px;
     height: 19px;
     display: block;
-    margin-top: 3px;
     float: right;
 }
 
@@ -42,12 +42,15 @@ a:hover {
 #watchlr-pitch-dialog-container .watchlr-pitch-message {
     font-size: 18px;
     font-weight: 600;
-    margin-left: 5px;
+		position: relative;
+		top: 2px;
+		left: 11px;    
 }
 
 #watchlr-pitch-dialog-container .watchlr-middle {
     position: relative;
-    top: 10px;
+    top: 13px;
+    left: 8px;
 }
 
 #watchlr-pitch-dialog-container .watchlr-activate-button {
@@ -58,21 +61,22 @@ a:hover {
 }
 
 #watchlr-pitch-dialog-container .watchlr-activate-message {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
     position: relative;
-    left: 140px;
+    left: 135px;
     top: -27px;
 }
 
 #watchlr-pitch-dialog-container .watchlr-footer {
     position: relative;
-    top: 5px;
+    top: 12px;
+    left: 8px;
     width: 100%;
     float: left;
 }
 
 #watchlr-pitch-dialog-container .watchlr-pitch-dismiss-message-label {
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 500;
 }
