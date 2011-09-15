@@ -11,11 +11,13 @@ $selected = $decoded->{$environ};
 $version = $selected->{'version'};
 $base = $selected->{'base'};
 
+$protocol = empty($_SERVER['HTTPS']) ? 'http://' : 'https://';
+
 // URL scheme = http://$base/$version/watchlr-$version.min.js
 if ($environ == 'local') {
-    $location = $base . '/watchlr-' . $version . '.min.js';
+    $location = $protocol . $base . '/watchlr-' . $version . '.min.js';
 } else {
-    $location = $base . '/' . $version . '/watchlr-' . $version . '.min.js';
+    $location = $protocol . $base . '/' . $version . '/watchlr-' . $version . '.min.js';
 }
 
 // Cache for 1 hour
