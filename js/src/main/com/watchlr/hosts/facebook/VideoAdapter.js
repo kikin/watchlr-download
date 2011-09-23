@@ -7,7 +7,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.facebook.adapters.VideoAdap
 	/* @override */
 	attach: function() {
         try {
-            // $cwutil.Logger.debug("Get called in Facebook video adapter.");
+//            $cwutil.Logger.debug("Get called in Facebook video adapter.");
             if (window.document.body.addEventListener) {
                 window.document.body.addEventListener('DOMNodeInserted', $.proxy(this._firePageModifiedEvent, this), false);
             } else {
@@ -23,10 +23,10 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.facebook.adapters.VideoAdap
 	},
 
     _firePageModifiedEvent: function() {
-        // $cwutil.Logger.debug("Page modified event fired.");
+//        $cwutil.Logger.debug("Page modified event fired.");
         var anchor_tags = $("a.uiVideoThumb");
-        // $cwutil.Logger.debug("Number of video elements found:" + anchor_tags.length);
-        // $cwutil.Logger.debug("Number of video elements already found:" + this.videoAnchorTagsLength);
+//        $cwutil.Logger.debug("Number of video elements found:" + anchor_tags.length);
+//        $cwutil.Logger.debug("Number of video elements already found:" + this.videoAnchorTagsLength);
         if (anchor_tags.length > this.videoAnchorTagsLength) {
             var embeds = this._findVideoCandidates();
             if (embeds) {
@@ -42,7 +42,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.facebook.adapters.VideoAdap
         try {
             var videoAnchors = [];
             var anchor_tags = $("a.uiVideoThumb");
-            // $cwutil.Logger.debug('Found ' + anchor_tags.length + ' anchors');
+//            $cwutil.Logger.debug('Found ' + anchor_tags.length + ' anchors');
             this.videoAnchorTagsLength = anchor_tags.length;
 
             $(anchor_tags).each($.proxy(function(index, elem) {
@@ -52,28 +52,28 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.facebook.adapters.VideoAdap
 
                 var videoUrl = "";
                 var anchorAjaxify = this._getNodeValue(elem, "ajaxify");
-                // $cwutil.Logger.debug("Matching against: " + anchorAjaxify);
+//                $cwutil.Logger.debug("Matching against: " + anchorAjaxify);
 
-                var re = /ajax\/flash\/expand_inline\.php\?target_div=u[0-9]+_[0-9]+&share_id=([0-9]+)/;
+                var re = /ajax\/flash\/expand_inline\.php\?target_div=u[0-9]+_[0-9]+.+?&share_id=([0-9]+)/;
                 var result = re.exec(anchorAjaxify);
                 if (result) {
-                    // $cwutil.Logger.debug("Found with video id:" + result[1]);
+//                    $cwutil.Logger.debug("Found with video id:" + result[1]);
                     videoUrl = "http://www.facebook.com/?video_id=" + result[1];
                 } else {
-                    re = /ajax\/flash\/expand_inline\.php\?target_div=u[0-9]+_[0-9]+&v=([0-9]+)/;
+                    re = /ajax\/flash\/expand_inline\.php\?target_div=u[0-9]+_[0-9]+.+?&v=([0-9]+)/;
                     result = re.exec(anchorAjaxify);
                     if (result) {
-                        // $cwutil.Logger.debug("Found with video id:" + result[1]);
+//                        $cwutil.Logger.debug("Found with video id:" + result[1]);
                         videoUrl = "http://www.facebook.com/?video_id=" + result[1];
                     }
                 }
 
-                // $cwutil.Logger.debug("Videos object:" + this.videos.length);
                 if (videoUrl) {
                     this._addVideo(elem, videoUrl);
                     this._listenThumbnailEvents(elem);
                     $cws.Tracker.track('VideoAdapterEvt', 'SupportedVideoFound', videoUrl);
                 }
+//                $cwutil.Logger.debug("Videos object:" + this.videos.length);
             }, this));
 
             if (this.videos.length > this._videosFound) {
@@ -81,7 +81,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.facebook.adapters.VideoAdap
                     new $cws.WatchlrRequests.sendVideosInfoRequest($.proxy(this._onVideosInfoReceived, this), this.videos);
                 }
 
-                // $cwutil.Logger.debug("Number of videos found:" + this.videos.length);
+//                $cwutil.Logger.debug("Number of videos found:" + this.videos.length);
 
         } catch (err) {
             $cws.Tracker.trackError({from: "findFlashVideoCandidates of facebook's VideoAdapater.", msg: "Unable to find flash videos on facebook page.", exception:err});
@@ -111,7 +111,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.facebook.adapters.VideoAdap
             anchorTagParent.watchlrVideoId = video.id;
             videoElement.watchlrVideoId = video.id;
 
-            // $cwutil.Logger.debug('AnchorTag watchlrVideoId:' + elem.watchlrVideoId);
+//            $cwutil.Logger.debug('AnchorTag watchlrVideoId:' + videoElement.watchlrVideoId);
 
             var anchorTagChildNodes = $(videoElement).children() ;
             if (anchorTagChildNodes && anchorTagChildNodes.length > 0) {
@@ -125,7 +125,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.facebook.adapters.VideoAdap
             return video;
 
         } catch (err) {
-            $cws.Tracker.trackError({from: "findFlashVideoCandidates of facebook's VideoAdapater.", msg: "Unable to find flash videos on facebook page.", exception:err});
+            $cws.Tracker.trackError({from: "addVideo of facebook's VideoAdapater.", msg: "Unable to add video on facebook page.", exception:err});
         }
 
     },
@@ -149,7 +149,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.facebook.adapters.VideoAdap
                     setTimeout($.proxy(this._fireOnVideoElementInserted, this), 500);
                 }
             } catch (er) {
-                // $cwutil.Logger.debug("OnImageClicked error: " + er);
+//                $cwutil.Logger.debug("OnImageClicked error: " + er);
             }
         } catch (err) {
             $cws.Tracker.trackError({from: "onVideoImageClicked of facebook's VideoAdapater.", exception:err});
@@ -171,7 +171,7 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.facebook.adapters.VideoAdap
 
     _onEmbedTagCreated: function() {
         try {
-            // $cwutil.Logger.debug("In onEmbedTagCreated.");
+//            $cwutil.Logger.debug("In onEmbedTagCreated.");
             if (this.selectedVideo) {
                 var parentNode = this.selectedVideo.parentNode;
                 // $cwutil.Logger.debug("Selected video id is:" + parentNode.watchlrVideoId);
@@ -268,15 +268,15 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.facebook.adapters.VideoAdap
     },
 
     _onVideoThumbnailMouseOver : function(e) {
-        // $cwutil.Logger.debug('Anchor tag parent mouse over');
+//        $cwutil.Logger.debug('Anchor tag parent mouse over');
         try {
             var target = e.target;
             if (target) {
-                // $cwutil.Logger.debug('Target node type:' + e.target.nodeName.toLowerCase());
+//                $cwutil.Logger.debug('Target node type:' + e.target.nodeName.toLowerCase());
 
                 while (target && target.nodeName.toLowerCase() != 'div') {
                     target = target.parentNode;
-                    //$cwutil.Logger.debug('Target node type:' + target.nodeName.toLowerCase());
+//                    $cwutil.Logger.debug('Target node type:' + target.nodeName.toLowerCase());
                 }
 
                 this._onVideoElementMouseEnter(target);
@@ -287,14 +287,14 @@ $cwh.adapters.VideoAdapter.extend("com.watchlr.hosts.facebook.adapters.VideoAdap
     },
 
     _onVideoThumbnailMouseOut : function(e) {
-        // $cwutil.Logger.debug('Anchor tag parent mouse out');
+//        $cwutil.Logger.debug('Anchor tag parent mouse out');
         try {
             var target = e.target;
             if (target) {
-                // $cwutil.Logger.debug('Target node type:' + target.nodeName.toLowerCase());
+//                $cwutil.Logger.debug('Target node type:' + target.nodeName.toLowerCase());
                 while (target && target.nodeName.toLowerCase() != 'div') {
                     target = target.parentNode;
-                    // $cwutil.Logger.debug('Target node type:' + target.nodeName.toLowerCase());
+//                    $cwutil.Logger.debug('Target node type:' + target.nodeName.toLowerCase());
                 }
 
                 this._onVideoElementMouseLeave(target);
