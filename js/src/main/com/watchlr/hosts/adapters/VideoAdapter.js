@@ -406,9 +406,6 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             this.watchlrVideoBorder.bind($cwui.WatchlrVideoBorder.WatchlrVideoBorderEvents.ON_SAVE_BUTTON_CLICKED, $.proxy(this._onSaveButtonClicked, this));
             this.watchlrVideoBorder.bind($cwui.WatchlrVideoBorder.WatchlrVideoBorderEvents.ON_LIKE_BUTTON_CLICKED, $.proxy(this._onLikeButtonClicked, this));
             this.watchlrVideoBorder.bind($cwui.WatchlrVideoBorder.WatchlrVideoBorderEvents.ON_WATCHLR_LOGO_CLICKED, $.proxy(this._handleVisitingVideoPageRequested, this));
-
-            this.watchlrVideoBorder.createPitchDialog();
-
         } catch (e) {
             $cws.Tracker.trackError({from:"_createWatchlrVideoBorder of base VideoAdapter", msg: "Unable to create the border around video.", exception:e});
         }
@@ -568,8 +565,7 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
                                           selectedVideo.liked,
                                           selectedVideo.likes,
                                           document);
-                    
-                    this.watchlrVideoBorder.showPitchDialog();
+                   
                 }
             }
 
@@ -872,6 +868,37 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             $cws.WatchlrRequests.sendUserProfileRequest($.proxy(this._onUserPreferencesReceived, this));
         }
     },
+    
+    /**
+	 * determine if the popup window is closed,
+     * when popup window closes call the _commonCallback method.
+	 */
+	_monitorFacebookLikePopup: function() {
+        // $cwutil.Logger.debug("Window is created:" + (this._connectionPopup==null));
+        // $cwutil.Logger.debug("Window is closed:" + (this._connectionPopup.closed));
+		if(this._connectionPopup==null || this._connectionPopup.closed){
+			this._popupMonitor = false;
+			this._facebookLikeCompletedCallback();
+		} else if(this._popupMonitor){
+            setTimeout($.proxy(this._monitorFacebookLikePopup, this), 600);
+		}
+	},
+
+    /**
+     * this method hides the login dialog and sends the
+     * request again.
+     */
+    _facebookLikeCompletedCallback: function() {
+        this.watchlrVideoBorder.hideLoginDialog();
+        // $cwutil.Logger.debug('get called in common callback');
+        if (this.selectedVideo.likingVideo) {
+        	if (!this.selectedVideo.liked) {
+                $cws.WatchlrRequests.sendVideoLikedRequest($.proxy(this._onVideoLiked, this), this.selectedVideo.url);
+            } else {
+                $cws.WatchlrRequests.sendVideoUnlikedRequest($.proxy(this._onVideoLiked, this), this.selectedVideo.url);
+            }
+        }
+    },
 
     /**
      * if user cancels the login action,
@@ -1158,11 +1185,18 @@ $.Class.extend("com.watchlr.hosts.adapters.VideoAdapter", {
             if (pushToFcaebook == '0' || pushToFcaebook == '1') {
                 $cws.WatchlrRequests.sendUpdateUserPreferenceRequest($.proxy(this._onUserPreferencesUpdated, this), pushToFcaebook);
             }
-
-            if (!this.selectedVideo.liked) {
-                $cws.WatchlrRequests.sendVideoLikedRequest($.proxy(this._onVideoLiked, this), this.selectedVideo.url);
+            
+            if (pushToFcaebook == '1') {
+                var url = $cwh.adapters.VideoAdapter.WATCHLR_COM + 'publish_permissions?next=' + encodeURIComponent($cwh.adapters.VideoAdapter.WATCHLR_COM+'static/html/connectWindow.html?connected=true&code=200');
+                this._connectionPopup = window.open(url, '_blank', 'location=1, width=' + 800 + ',height=' + 400 + ',left=' + 200 + ',top=' + 200);
+                this._popupMonitor = true;
+                this._monitorFacebookLikePopup();
             } else {
-                $cws.WatchlrRequests.sendVideoUnlikedRequest($.proxy(this._onVideoLiked, this), this.selectedVideo.url);
+	            if (!this.selectedVideo.liked) {
+	                $cws.WatchlrRequests.sendVideoLikedRequest($.proxy(this._onVideoLiked, this), this.selectedVideo.url);
+	            } else {
+	                $cws.WatchlrRequests.sendVideoUnlikedRequest($.proxy(this._onVideoLiked, this), this.selectedVideo.url);
+	            }
             }
         } catch (err) {
             $cws.Tracker.trackError({from: "_onPushToFacebookDialogDismissed of base VideoAdapter", exception:err});
