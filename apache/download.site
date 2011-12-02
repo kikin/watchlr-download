@@ -18,6 +18,12 @@
     Options -Indexes
     </Directory>
 
+    <Directory /opt/download_env/static/js>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+    </Directory>
+
     DocumentRoot /opt/download_env/src/www
 
     LogLevel info
@@ -43,6 +49,12 @@
     Order deny,allow
     Allow from all
     Options -Indexes
+    </Directory>
+
+    <Directory /opt/download_env/static/js>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
     </Directory>
 
     DocumentRoot /opt/download_env/src/www
