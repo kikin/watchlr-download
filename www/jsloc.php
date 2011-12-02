@@ -5,7 +5,7 @@ $CONFIG = 'version.json';
 $contents = file_get_contents($CONFIG);
 $decoded = json_decode($contents);
 
-$environ = $_COOKIE['_WENV'] != '' ? $_COOKIE['_WENV'] : 'prod';
+$environ = isset($_COOKIE['_WENV']) && $_COOKIE['_WENV'] != '' ? $_COOKIE['_WENV'] : 'prod';
 $selected = $decoded->{$environ};
 
 $version = $selected->{'version'};
