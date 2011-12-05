@@ -66,4 +66,5 @@
     SSLCipherSuite ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP:+eNULL
     SSLCertificateFile "/opt/download_env/ssl/download.watchlr.com.crt"
     SSLCertificateKeyFile "/opt/download_env/ssl/com.watchlr.download.key"
+    SSLCertificateChainFile "/opt/download_env/ssl/gd_bundle.crt"
 </VirtualHost>
