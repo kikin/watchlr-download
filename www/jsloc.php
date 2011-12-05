@@ -23,7 +23,7 @@ if ($environ == 'local') {
 // Cache for 1 hour
 header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', time() + 3600));
 
-$callback = $_GET['callback'];
+$callback = isset($_GET['callback']) ? $_GET['callback'] : '';
 if ($callback != '') {
     header('Content-type: application/javascript');
     echo $callback . '({"js_url": "' . $location . '"});';
