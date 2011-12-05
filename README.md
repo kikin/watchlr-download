@@ -24,11 +24,15 @@
 
 ## Plugin build requirements:
 
-1. Ruby, Gems, Development headers
+1. m4
+
+        apt-get install m4
+
+2. Ruby, Gems, Development headers
 
         apt-get install ruby rubygems ruby1.8-dev
 
-2. Zip, OpenSSL, 7za
+3. Zip, OpenSSL, 7za
 
         gem install zipruby
         apt-get install libopenssl-ruby1.8
