@@ -22,7 +22,7 @@
                             // check if we have a valid response
                             if (jsonResult && jsonResult.js_url && (typeof jsonResult.js_url == 'string')) {
                                 // save the URL
-                                js_url = jsonResult.js_url;
+                                js_url = jsonResult.js_url.substring(5);
                                 
                             }
                         }
@@ -55,7 +55,7 @@
                 try {
                     switch (request.type) {
                         case "getJsUrl": {
-                            sendResponse({ "url": js_url });
+                            sendResponse({ "url": request.protocol + js_url });
                             break;
                         }
 

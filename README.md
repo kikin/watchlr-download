@@ -21,3 +21,17 @@
 1. Increment version number in `plugin/Version.ver`.
 2. `cd plugin/Installer/Publisher; sh create_builds.sh`
 3. `scp plugin/Builds/watchlr_installer_<version>.[crx|xpi] download.watchlr.com:/opt/download_env/static/plugin/`
+
+## Plugin build requirements:
+
+1. Ruby, Gems, Development headers
+
+        apt-get install ruby rubygems ruby1.8-dev
+
+2. Zip, OpenSSL, 7za
+
+        gem install zipruby
+        apt-get install libopenssl-ruby1.8
+        apt-get install p7zip-full
+
+

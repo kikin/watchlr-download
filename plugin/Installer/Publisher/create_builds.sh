@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # This script creates all the builds for watchlr.
 

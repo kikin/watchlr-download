@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # This script copies all XPI files into an XPI folder and then
 # zips the content of the folder to create the XPI.
@@ -14,8 +14,7 @@
 
 # Variables
 build_tools_dir=$1
-echo Build tools dir: ${build_tools_dir}
-zip_tool=${build_tools_dir}/7za
+zip_tool=$(type -P 7za)
 
 version_properties_file=$2
 echo Build properties file: ${version_properties_file}

@@ -8,7 +8,8 @@ function responseCallback(response) {
 }
 
 // request background.html for the JS URL.
-chrome.extension.sendRequest({ "type": "getJsUrl" }, responseCallback);
+chrome.extension.sendRequest({ "type": "getJsUrl", "protocol": document.location.protocol },
+                             responseCallback);
 
 var div = document.createElement('div');
 div.id = 'watchlr_dummy_element_for_plugin_detection';

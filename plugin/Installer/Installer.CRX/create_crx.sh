@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # This script zips the content of the Chrome folder to create the CRX.
 
